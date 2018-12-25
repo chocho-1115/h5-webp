@@ -7,6 +7,11 @@ const projectConfig = require('./config/projectConfig.js');
 console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');
 
 module.exports = {
+
+	devServer:{
+        contentBase: projectConfig.srcPath
+    },
+
 	// devtool: projectConfig.devtool, //'cheap-module-eval-source-map',
 	entry: projectConfig.srcPath + 'js/main.js',
 	output: {
