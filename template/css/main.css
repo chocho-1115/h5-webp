@@ -1,0 +1,71 @@
+@charset "utf-8";
+/* CSS Document */
+/*7s
+@keyframes blinky {
+	0%, 9%, 11%, 19%, 21%, 69%, 71%, 100% { transform: scaleY(1) }
+	10%, 20%, 70% { transform: scaleY(0.1) }
+}*/
+
+body{
+	background:#000;
+}
+
+.dw.dw-ltr{-webkit-transform:scale(1.5,1.5);transform:scale(1.5,1.5)}
+
+.logo{left:20px;top:20px;}
+
+.load_num{font-size:16px;left:0;top:550px;color:#886d38;text-align:center;width:100%;font-weight:bold;}
+
+.page1 {background:#966}
+.page2 {background:#669}
+
+
+
+
+.info{display:none;width:640px;position:absolute;left:50%;top:0;margin-left:-320px;height:100%;}
+.info .close{position:absolute;left:522px;width:48px;top:191px;height:48px;cursor:pointer;}
+.info .text{border:none;left:260px;width:173px;height:35px;line-height:35px;color:#4276e9;font-size:24px;-webkit-appearance:none;-moz-appearance:none;appearance:none;     background:#966;opacity:.5}
+.info .text1{top:407px;}
+.info .text2{top:501px;}
+.info .text3{top:598px;}
+.info .sub{left:258px;width:128px;top:697px;height:51px;cursor:pointer;    background:#966;opacity:.5}
+
+.coy{height:50px;line-height:50px;text-align:center;color:#fff;background:#323256;border-top:3px solid #E50150;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
