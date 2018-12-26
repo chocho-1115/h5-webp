@@ -32,7 +32,7 @@ module.exports = function(env){
 			filename: 'js/[name]-[chunkhash].bundle.js',
 			path: path.resolve(__dirname, projectConfig.distPath)
 		},
-		
+
 	    module: {
 		    rules: [
 		        /*{
@@ -103,7 +103,7 @@ module.exports = function(env){
 	if(isProMode){
 		// 清除打包目录
 		config.plugins.unshift(new CleanWebpackPlugin(projectConfig.distPath, {
-			watch: true
+			watch: false
 		}))
 	}
 
