@@ -6,10 +6,6 @@ let projectName = process.argv[2];
 let srcDir = path.resolve(__dirname, '../template');
 let tarDir = path.resolve(__dirname, '../src/'+projectName);
 
-
-console.log(srcDir);
-console.log(tarDir);
-
 if(!projectName){
 	throw '新建项目名称不能为空：npm run create projectName';
 }
@@ -18,16 +14,8 @@ fs.mkdir(tarDir, function(err) {
 	 	console.log(err);
 	  	return;
 	}
-	copyFolder(srcDir, tarDir)
+	copyFolder(srcDir, tarDir);
 });
-
-
-
-
-
-
-
-
 
 // 将源文件拷贝到目标文件
 // 将srcPath路径的文件复制到tarPath

@@ -38,12 +38,19 @@ module.exports = {
 	            test: /\.(png|jpe?g|gif|svg)$/,
 	            use: [
 	                {
-	                    loader: 'url-loader',
+	                    loader: 'url-loader', // url-loader是file-loader的加强版
 	                    options: {
 	                        limit: '1000',//小于1000字节就转base64
 	                        name: 'image/[name].[ext]'
 	                    }
-	                }
+	                },
+	                {
+						loader: 'image-webpack-loader',
+						options: {
+							//bypassOnDebug : true, // webpack@1.x 
+							disable: false, // webpack@2.x and newer 
+						}
+					}
 	            ]
 	        },
 	        // html

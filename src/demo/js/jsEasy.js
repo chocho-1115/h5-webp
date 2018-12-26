@@ -16,7 +16,6 @@ console.log(TweenMax)
 }*/
 
 $('img').on('click',function(e){
-	console.log(555)
 	if(e.target.parentNode.nodeName=='A')return;
 	e.preventDefault();
 	//e.stopPropagation();

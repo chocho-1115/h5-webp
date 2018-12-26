@@ -1,12 +1,14 @@
 # h5-webp
 h5-webpack
 
+实现了一个工程管理多个项目
+
 ### 开发环境
 `
 npm run dev demo
 `
 
-### 生成环境
+### 打包demo项目
 `
 npm run build demo
 `
