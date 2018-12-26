@@ -1,11 +1,97 @@
-// 获取命令行参数
-let projectName = process.argv[2]
-console.log(`exports.name = '${projectName}'`);
-// 下面两行代码 获取projectName后把保存起来，写入到project.js里，方便其它js文件里引入使用
-let fs = require('fs')
-fs.writeFileSync('./config/project.js', `exports.name = '${projectName}'`);
+const fs = require('fs');
+const path = require('path');
 
-// 继续执行命令（npm run build），执行默认命令开始进行打包
-let exec = require('child_process').execSync;
-exec('webpack --config webpack.config.js', {stdio: 'inherit'});
+
+let projectName = process.argv[2];
+let srcDir = path.resolve(__dirname, '../template');
+let tarDir = path.resolve(__dirname, '../src/'+projectName);
+
+
+console.log(srcDir);
+console.log(tarDir);
+
+if(!projectName){
+	throw '新建项目名称不能为空：npm run create projectName';
+}
+fs.mkdir(tarDir, function(err) {
+	if (err) {
+	 	console.log(err);
+	  	return;
+	}
+	copyFolder(srcDir, tarDir)
+});
+
+
+
+
+
+
+
+
+
+// 将源文件拷贝到目标文件
+// 将srcPath路径的文件复制到tarPath
+var copyFile = function(srcPath, tarPath, cb) {
+  var rs = fs.createReadStream(srcPath);
+  rs.on('error', function(err) {
+    if (err) {
+      console.log('read error', srcPath);
+    }
+    cb && cb(err);
+  })
+ 
+  var ws = fs.createWriteStream(tarPath);
+  ws.on('error', function(err) {
+    if (err) {
+      console.log('write error', tarPath);
+    }
+    cb && cb(err);
+  })
+  ws.on('close', function(ex) {
+    cb && cb(ex);
+  })
+ 
+  rs.pipe(ws);
+}
+
+// 将srcDir文件下的文件、文件夹递归的复制到tarDir下
+var copyFolder = function(srcDir, tarDir, cb) {
+  fs.readdir(srcDir, function(err, files) {
+    var count = 0;
+    var checkEnd = function() {
+      ++count == files.length && cb && cb();
+    }
+ 
+    if (err) {
+      checkEnd();
+      return;
+    }
+ 
+    files.forEach(function(file) {
+      var srcPath = path.join(srcDir, file);
+      var tarPath = path.join(tarDir, file);
+ 
+      fs.stat(srcPath, function(err, stats) {
+        if (stats.isDirectory()) {
+          console.log('mkdir', tarPath);
+          fs.mkdir(tarPath, function(err) {
+            if (err) {
+              console.log(err);
+              return;
+            }
+ 
+            copyFolder(srcPath, tarPath, checkEnd);
+          });
+        } else {
+          copyFile(srcPath, tarPath, checkEnd);
+        }
+      });
+    });
+ 
+    //为空时直接回调
+    files.length === 0 && cb && cb();
+  });
+}
+
+
 
