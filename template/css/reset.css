@@ -29,14 +29,14 @@ body{	-webkit-user-select:none;/*文本不可选择*/
 	    -ms-user-drag: none;
 		    user-drag: none;font-family:'Microsoft Yahei',Arial;font-size:62.5%;background:#fff;
 			
-/* -webkit-filter: grayscale(100%);
+-webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);
     -ms-filter: grayscale(100%);
     -o-filter: grayscale(100%);
     
     filter: grayscale(100%);
-  
-    filter: gray;opacity:0.5 */
+	
+    filter: gray;opacity:0.5
 			
 			}
 			
