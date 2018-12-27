@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
+// const readline = require('readline');
 
 let projectName = process.argv[2];
 let srcDir = path.resolve(__dirname, '../template');
@@ -9,13 +9,20 @@ let tarDir = path.resolve(__dirname, '../src/'+projectName);
 if(!projectName){
 	throw '新建项目名称不能为空：npm run create projectName';
 }
-fs.mkdir(tarDir, function(err) {
-	if (err) {
-	 	console.log(err);
-	  	return;
-	}
-	copyFolder(srcDir, tarDir);
-});
+
+
+if(fs.existsSync(tarDir)){
+  throw tarDir + ' 目录已存在';
+}else{
+  fs.mkdir(tarDir, function(err) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    copyFolder(srcDir, tarDir);
+  });
+}
+
 
 // 将源文件拷贝到目标文件
 // 将srcPath路径的文件复制到tarPath
@@ -80,6 +87,8 @@ var copyFolder = function(srcDir, tarDir, cb) {
     files.length === 0 && cb && cb();
   });
 }
+
+
 
 
 
