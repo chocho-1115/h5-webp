@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node config/build.js",
     "dev": "node config/dev.js",
-    "create": "node config/create.js"
+    "create": "node config/create.js",
+    "template": "webpack-dev-server --config webpack.template.config.js"
   },
   "author": "",
   "license": "ISC",

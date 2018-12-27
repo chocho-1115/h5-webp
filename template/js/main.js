@@ -6,6 +6,8 @@ import main from '../css/main.css';
 
 let J = require('./jsEasy.js');
 
+console.log(0)
+
 $(window).load(function(e) {
 	//缓存全局变量
 	var win = window,
@@ -71,11 +73,11 @@ $(window).load(function(e) {
 	}();
 	*/
 	/*JSeasy.isTime("Dec 08, 2017 11:54:00",'活动将于12点开始',function(){
-		J.pageFunc(1,{time:0,endCallback:function(){console.log('翻页成功后的回调')}})//显示第indexPage页
+		J.gotoPage(1,{time:0,endCallback:function(){console.log('翻页成功后的回调')}})//显示第indexPage页
 	});*/
 	
 	var page = Number(J.getQueryString('page'))||1//
-	J.pageFunc(page,{
+	J.gotoPage(page,{
 		time:300,//翻页动画的运行时间
 		endCallback:function(){},//翻页后的回调函数
 		startCallback:function(){}//翻页前调用的函数
@@ -118,7 +120,7 @@ $(window).load(function(e) {
 		complete:function(assets){
 			var $loadNum = $('#set_load_num');
 			
-			J.pageFunc(0,{endCallback:function(){
+			J.gotoPage(0,{endCallback:function(){
 				
 				window.J.lazyLoad('.lazy',{
 					fileload:function(item){
@@ -127,7 +129,7 @@ $(window).load(function(e) {
 					complete:function(assets){
 						$loadNum.html(100+'%');
 						setTimeout(function(){
-							J.pageFunc(1);
+							J.gotoPage(1);
 						},800);
 					},
 					minTime:6000

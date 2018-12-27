@@ -1,8 +1,6 @@
 //https://github.com/chocho-1115/H5-template by 华扬长沙 杨燚平 email：849890769@qq.com
 let TweenMax = require('../libs/TweenMax.min.js');
 
-
-console.log(TweenMax)
 /*function getElementByAttr(tag,attr,value)
 {
     var aElements=document.getElementsByTagName(tag);
@@ -121,9 +119,9 @@ JSeasy.H5Init = function (opt){
 			if(publicInfo.pageSwipeB[publicInfo.indexPage]===false||publicInfo.pageSwipeB[publicInfo.indexPage]<0)return false;
 			var nextPage = publicInfo.page.eq(publicInfo.indexPage).attr('next-page')
 			if(nextPage){
-				J.pageFunc(Number(nextPage));
+				J.gotoPage(Number(nextPage));
 			}else{
-				J.pageFunc(publicInfo.indexPage+1);
+				J.gotoPage(publicInfo.indexPage+1);
 			}
 		});
 		//上一页
@@ -134,9 +132,9 @@ JSeasy.H5Init = function (opt){
 			
 			var nextPage = publicInfo.page.eq(publicInfo.indexPage).attr('previous-page')
 			if(nextPage){
-				J.pageFunc(Number(nextPage));
+				J.gotoPage(Number(nextPage));
 			}else{
-				J.pageFunc(publicInfo.indexPage-1);
+				J.gotoPage(publicInfo.indexPage-1);
 			}
 		});
 	}
@@ -401,7 +399,7 @@ JSeasy.tipsText = function (text,closeB){
 
 
 //publicInfo.pageSwipeB[publicInfo.indexPage]!=-1&&publicInfo.pageSwipeB[publicInfo.indexPage]!==false
-JSeasy.pageFunc = function(num,opt){
+JSeasy.gotoPage = function(num,opt){
 	
 	var opt = opt || {},
 		direction = 1,
