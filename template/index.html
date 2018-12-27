@@ -19,7 +19,7 @@
     </div>
     <div class="page page1" next-page='2'>
     	<div class="nr">
-        	<p style='position:absolute;left:0;top:45%;width:100%;text-align:center;font-size:60px;'>第一页111</p>
+        	<p style='position:absolute;left:0;top:45%;width:100%;text-align:center;font-size:60px;'>第一页</p>
 			<img src="image/demo.jpg" alt="">
             <img src="image/hand_.png" alt="">
         </div>
@@ -35,11 +35,107 @@
         </div>
     </div>
 </div>
+
+
+
 <div class="micBtn" id="micBtn"><span class="cen boxSizing"></span></div>
 <img class="pt-page-moveIconUp" id='upJt' src="image/icon_up.png">
 
+
+
+<!--<div class="abso scrollBox">
+    <div class="scrollNr">
+        
+    </div>
+</div>-->
+
+<div class="info">
+    <span class="close abso">×</span>
+    <input type="text" class='abso text text1' value='' />
+    <input type="text" class='abso text text2' value='' />
+    <input type="text" class='abso text text3' value='' />
+    <span class="abso sub"></span>
+</div>
+
+<div class="mask-white-dialog" id="YDUI_LOADING">
+  <div class="m-loading">
+    <div class="loading-hd">
+      <div class="loading-leaf loading-leaf-0"></div>
+      <div class="loading-leaf loading-leaf-1"></div>
+      <div class="loading-leaf loading-leaf-2"></div>
+      <div class="loading-leaf loading-leaf-3"></div>
+      <div class="loading-leaf loading-leaf-4"></div>
+      <div class="loading-leaf loading-leaf-5"></div>
+      <div class="loading-leaf loading-leaf-6"></div>
+      <div class="loading-leaf loading-leaf-7"></div>
+      <div class="loading-leaf loading-leaf-8"></div>
+      <div class="loading-leaf loading-leaf-9"></div>
+      <div class="loading-leaf loading-leaf-10"></div>
+      <div class="loading-leaf loading-leaf-11"></div>
+    </div>
+    <p class="loading-txt">很快加载好了</p>
+  </div>
+</div>
+
+<!--向上滑动的箭头提示--> 
+
+<!--分享提示-->
+<div id="fx"> <img class='fx_text' src="image/fx_text.png" /> </div>
+<div id="tipsBox" close=true><span class="abso">提示文案</span></div>
+    
+<div class="rotateWindows_tips"></div>
+
+<!--<div class="coy">
+    湘ICP备13002230号
+</div>-->
+
+
 <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/hammer.js/2.0.8/hammer.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
+
+<!--<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://www.seth5.com/jssdk.js" charset="utf-8"></script>
+<script>
+//http://www.dqpage.com/jssdk/jssdk.js
+function setFX(opt){
+
+         var wx={
+            title:opt.title,
+            desc:opt.desc,
+            imgUrl:opt.imgUrl,
+            link:opt.link,
+            success:opt.success||null
+         }
+
+         jssdk.init({debug:false}).done(function(){
+            jssdk.share(wx);
+         })
+    
+}
+
+$(function(){
+    setFX({
+            title:'主标题',
+            desc:'副标题',
+            imgUrl:'',
+            link:'',
+            success:null
+    });
+});
+</script>-->
+
 

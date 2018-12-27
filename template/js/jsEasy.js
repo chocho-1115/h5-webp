@@ -1,4 +1,4 @@
-//https://github.com/chocho-1115/H5-template by 华扬长沙 杨燚平 email：849890769@qq.com
+//https://github.com/chocho-1115/h5-webp by 华扬长沙 杨燚平 email：849890769@qq.com
 let TweenMax = require('../libs/TweenMax.min.js');
 
 /*function getElementByAttr(tag,attr,value)
@@ -16,17 +16,17 @@ let TweenMax = require('../libs/TweenMax.min.js');
 $('img').on('click',function(e){
 	if(e.target.parentNode.nodeName=='A')return;
 	e.preventDefault();
-	//e.stopPropagation();
-	//return false;
 })
+
 document.body.ondragstart=function(e){
 	e.preventDefault();
-	//e.stopPropagation();
 }
+
 if(document.querySelector('#fx')){
 	$('.fxBtn').on('click',function(){$('#fx').fadeIn(500);});
 	$('#fx').on('click',function(){$(this).fadeOut(500);});
 }
+
 if(document.querySelector('#tipsBox')){
 	$('#tipsBox').on('click',function(){
 		if($('#tipsBox').attr('close')=='true')$(this).fadeOut(500);
@@ -64,6 +64,8 @@ Date.prototype.format = function(format)
 
 //////////////////////////////////////////////
 
+var JSeasy = {};
+var J = JSeasy;
 
 var publicInfo = {
 	content : $('#content'),
@@ -87,11 +89,6 @@ var publicInfo = {
 };
 
 publicInfo.pageLen = publicInfo.page.length;
-
-
-var JSeasy = {};
-var J = JSeasy;
-
 JSeasy.publicInfo = publicInfo;
 
 
@@ -205,15 +202,7 @@ JSeasy.H5Init = function (opt){
 				}
 			}, false);
 			
-			/*window.addEventListener('orientationchange', function(event){
-				setTimeout(recalc,300);
-				if ( window.orientation == 180 || window.orientation==0 ) {
-					//alert("竖屏");
-				}
-				if( window.orientation == 90 || window.orientation == -90 ) {
-					//alert("横屏");
-				}
-			});*/
+			
 
 		}());
 	};
@@ -234,46 +223,6 @@ JSeasy.setViewportMinHeight = function(minH){
 		document.getElementById('viewEle').setAttribute('content','width='+w+', user-scalable=no,target-densitydpi = device-dpi');
 	}
 	
-};
-JSeasy.EventUtil = {
-	
-	//事件处理程序
-	addHandler:function(element,type,handler){
-		if(element.addEventListener){element.addEventListener(type,handler,false)}//DOM2
-		else if(element.attachEvent){element.attachEvent('on'+type,handler);}//ie
-		else{element['on'+type]=handler;}//DOM0
-	},
-	//滚轮事件对象的 wheelDelta/FF DOMMouseScroll
-	getWheelDelta:function(event){
-		if(event.wheelDelta){//ff以外的浏览器
-			//在最新版的opera中window返回undefined ， 在opera9.5中返回对象 在9.5版本之前的版本中wheelDelta的正负号颠倒的
-			return (window.opera&&window.opera.version()<9.5?-event.wheelDelta:event.wheelDelta);
-		}else{return -event.detail*40;}//ff
-	},
-	//返回事件对象的引用
-	getEvent:function(event){return event?event:window.event;},
-	//返回鼠标相对于事件对象的 X 坐标
-	getX:function(event){return event.offsetX?event.offsetX:event.layerX;},//火狐中的layerX  要保证元素用了position相对/绝对
-	//返回鼠标相对于事件对象的 Y 坐标
-	getY:function(event){return event.offsetY?event.offsetY:event.layerY;},
-	//返回事件目标元素
-	getTarget:function(event){return event.target||event.srcElement;},
-	//取消事件默认行为
-	preventDefaclt:function(event){
-		if(event.preventDefault){event.preventDefault();}
-		else {event.returnValue=false;}
-	},
-	//取消事件进一步捕获或冒泡
-	stopPropagation:function(event){
-		if(event.stopPropagation){event.stopPropagation();}
-		else{event.cancelBubble=true;}//ie
-	},
-	//移除事件处理程序
-	removeHandler:function(element,type,handler){
-		if(element.removeEventListener){element.removeEventListener(type,handler,false);}
-		else if(element.detachEvent){element.detachEvent('on'+type,handler)}
-		else{element['on'+type]=null;}
-	}
 };
 
 JSeasy.countDown = function (time,opt){
@@ -396,9 +345,6 @@ JSeasy.tipsText = function (text,closeB){
 	
 };
 
-
-
-//publicInfo.pageSwipeB[publicInfo.indexPage]!=-1&&publicInfo.pageSwipeB[publicInfo.indexPage]!==false
 JSeasy.gotoPage = function(num,opt){
 	
 	var opt = opt || {},

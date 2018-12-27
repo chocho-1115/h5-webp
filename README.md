@@ -26,11 +26,11 @@ npm run create projectName
 
 运行以上命令后会复制模板目录./template到src下，并重命名为projectName。
 
-##### 修改模版文件
-template下的模版是需要不断更新迭代的，所以我们也需要让template也跑起来。
+##### 模版文件的迭代更新
 `
 npm run template
 `
+template下的模版是需要不断更新迭代的，所以我们需要让template也能跑起来。
 
 # h5-template
 
