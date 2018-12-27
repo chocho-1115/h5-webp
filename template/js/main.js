@@ -1,12 +1,21 @@
 // JavaScript Document
 //escape   unescape
+
+import reset from '../css/reset.css';
+import main from '../css/main.css';
+
+let J = require('./jsEasy.js');
+
 $(window).load(function(e) {
 	//缓存全局变量
 	var win = window,
 		doc = document;
 	
+	//关闭页面下拉露出网页来源
+	J.setScroll(false)//
+
 	//跳到第二页
-	H5Init({
+	J.H5Init({
 		pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
 		//scale : window.innerHeight<1008?window.innerHeight/1008:1,  //此参数 作废
 
@@ -29,27 +38,24 @@ $(window).load(function(e) {
 	}else{
 		J.setViewportMinHeight(1150);
 	}
+
 	//横屏 的时候调用
 	//window.orientation = 180
 	/*JSeasy.rotateWindows({
 		viewportMinHeight: 1008,
-		callback: function(opt){
-			
-			
-			
-		},
+		callback: function(opt){},
 		onRotate: function(opt){
 			
 		}
 	});*/
 	
-	window.publicInfo.pageCallback = {
+	J.publicInfo.pageCallback = {
 		'2':function(){
 			
 		}
 	};
 	
-	+function(){
+	/*+function(){
 		
 		var end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"
 		
@@ -63,7 +69,7 @@ $(window).load(function(e) {
 			}
 		});
 	}();
-	
+	*/
 	/*JSeasy.isTime("Dec 08, 2017 11:54:00",'活动将于12点开始',function(){
 		J.pageFunc(1,{time:0,endCallback:function(){console.log('翻页成功后的回调')}})//显示第indexPage页
 	});*/
@@ -75,8 +81,6 @@ $(window).load(function(e) {
 		startCallback:function(){}//翻页前调用的函数
 	});
 	
-	
-	//setTimeout(function(){J.pageFunc(1,{endCallback:function(){alert(0)}})},3000)
 	//添加背景音乐
 	/*var audioEle = J.addMp4({
 		src:'media/bj.mp3',
@@ -100,8 +104,7 @@ $(window).load(function(e) {
 	}, false); */
 	
 	
-	//关闭页面下拉露出网页来源
-	JSeasy.setScroll(false)//
+	
 	
 	
 	//提示文案
@@ -197,11 +200,4 @@ $(window).load(function(e) {
 	
 
 });
-
-
-   
-
-
-
-
 
