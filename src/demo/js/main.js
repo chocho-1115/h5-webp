@@ -6,16 +6,13 @@ import main from '../css/main.css';
 
 let J = require('./jsEasy.js');
 
-
 $(window).load(function(e) {
 	//缓存全局变量
 	var win = window,
 		doc = document;
 	
-
-	console.log(J);
-
-
+	//关闭页面下拉露出网页来源
+	J.setScroll(false)//
 
 	//跳到第二页
 	J.H5Init({
@@ -35,10 +32,6 @@ $(window).load(function(e) {
 		},
 	});
 	
-
-
-
-
 	J.setViewportMinHeight(1008); //640 1138 1236 1250    750 1334 1448 1450    
 	if(window.history.length==1){
 		J.setViewportMinHeight(1150); //640 1138 1236 1250    750 1334 1448 1450    
@@ -46,17 +39,11 @@ $(window).load(function(e) {
 		J.setViewportMinHeight(1150);
 	}
 
-
-
 	//横屏 的时候调用
 	//window.orientation = 180
 	/*JSeasy.rotateWindows({
 		viewportMinHeight: 1008,
-		callback: function(opt){
-			
-			
-			
-		},
+		callback: function(opt){},
 		onRotate: function(opt){
 			
 		}
@@ -94,8 +81,6 @@ $(window).load(function(e) {
 		startCallback:function(){}//翻页前调用的函数
 	});
 	
-	
-	//setTimeout(function(){J.pageFunc(1,{endCallback:function(){alert(0)}})},3000)
 	//添加背景音乐
 	/*var audioEle = J.addMp4({
 		src:'media/bj.mp3',
@@ -119,8 +104,7 @@ $(window).load(function(e) {
 	}, false); */
 	
 	
-	//关闭页面下拉露出网页来源
-	J.setScroll(false)//
+	
 	
 	
 	//提示文案
@@ -216,11 +200,4 @@ $(window).load(function(e) {
 	
 
 });
-
-
-   
-
-
-
-
 

@@ -1,1 +1,1 @@
-exports.name = 'demo'
+exports.name = '2'
