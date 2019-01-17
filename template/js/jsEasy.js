@@ -478,7 +478,7 @@ JSeasy.lazyLoad = function(selector,params){
 		}
 	};
 	//console.log(assets)
-	window.J.preload(assets,{
+	J.preload(assets,{
 		fileload:function(item){
 			if(item.status===200){
 				if(item.type=='img'){
