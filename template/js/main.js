@@ -5,8 +5,14 @@ import reset from '../css/reset.css';
 import main from '../css/main.css';
 
 let J = require('./jsEasy.js');
-
-console.log(0)
+(function(){
+	let ele = $('.lazy_load, .lazy');
+	let len = ele.length;
+	for(let i=0;i<len;i++){
+		let path = ele.eq(i).attr('data-pic')
+		if(path) require('../'+path);
+	}
+})();
 
 $(window).load(function(e) {
 	//缓存全局变量

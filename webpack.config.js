@@ -89,13 +89,6 @@ module.exports = function(env){
 				}
 		    ]
 		},
-
-		resolve: {
-			alias: {
-		        src: resolve(__dirname, 'data-pic')
-		    }
-		},
-
 		plugins: [
 			// https://webpack.js.org/plugins/html-webpack-plugin/
 			new HtmlWebpackPlugin({
