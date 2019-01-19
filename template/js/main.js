@@ -115,14 +115,14 @@ $(window).load(function(e) {
 	
 	
 	//懒加载   在有load页面的时候用
-	/*	window.J.lazyLoad('.lazy_load',{
+	/*	J.lazyLoad('.lazy_load',{
 		fileload:function(item){},
 		complete:function(assets){
 			var $loadNum = $('#set_load_num');
 			
 			J.gotoPage(0,{endCallback:function(){
 				
-				window.J.lazyLoad('.lazy',{
+				J.lazyLoad('.lazy',{
 					fileload:function(item){
 						$loadNum.html(parseInt(item.progress*100)+'%');
 					},
