@@ -89,7 +89,6 @@ module.exports = function(env){
 				}
 		    ]
 		},
-
 		plugins: [
 			// https://webpack.js.org/plugins/html-webpack-plugin/
 			new HtmlWebpackPlugin({
@@ -104,7 +103,11 @@ module.exports = function(env){
 		// 清除打包目录
 		config.plugins.unshift(new CleanWebpackPlugin(projectConfig.distPath, {
 			watch: false
-		}))
+		}));
+
+
+
+
 	}
 
 	return config;
