@@ -15,6 +15,8 @@ let J = require('./jsEasy.js');
 })();
 
 $(window).load(function(e) {
+
+	
 	//缓存全局变量
 	var win = window,
 		doc = document;

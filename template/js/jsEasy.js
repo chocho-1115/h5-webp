@@ -1,4 +1,12 @@
-//https://github.com/chocho-1115/h5-webp by 华扬长沙 杨燚平 email：849890769@qq.com
+// https://github.com/chocho-1115/h5-webp by 杨燚平 email：849890769@qq.com
+
+
++function(){
+	var logCss = "font-size:1.2em;background: rgba(141, 248, 0, 1);background: -moz-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 25%, rgba(0,247,49,1) 50%, rgba(0,210,247,1) 75%,rgba(0,189,247,1) 100%);background: -webkit-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 25%, rgba(0,247,49,1) 50%, rgba(0,210,247,1) 75%,rgba(0,189,247,1) 100%);background: -ms-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 25%, rgba(0,247,49,1) 50%, rgba(0,210,247,1) 75%,rgba(0,189,247,1) 100%);"
+	console.log("%c email：849890769@qq.com", logCss);
+	console.log("%c github：https://github.com/chocho-1115/h5-webp ", logCss);
+}();
+
 let TweenMax = require('../libs/TweenMax.min.js');
 
 /*function getElementByAttr(tag,attr,value)
@@ -225,9 +233,10 @@ JSeasy.setViewportMinHeight = function(minH){
 	
 };
 
-JSeasy.countDown = function (time,opt){
-	
+JSeasy.countDown = function (endTime,opt){
+		
 	opt.framerate = opt.framerate||1;
+	opt.nowTime = opt.nowTime||new Date().getTime();
 	
 	var res = {
 		death: false,
@@ -238,7 +247,7 @@ JSeasy.countDown = function (time,opt){
 		millisecond: 0
 	};
 	
-	var sys_second = (time-new Date().getTime())/1000;
+	var sys_second = (endTime-opt.nowTime)/1000;
 	var sys_second_speed = 1/opt.framerate;
 	
 	function anim(){
@@ -261,8 +270,9 @@ JSeasy.countDown = function (time,opt){
 		}
 		
 	}
-	anim();
+	// 
 	var timer = setInterval(anim, 1000/opt.framerate);
+	anim();
 	return timer;
 };
 

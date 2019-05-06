@@ -14,9 +14,14 @@ h5-webpack
 npm run dev demo
 `
 
-##### 打包demo项目
+##### 生产环境 打包demo项目
 `
 npm run build demo
+`
+
+##### template的迭代升级
+`
+npm run dev template // template可省略 直接 npm run dev
 `
 
 ##### 新建项目
