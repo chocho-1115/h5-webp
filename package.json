@@ -8,9 +8,9 @@
     "build": "node config/build.js",
     "dev": "node config/dev.js",
     "create": "node config/create.js",
-    "template": "webpack-dev-server --config webpack.template.config.js"
+    "template": "node config/template.js"
   },
-  "author": "",
+  "author": "https://github.com/chocho-1115",
   "license": "ISC",
   "devDependencies": {
     "clean-webpack-plugin": "^1.0.0",
