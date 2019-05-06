@@ -27,6 +27,6 @@ fs.readFile('./config/projectConfig.json',function(err,data){
         }
 
         let exec = require('child_process').execSync;
-        exec('webpack --config webpack.build.config.js --env.mode=production', {stdio: 'inherit'});
+        exec('webpack --config webpack.build.config.js --progress true --env.mode=production', {stdio: 'inherit'});
     })
 })

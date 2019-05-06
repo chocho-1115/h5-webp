@@ -4,7 +4,6 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node config/build.js",
     "dev": "node config/dev.js",
     "create": "node config/create.js",

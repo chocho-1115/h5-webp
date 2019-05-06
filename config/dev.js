@@ -16,7 +16,7 @@ fs.readFile('./config/projectConfig.json',function(err,data){
     }else{
         data.name = 'template';
         data.srcPath = './template/';
-        data.distPath = './dist/'+template+'/';
+        data.distPath = './dist/template/';
     }
 
     var data = JSON.stringify(data);
