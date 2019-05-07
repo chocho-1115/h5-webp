@@ -7,7 +7,7 @@
 	console.log("%c github：https://github.com/chocho-1115/h5-webp ", logCss);
 }();
 
-let TweenMax = require('../libs/TweenMax.min.js');
+// let TweenMax = require('../libs/TweenMax.min.js');
 
 /*function getElementByAttr(tag,attr,value)
 {

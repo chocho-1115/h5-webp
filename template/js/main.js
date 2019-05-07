@@ -5,14 +5,21 @@ import reset from '../css/reset.css';
 import main from '../css/main.css';
 
 let J = require('./jsEasy.js');
+
+
 (function(){
 	let ele = $('.lazy_load, .lazy');
-	let len = ele.length;
-	for(let i=0;i<len;i++){
-		let path = ele.eq(i).attr('data-pic')
-		if(path) require('../'+path);
-	}
-})();
+ 	let len = ele.length;
+ 	for(let i=0;i<len;i++){
+		let path = ele.eq(i).attr('data-pic');
+		if(!path)continue;
+ 		if(path.substring(0,4)=='http'){
+			require(path);
+		}else{
+			require('../'+path);
+		}
+ 	}
+ })();
 
 $(window).load(function(e) {
 
@@ -42,11 +49,10 @@ $(window).load(function(e) {
 		},
 	});
 	
-	J.setViewportMinHeight(1008); //640 1138 1236 1250    750 1334 1448 1450    
 	if(window.history.length==1){
 		J.setViewportMinHeight(1150); //640 1138 1236 1250    750 1334 1448 1450    
 	}else{
-		J.setViewportMinHeight(1150);
+		J.setViewportMinHeight(1210);
 	}
 
 	//横屏 的时候调用
@@ -84,15 +90,10 @@ $(window).load(function(e) {
 		J.gotoPage(1,{time:0,endCallback:function(){console.log('翻页成功后的回调')}})//显示第indexPage页
 	});*/
 	
-	var page = Number(J.getQueryString('page'))||1//
-	J.gotoPage(page,{
-		time:300,//翻页动画的运行时间
-		endCallback:function(){},//翻页后的回调函数
-		startCallback:function(){}//翻页前调用的函数
-	});
+	
 	
 	//添加背景音乐
-	/*var audioEle = J.addMp4({
+	var audioEle = J.addMp4({
 		src:'media/bj.mp3',
 		autoplay:true,//音乐是否自动播放
 		loop:true//是否循环播放
@@ -111,7 +112,7 @@ $(window).load(function(e) {
 	document.addEventListener('YixinJSBridgeReady', function() {  
 		audioEle.play(); 
 		$('#micBtn').addClass('show');
-	}, false); */
+	}, false);
 	
 	
 	
@@ -121,9 +122,14 @@ $(window).load(function(e) {
 	//JSeasy.tipsText('请输入您的昵称')
 	
 	
-	
+	var page = Number(J.getQueryString('page'))||1//
+	J.gotoPage(page,{
+		time:300,//翻页动画的运行时间
+		endCallback:function(){},//翻页后的回调函数
+		startCallback:function(){}//翻页前调用的函数
+	});
 	//懒加载   在有load页面的时候用
-	/*	J.lazyLoad('.lazy_load',{
+	J.lazyLoad('.lazy_load',{
 		fileload:function(item){},
 		complete:function(assets){
 			var $loadNum = $('#set_load_num');
@@ -140,7 +146,7 @@ $(window).load(function(e) {
 							J.gotoPage(1);
 						},800);
 					},
-					minTime:6000
+					minTime:3000
 				});
 				
 			}})
@@ -148,7 +154,7 @@ $(window).load(function(e) {
 		},
 		minTime:0
 		
-	});*/
+	});
 	
 	
 	

@@ -3,7 +3,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectConfig = require('./config/projectConfig.json');
 
-
 console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');
 
 
@@ -89,25 +88,24 @@ module.exports = function(env){
 		    ]
 		},
 		plugins: [
+
+			new CleanWebpackPlugin(projectConfig.distPath, {
+				watch: false
+			}),
+
 			// https://webpack.js.org/plugins/html-webpack-plugin/
 			new HtmlWebpackPlugin({
 				template: projectConfig.srcPath + 'index.html',
 				filename: 'index.html',
 				inject: 'body'
-			})
-		]
+			}),
+
+		],
+		externals: {
+			// jquery: 'jQuery'
+		}
 	};
 
-	
-	// 清除打包目录
-	config.plugins.unshift(new CleanWebpackPlugin(projectConfig.distPath, {
-		watch: false
-	}));
-
-
-
-
-	
 
 	return config;
 

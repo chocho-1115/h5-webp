@@ -84,6 +84,8 @@ module.exports = function(env){
 					// test 表示测试什么文件类型
 					test:/\.css$/,
 					// 使用 'style-loader','css-loader'
+					// style-loader能够在需要载入的html中创建一个<style></style>标签，标签里的内容就是CSS内容。
+					// css-loader是允许在js中import一个css文件，会将css文件当成一个模块引入到js文件中
 					use:['style-loader','css-loader']
 				}
 		    ]
@@ -94,8 +96,13 @@ module.exports = function(env){
 				template: projectConfig.srcPath + 'index.html',
 				filename: 'index.html',
 				inject: 'body'
-			})
-		]
+			}),
+
+			
+		],
+		externals: {
+			// jquery: 'jQuery'
+		}
 	};
 
 
