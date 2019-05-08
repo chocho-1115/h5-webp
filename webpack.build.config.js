@@ -90,9 +90,7 @@ module.exports = function(env){
 		},
 		plugins: [
 
-			new CleanWebpackPlugin(projectConfig.distPath, {
-				watch: false
-			}),
+			new CleanWebpackPlugin(),
 
 			// https://webpack.js.org/plugins/html-webpack-plugin/
 			new HtmlWebpackPlugin({
