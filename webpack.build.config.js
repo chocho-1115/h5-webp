@@ -2,6 +2,7 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectConfig = require('./config/projectConfig.json');
+const CopyPlugin = require('copy-webpack-plugin');
 
 console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');
 
@@ -99,6 +100,9 @@ module.exports = function(env){
 				filename: 'index.html',
 				inject: 'body'
 			}),
+			new CopyPlugin([
+				{ from: projectConfig.srcPath+'media', to: 'media' }
+			])
 
 		],
 		externals: {

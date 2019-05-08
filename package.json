@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/main.js",
+  "repository": {
+    "type": "git",
+    "url": "[https://github.com/chocho-1115/h5-webp]"
+  },
   "scripts": {
     "build": "node config/build.js",
     "dev": "node config/dev.js",
@@ -13,6 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "clean-webpack-plugin": "^1.0.1",
+    "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.0.2",
     "file-loader": "^3.0.1",
     "html-loader": "^0.5.5",

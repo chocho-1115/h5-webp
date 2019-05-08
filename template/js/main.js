@@ -6,7 +6,6 @@ import main from '../css/main.css';
 
 let J = require('./jsEasy.js');
 
-
 (function(){
 	let ele = $('.lazy_load, .lazy');
  	let len = ele.length;
@@ -23,7 +22,6 @@ let J = require('./jsEasy.js');
 
 $(window).load(function(e) {
 
-	
 	//缓存全局变量
 	var win = window,
 		doc = document;
