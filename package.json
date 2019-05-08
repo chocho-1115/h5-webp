@@ -12,7 +12,7 @@
   "author": "https://github.com/chocho-1115",
   "license": "ISC",
   "devDependencies": {
-    "clean-webpack-plugin": "^1.0.0",
+    "clean-webpack-plugin": "^1.0.1",
     "css-loader": "^2.0.2",
     "file-loader": "^3.0.1",
     "html-loader": "^0.5.5",
