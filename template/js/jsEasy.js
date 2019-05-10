@@ -114,7 +114,7 @@ JSeasy.H5Init = function (opt){
 	//设置翻页事件
 	if(publicInfo.page.length>0){
 		
-		var mc = new Hammer(publicInfo.content[0]);
+		var mc = new Hammer(publicInfo.content[0], {touchAction:'pan-x pan-y'});
 		mc.get('swipe').set({velocity:0,threshold:30,direction:30});//修改滑动的速度与方向
 		
 		//下一页
