@@ -45,6 +45,10 @@ $('.close').on('click',function(e){
 	$(this.parentNode).css('display','none');
 });
 
+$("input").blur(function(){
+  $(window).scrollTop(0);
+});
+
 //var thisData = new Date();
 //thisData.format("yyyy/MM/dd")
 Date.prototype.format = function(format)   
