@@ -22,20 +22,12 @@ let J = require('./jsEasy.js');
 
 $(window).load(function(e) {
 
-	//缓存全局变量
-	var win = window,
-		doc = document;
-	
 	//关闭页面下拉露出网页来源
 	J.setScroll(false)//
 
 	//跳到第二页
 	J.H5Init({
 		pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
-		//scale : window.innerHeight<1008?window.innerHeight/1008:1,  //此参数 作废
-
-		//滑动翻页控制
-		// 0 代表可上翻  也可以下翻   1 代表只可下翻    -1代表只可以上翻   false 代表不可以滑动翻页
 		pageSwipeB : {
 			'0':false,//
 			'1':1,
@@ -44,7 +36,7 @@ $(window).load(function(e) {
 			'4':false,
 			'5':false,
 			'6':false,
-		},
+		}
 	});
 	
 	if(window.history.length==1){
@@ -119,21 +111,14 @@ $(window).load(function(e) {
 	//提示文案
 	//JSeasy.tipsText('请输入您的昵称')
 	
-	
 	var page = Number(J.getQueryString('page'))||1//
-	J.gotoPage(page,{
-		time:300,//翻页动画的运行时间
-		endCallback:function(){},//翻页后的回调函数
-		startCallback:function(){}//翻页前调用的函数
-	});
+	J.gotoPage(page,{time:0});
 	//懒加载   在有load页面的时候用
 	J.lazyLoad('.lazy_load',{
 		fileload:function(item){},
 		complete:function(assets){
 			var $loadNum = $('#set_load_num');
-			
 			J.gotoPage(0,{endCallback:function(){
-				
 				J.lazyLoad('.lazy',{
 					fileload:function(item){
 						$loadNum.html(parseInt(item.progress*100)+'%');
@@ -146,12 +131,9 @@ $(window).load(function(e) {
 					},
 					minTime:3000
 				});
-				
 			}})
-			
 		},
 		minTime:0
-		
 	});
 	
 	

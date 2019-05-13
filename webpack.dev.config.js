@@ -4,9 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectConfig = require('./config/projectConfig.json');
 
 
-console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');
-
-
 module.exports = function(env){
 
 	// const isDevMode = env.mode=='development' ? true : false;
