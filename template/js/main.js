@@ -6,7 +6,7 @@ import main from '../css/main.css';
 
 let J = require('./jsEasy.js');
 
-(function(){
+/* (function(){
 	let ele = $('.lazy_load, .lazy');
  	let len = ele.length;
  	for(let i=0;i<len;i++){
@@ -18,7 +18,7 @@ let J = require('./jsEasy.js');
 			require('../'+path);
 		}
  	}
- })();
+ })(); */
 
 $(window).load(function(e) {
 
@@ -104,15 +104,15 @@ $(window).load(function(e) {
 		$('#micBtn').addClass('show');
 	}, false);
 	
+	 
 	
-	
-	
+	 
 	
 	//提示文案
 	//JSeasy.tipsText('请输入您的昵称')
 	
-	var page = Number(J.getQueryString('page'))||1//
-	J.gotoPage(page,{time:0});
+	//var page = Number(J.getQueryString('page'))||1//
+	//J.gotoPage(page,{time:0});
 	//懒加载   在有load页面的时候用
 	J.lazyLoad('.lazy_load',{
 		fileload:function(item){},
