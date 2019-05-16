@@ -95,12 +95,12 @@ module.exports = function(env){
 							options: {
 								// you can specify a publicPath here
 								// by default it uses publicPath in webpackOptions.output
-								// publicPath: '../',
+								publicPath: '../'
 								// hmr: process.env.NODE_ENV === 'development',
 							},
 						},
 						'css-loader',
-					],
+					]
 				}
 		    ]
 		},
@@ -119,7 +119,8 @@ module.exports = function(env){
 				// Options similar to the same options in webpackOptions.output
 				// both options are optional
 				//filename: '[name].css',
-				//chunkFilename: '[id].css',
+				filename: 'css/main.css',
+				//chunkFilename: 'css/main.css',
 			}),
 
 			new CopyPlugin([
