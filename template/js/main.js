@@ -6,20 +6,6 @@ import main from '../css/main.css';
 
 let J = require('./jsEasy.js');
 
-/* (function(){
-	let ele = $('.lazy_load, .lazy');
- 	let len = ele.length;
- 	for(let i=0;i<len;i++){
-		let path = ele.eq(i).attr('data-pic');
-		if(!path)continue;
- 		if(path.substring(0,4)=='http'){
-			require(path);
-		}else{
-			require('../'+path);
-		}
- 	}
- })(); */
-
 $(window).load(function(e) {
 
 	//关闭页面下拉露出网页来源
@@ -30,11 +16,11 @@ $(window).load(function(e) {
 		pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
 		pageSwipeB : {
 			'0':false,//
-			'1':1,
-			'2':0,
-			'3':-1,
+			'1':false,
+			'2':false,
+			'3':false,
 			'4':false,
-			'5':false,
+			'5':false, 
 			'6':false,
 		}
 	});
@@ -44,6 +30,8 @@ $(window).load(function(e) {
 	}else{
 		J.setViewportMinHeight(1210);
 	}
+
+
 
 	//横屏 的时候调用
 	//window.orientation = 180
@@ -80,6 +68,52 @@ $(window).load(function(e) {
 		J.gotoPage(1,{time:0,endCallback:function(){console.log('翻页成功后的回调')}})//显示第indexPage页
 	});*/
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/////////////////////////////////////////////////////////
+
+	var page = Number(J.getQueryString('page'))||1;
+	//J.gotoPage(page,{time:0});
+	//懒加载   在有load页面的时候用
+	J.lazyLoad('.lazy_load',{
+		fileload:function(item){},
+		complete:function(assets){
+			var $loadNum = $('#set_load_num');
+			J.gotoPage(0, {time: 0, endCallback: function(){
+				J.lazyLoad('.lazy',{
+					fileload:function(item){
+						$loadNum.html(parseInt(item.progress*100)+'%');
+					},
+					complete:function(assets){
+						$loadNum.html(100+'%');
+						setTimeout(function(){
+							J.gotoPage(page);
+						},800);
+					},
+					minTime:3000
+				});
+			}})
+		},
+		minTime:0
+	});
+
+	
 	
 	
 	//添加背景音乐
@@ -106,35 +140,6 @@ $(window).load(function(e) {
 	
 	 
 	
-	 
-	
-	//提示文案
-	//JSeasy.tipsText('请输入您的昵称')
-	
-	//var page = Number(J.getQueryString('page'))||1//
-	//J.gotoPage(page,{time:0});
-	//懒加载   在有load页面的时候用
-	J.lazyLoad('.lazy_load',{
-		fileload:function(item){},
-		complete:function(assets){
-			var $loadNum = $('#set_load_num');
-			J.gotoPage(0,{endCallback:function(){
-				J.lazyLoad('.lazy',{
-					fileload:function(item){
-						$loadNum.html(parseInt(item.progress*100)+'%');
-					},
-					complete:function(assets){
-						$loadNum.html(100+'%');
-						setTimeout(function(){
-							J.gotoPage(1);
-						},800);
-					},
-					minTime:3000
-				});
-			}})
-		},
-		minTime:0
-	});
 	
 	
 	

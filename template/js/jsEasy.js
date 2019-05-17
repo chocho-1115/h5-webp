@@ -439,15 +439,15 @@ JSeasy.preload = function(srcArr, params){
 			newImg.onload = newImg.onerror = function(e) {
 				e = e || window.event;
 				var self = this;
-				setTimeout(function(){
+				// setTimeout(function(){
 					endLoad(self,e.type,i);
-				},t*(i+1)-( (new Date()).getTime() -st));
+				// },t*(i+1)-( (new Date()).getTime() -st));
 			};
 			
 			if(typeof(srcArr[i]) == 'string') srcArr[i] = {path:srcArr[i],name:i};
-			
-			newImg.src = baseUrl + srcArr[i].path;
-			
+			setTimeout(function(){
+				newImg.src = baseUrl + srcArr[i].path;
+			},t*(i+1)-( (new Date()).getTime() -st));
 		}(i));
 	}
 	
@@ -486,7 +486,7 @@ JSeasy.lazyLoad = function(selector,params){
 		}else{
 			obj.type = 'bj';
 		}
-		obj.path = ele[i].getAttribute('data-pic');
+		obj.path = ele[i].getAttribute('data-src');
 		if(obj.path){
 			assets.push(obj)
 		}

@@ -1,8 +1,7 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectConfig = require('./config/projectConfig.json');
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = function(env){
 
@@ -25,7 +24,7 @@ module.exports = function(env){
 
 		entry: projectConfig.srcPath + 'js/main.js',
 		output: {
-			filename: 'js/[name]-[chunkhash].bundle.js',
+			filename: 'js/[name]-[chunkhash].js',
 			path: path.resolve(__dirname, projectConfig.distPath)
 		},
 
@@ -54,25 +53,6 @@ module.exports = function(env){
 		                        limit: '1000',//小于1000字节就转base64
 		                        name: 'image/[name].[ext]'
 		                    }
-		                },
-		                {
-							loader: 'image-webpack-loader',
-							options: {
-								//bypassOnDebug : true, // webpack@1.x 
-								disable: true, // webpack@2.x and newer 
-							}
-						}
-		            ]
-		        },
-		        // html
-		        {
-		            test: /\.html$/,
-		            use: [
-		                {
-		                    loader: 'html-loader',
-		                    options: {
-		                        minimize: true
-		                    }
 		                }
 		            ]
 		        },
@@ -83,7 +63,18 @@ module.exports = function(env){
 					// 使用 'style-loader','css-loader'
 					// style-loader能够在需要载入的html中创建一个<style></style>标签，标签里的内容就是CSS内容。
 					// css-loader是允许在js中import一个css文件，会将css文件当成一个模块引入到js文件中
-					use:['style-loader','css-loader']
+					use: [
+						{
+							loader: MiniCssExtractPlugin.loader,
+							options: {
+								// you can specify a publicPath here
+								// by default it uses publicPath in webpackOptions.output
+								publicPath: '../'
+								// hmr: process.env.NODE_ENV === 'development',
+							},
+						},
+						'css-loader',
+					]
 				}
 		    ]
 		},
@@ -95,7 +86,13 @@ module.exports = function(env){
 				inject: 'body'
 			}),
 
-			
+			new MiniCssExtractPlugin({
+				// Options similar to the same options in webpackOptions.output
+				// both options are optional
+				//filename: '[name].css',
+				filename: 'css/[name]-[contenthash].css', //'css/main.css',
+				//chunkFilename: 'css/main.css',
+			}),
 		],
 		externals: {
 			// jquery: 'jQuery'

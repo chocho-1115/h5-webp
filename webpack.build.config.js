@@ -27,11 +27,10 @@ module.exports = function(env){
 		devServer:{
 	        contentBase: projectConfig.srcPath
 	    },
-		devtool: '', 
 
 		entry: projectConfig.srcPath + 'js/main.js',
 		output: {
-			filename: 'js/[name]-[chunkhash].bundle.js',
+			filename: 'js/[name]-[chunkhash].js',
 			path: path.resolve(__dirname, projectConfig.distPath)
 		},
 
@@ -77,7 +76,8 @@ module.exports = function(env){
 		                {
 		                    loader: 'html-loader',
 		                    options: {
-		                        minimize: true
+								minimize: true,
+								attrs: ['img:src', ':data-src'], // 如果attrs的值为false  将不打包图片
 		                    }
 		                }
 		            ]
@@ -117,7 +117,7 @@ module.exports = function(env){
 				// Options similar to the same options in webpackOptions.output
 				// both options are optional
 				//filename: '[name].css',
-				filename: 'css/main.css',
+				filename: 'css/[name]-[contenthash].css', //'css/main.css',
 				//chunkFilename: 'css/main.css',
 			}),
 			new OptimizeCssAssetsPlugin(),
