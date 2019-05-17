@@ -9,6 +9,14 @@ h5-webpack
 
 ### 基本使用
 
+##### 新建项目
+`
+npm run create projectName
+`
+
+运行以上命令后会复制模板目录./template到src下，并重命名为projectName。
+
+
 ##### 开发环境
 `
 npm run dev demo
@@ -19,23 +27,19 @@ npm run dev demo
 npm run build demo
 `
 
-##### template的迭代升级
+##### 开发环境运行template
 `
-npm run dev template // template可省略 直接 npm run dev
-`
-
-##### 新建项目
-`
-npm run create projectName
-`
-
-运行以上命令后会复制模板目录./template到src下，并重命名为projectName。
-
-##### 模版文件的迭代更新
-`
+npm run dev template
+npm run dev
 npm run template
 `
+
+以上三种方式都可。
+
 template下的模版是需要不断更新迭代的，所以我们需要让template也能跑起来。
+
+
+
 
 # h5-template
 

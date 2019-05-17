@@ -5,6 +5,7 @@ const projectConfig = require('./config/projectConfig.json');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const webpack = require("webpack");
 
 console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');
@@ -13,9 +14,6 @@ console.log('========= 老版开始帮你打包：' + projectConfig.name + ' ===
 module.exports = function(env){
 
 	// const isDevMode = env.mode=='development' ? true : false;
-
-	console.log(111111)
-	console.log(env.mode)
 
 	let config = {
 		mode: 'production',
@@ -122,7 +120,7 @@ module.exports = function(env){
 				filename: 'css/main.css',
 				//chunkFilename: 'css/main.css',
 			}),
-
+			new OptimizeCssAssetsPlugin(),
 			new CopyPlugin([
 				{ from: projectConfig.srcPath+'media', to: 'media' }
 			])
