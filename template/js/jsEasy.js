@@ -964,9 +964,7 @@ JSeasy.pageAnimate = {
 		TweenMax.set(opt.newPage,{//display: 'block',
 			y:opt.oldPage.height()*opt.direction,'z-index':3});
 		TweenMax.to(opt.newPage,opt.time/1000,{y:0,opacity:1,onComplete:function(){
-			//if(publicInfo.indexPage==window.publicInfo.page.index(newPage)){
-				TweenMax.set(opt.oldPage,{display: 'none','z-index':1});
-			//}
+				if(opt.oldPage>=0)TweenMax.set(opt.oldPage,{display: 'none','z-index':1});
 			opt.endCallback()
 		}});
 	},
