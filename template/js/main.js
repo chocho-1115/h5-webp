@@ -11,7 +11,7 @@ $(window).load(function(e) {
 	//关闭页面下拉露出网页来源
 	J.setScroll(false)//
 
-	//跳到第二页
+	//跳到第二页  
 	J.H5Init({
 		pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
 		pageSwipeB : {
@@ -32,7 +32,7 @@ $(window).load(function(e) {
 	}
 
 
-
+ 
 	//横屏 的时候调用
 	//window.orientation = 180
 	/*JSeasy.rotateWindows({

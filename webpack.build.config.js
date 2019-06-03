@@ -65,6 +65,10 @@ module.exports = function(env){
 							options: {
 								//bypassOnDebug : true, // webpack@1.x 
 								disable: false, // webpack@2.x and newer 
+								mozjpeg: {
+									progressive: true,
+									quality: 80
+								},
 							}
 						}
 		            ]
@@ -77,7 +81,7 @@ module.exports = function(env){
 		                    loader: 'html-loader',
 		                    options: {
 								minimize: true,
-								attrs: ['img:src', ':data-src'], // 如果attrs的值为false  将不打包图片
+								attrs: ['img:src', ':data-src', 'video:poster'], // 如果attrs的值为false  将不打包图片
 		                    }
 		                }
 		            ]
