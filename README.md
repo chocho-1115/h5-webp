@@ -28,13 +28,12 @@ npm run build demo
 `
 
 ##### 开发环境运行template
-`
-npm run dev template
+`npm run dev template`
 
-npm run dev
+`npm run dev`
 
-npm run template
-`
+`npm run template`
+
 
 以上三种方式都可。
 
