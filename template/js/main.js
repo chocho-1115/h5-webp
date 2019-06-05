@@ -1,12 +1,35 @@
 // JavaScript Document
 //escape   unescape
 
-import reset from '../css/reset.css';
-import main from '../css/main.css';
+import resetCss from '../css/reset.css';
+import mainCss from '../css/main.css';
+import fxpic from '../image/160.jpg';
 
 let J = require('./jsEasy.js');
 
+function setFX(opt){
+	var wx={
+		title:opt.title,
+		desc:opt.desc, 
+		imgUrl:opt.imgUrl,
+		link:opt.link,
+		success:opt.success||null
+	}
+	jssdk.init({debug:false}).done(function(){
+		jssdk.share(wx);
+	})
+}
+
 $(window).load(function(e) {
+
+	/* setFX({
+		title:'',
+		desc:'',
+		imgUrl:''+fxpic,
+		link:'',
+		success:null
+	}); */
+
 
 	//关闭页面下拉露出网页来源
 	J.setScroll(false)//
