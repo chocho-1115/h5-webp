@@ -152,7 +152,7 @@ J.tipsText('请输入您的昵称',false);
 ~~~
 加载所有 .lazy 元素的data-pic属性指向的图片资源：
 ~~~ js
-window.J.lazyLoad('.lazy',{
+J.lazyLoad('.lazy',{
 	fileload:function(item){
 		console.log(item.progress);
 	},
