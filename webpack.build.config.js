@@ -3,6 +3,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectConfig = require('./config/projectConfig.json');
 const CopyPlugin = require('copy-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -110,11 +111,18 @@ module.exports = function(env){
 
 			new CleanWebpackPlugin(),
 
+			
+
 			// https://webpack.js.org/plugins/html-webpack-plugin/
 			new HtmlWebpackPlugin({
 				template: projectConfig.srcPath + 'index.html',
 				filename: 'index.html',
 				inject: 'body'
+			}),
+
+			new ScriptExtHtmlWebpackPlugin({
+				// defer: 'js/[name]-[chunkhash].js'
+				defaultAttribute: 'defer'
 			}),
 
 			new MiniCssExtractPlugin({
