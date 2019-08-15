@@ -26,7 +26,7 @@ $(window).load(function(e) {
 		title:'',
 		desc:'',
 		imgUrl:''+fxpic,
-		link:'',
+		link:'', 
 		success:null
 	}); */
 
@@ -129,7 +129,7 @@ $(window).load(function(e) {
 							J.gotoPage(page);
 						},800);
 					},
-					minTime:3000
+					minTime:0
 				});
 			}})
 		},
