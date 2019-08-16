@@ -16,6 +16,9 @@
   "author": "https://github.com/chocho-1115",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.0-beta.0",
     "clean-webpack-plugin": "^2.0.2",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.1",
@@ -31,5 +34,6 @@
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1"
-  }
+  },
+  "dependencies": {}
 }

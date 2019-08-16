@@ -37,19 +37,16 @@ module.exports = function(env){
 
 	    module: {
 		    rules: [
-		        /*{
-		            test: /\.(js|jsx)$/,
-		            exclude:path.resolve(__dirname, 'node_modules'),
-		            use:[
-		                {
-		                    loader: 'babel-loader',
-		                    options: {
-		                        presets: ['env'],
-		                        plugins: ['transform-runtime']
-		                    }
-		                }
-		            ]
-		        },*/
+		        {
+		            test: /\.js$/,
+					exclude: /(node_modules|bower_components)/,
+					use: {
+						loader: 'babel-loader',
+						options: {
+						presets: ['@babel/preset-env']
+						}
+					}
+		        },
 		        // 图片
 		        {
 		            test: /\.(png|jpe?g|gif|svg)$/,
