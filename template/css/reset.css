@@ -19,7 +19,11 @@ del,ins,u,s,a,a:hover{text-decoration:none;}
 body,textarea,input,button,select,keygen,legend{font:12px/1.5 'Microsoft Yahei' arial,\5b8b\4f53;color:#333;outline:0;}
 a,a:hover{color:#333;}
 
-
+select{
+  -webkit-appearance:none;
+   -moz-appearance:none;
+   		appearance:none;
+}
 html{-webkit-font-smoothing: antialiased;/*字体抗锯齿*/}
 
 body{	-webkit-user-select:none;/*文本不可选择*/
@@ -60,6 +64,7 @@ input::-webkit-input-placeholder{
 .penetrate{pointer-events: none;}
 			
 .abso{position:absolute;}			
+.fixed{position:fixed;}			
 
 .boxSizing{box-sizing:border-box;}
 
@@ -146,10 +151,21 @@ display:-webkit-flex;}
 .horizontalWindows .content{position:absolute;left:50%;top:50%;-webkit-transform: translateX(-50%) translateY(-50%);transform: translateX(-50%) translateY(-50%);}
 .horizontalWindows .page .nr{position:absolute;width:1250px;height:640px;min-height:auto;left:50%;top:50%;-webkit-transform: translateX(-50%) translateY(-50%);transform: translateX(-50%) translateY(-50%);}
 
-.micBtn{display:none;position:absolute;right:25px;top:23px;width:45px;height:45px;background:url(../image/mc.gif) no-repeat center top;cursor:pointer;}
+.micBtn{display:none;right:50%;margin-right:-346px;top:20px;width:45px;height:45px;background:url(../image/mc.gif) no-repeat center top;cursor:pointer;}
 .micBtn.hide{background-position:center -100px;}
 .micBtn.show{background-position:center 0;}
 .micBtn .cen{width:100%;height:100%;display:block;border-radius:100px;border:2px solid #fff;}
+
+/* .micBtn.show{-webkit-animation: mc linear 1.5s both infinite;animation: mc linear 1.5s both infinite;}
+@-webkit-keyframes mc{
+	0% { -webkit-transform: rotate(0deg);}
+	100% { -webkit-transform: rotate(360deg);}
+}
+@keyframes mc{
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(360deg);}
+} */
+
 
 .horizontalWindows .micBtn{top:auto;bottom:75px;
 	-webkit-transform: rotate(90deg);transform: rotate(90deg);}

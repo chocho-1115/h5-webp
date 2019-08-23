@@ -47,11 +47,12 @@ $(window).load(function(e) {
 			'6':false,
 		}
 	});
-	
-	if(window.history.length==1){
-		J.setViewportMinHeight(1150); //640 1138 1236 1250    750 1334 1448 1450    
-	}else{
-		J.setViewportMinHeight(1210);
+	//1334 = 128+1206(?+98)
+	//640 1138 1236 1250    750 1334 1448 1450    
+	if(window.history.length==1){//没白条
+		J.setViewportMinHeight(1206); 
+	}else{//有白条
+		J.setViewportMinHeight(1206+98);
 	}
 
 

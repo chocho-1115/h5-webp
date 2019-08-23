@@ -1,12 +1,14 @@
 const path = require('path');
+const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectConfig = require('./config/projectConfig.json');
 const CopyPlugin = require('copy-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');//css提取
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 // const webpack = require("webpack");
 
 console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');
@@ -54,7 +56,7 @@ module.exports = function(env){
 		                {
 		                    loader: 'url-loader', // url-loader是file-loader的加强版
 		                    options: {
-		                        limit: '1000',//小于1000字节就转base64
+		                        limit: '1000', //小于1000字节就转base64
 		                        name: 'image/[name].[ext]'
 		                    }
 		                },
@@ -104,11 +106,16 @@ module.exports = function(env){
 				}
 		    ]
 		},
+		/// config.optimization.minimize instead.
+		optimization: {
+			minimize: true
+		},
+
 		plugins: [
 
-			new CleanWebpackPlugin(),
-
-			
+			new CleanWebpackPlugin({
+				// cleanAfterEveryBuildPatterns:
+			}),
 
 			// https://webpack.js.org/plugins/html-webpack-plugin/
 			new HtmlWebpackPlugin({
@@ -117,6 +124,9 @@ module.exports = function(env){
 				inject: 'body'
 			}),
 
+			// new webpack.optimize.UglifyJsPlugin(),
+
+			// 用于对 <script> 标签添加 async，defer,module 属性，或者内联这些属性
 			new ScriptExtHtmlWebpackPlugin({
 				// defer: 'js/[name]-[chunkhash].js'
 				defaultAttribute: 'defer'
