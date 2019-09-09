@@ -45,9 +45,20 @@ $('.close').on('click',function(e){
 	$(this.parentNode).css('display','none');
 });
 
-$("input").blur(function(){
+$("input,select").blur(function(){
   $(window).scrollTop(0);
 });
+
+$("select").change(function(){
+	var v = $(this).val();
+	if(v==''){
+		$(this).addClass('select-placeholder');
+	}else{
+		$(this).removeClass('select-placeholder');
+	}
+});
+
+
 
 //var thisData = new Date();
 //thisData.format("yyyy/MM/dd")
@@ -226,7 +237,7 @@ JSeasy.H5Init = function (opt){
 
 	
 	
-JSeasy.setViewportMinHeight = function(minH){
+JSeasy.setViewportMinHeight = function(minH, callback){
 	
 	var winW = document.documentElement.clientWidth;
 	var winH = document.documentElement.clientHeight;
@@ -234,6 +245,7 @@ JSeasy.setViewportMinHeight = function(minH){
 		var w = minH*winW/winH;
 		document.getElementById('viewEle').setAttribute('content','width='+w+', user-scalable=no,target-densitydpi = device-dpi');
 	}
+	callback&&callback();
 	
 };
 
@@ -898,10 +910,13 @@ JSeasy.rotateWindows = function(opt){
 		//alert(window.orientation)
 		if ( window.orientation === 180 || window.orientation === 0 ) {//竖着的
 			if(!isSet){
-				opt.callback&&opt.callback();
-				
-				J.setViewportMinHeight(opt.viewportMinHeight||1008);
-				
+
+				//opt.callback&&opt.callback();
+				//J.setViewportMinHeight(opt.viewportMinHeight||1008);
+				J.setViewportMinHeight(opt.viewportMinHeight||1008, function(){
+					opt.callback&&opt.callback();
+				});
+
 				isSet = true;
 				// var winW = window.innerHeight, winH = window.innerWidth;
 				var winW = document.documentElement.clientHeight, winH = document.documentElement.clientWidth;
