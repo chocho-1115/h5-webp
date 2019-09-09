@@ -61,7 +61,7 @@ $(window).load(function(e) {
 	//window.orientation = 180
 	/*JSeasy.rotateWindows({
 		viewportMinHeight: 1008,
-		callback: function(opt){},
+		callback: function(){},
 		onRotate: function(opt){
 			
 		}
@@ -198,17 +198,18 @@ $(window).load(function(e) {
 	
 	
 	/*
-	//$('.sub').on("click",function(e){
+	$('.sub').on("click",function(e){
 		var text1 = $('.info .text1').val().replace(/\s/g, ""),//获取input数据  并且去掉数据中的空格
 			text3 = $('.info .text3').val().replace(/\s/g, ""),
 			text2 = $('.info .text2').val().replace(/\s/g, "");
-		if(text1.length==0||text2.length==0||text3.length==0){alert('请完善好个人信息！');return false}	
-		if(!J.isMobile(text2)){alert('电话号码错误！');return false}
+		if(text1.length==0||text2.length==0||text3.length==0){J.tipsText('请完善好信息！');return false}	
+		if(!J.isMobile(text2)){J.tipsText('电话号码错误！');return false}
 	
 		$.post("", {openid:openid,name:text1,tele:text2,address:text3}, function(data){
 				var data=JSON.parse(data);
-				if (parseInt(data.statu) == 1) {
-					alert("提交成功！");
+				console.log(data);
+				if (data.code == 1) {
+					J.tipsText("提交成功！");
 					
 					$('.info .text1').val('')
 					$('.info .text2').val('')
@@ -216,7 +217,7 @@ $(window).load(function(e) {
 					
 					$('.info').fadeOut(300);
 				}else{
-					alert("您提交收获地址无需重复提交！");
+					J.tipsText("您提交收获地址无需重复提交！");
 				}
 		});
 				

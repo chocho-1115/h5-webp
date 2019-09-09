@@ -60,7 +60,11 @@ input:-ms-input-placeholder{
 input::-webkit-input-placeholder{
     color: #000;opacity:0.4;
 }		
-	
+select.select-placeholder{
+  color: rgba(0,0,0,.4) !important;
+}
+
+
 .penetrate{pointer-events: none;}
 			
 .abso{position:absolute;}			
@@ -149,7 +153,7 @@ display:-webkit-flex;}
 .page .nr{width:750px;min-height:100%;margin:auto;position:relative;}
 
 .horizontalWindows .content{position:absolute;left:50%;top:50%;-webkit-transform: translateX(-50%) translateY(-50%);transform: translateX(-50%) translateY(-50%);}
-.horizontalWindows .page .nr{position:absolute;width:1250px;height:640px;min-height:auto;left:50%;top:50%;-webkit-transform: translateX(-50%) translateY(-50%);transform: translateX(-50%) translateY(-50%);}
+.horizontalWindows .page .nr{position:absolute;width:1206px;height:750px;min-height:auto;left:50%;top:50%;-webkit-transform: translateX(-50%) translateY(-50%);transform: translateX(-50%) translateY(-50%);}
 
 .micBtn{display:none;right:50%;margin-right:-346px;top:20px;width:45px;height:45px;background:url(../image/mc.gif) no-repeat center top;cursor:pointer;}
 .micBtn.hide{background-position:center -100px;}

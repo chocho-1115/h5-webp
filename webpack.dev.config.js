@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectConfig = require('./config/projectConfig.json');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = function(env){
@@ -84,6 +85,13 @@ module.exports = function(env){
 				template: projectConfig.srcPath + 'index.html',
 				filename: 'index.html',
 				inject: 'body'
+			}),
+
+
+			// 用于对 <script> 标签添加 async，defer,module 属性，或者内联这些属性
+			new ScriptExtHtmlWebpackPlugin({
+				// defer: 'js/[name]-[chunkhash].js'
+				defaultAttribute: 'defer'
 			}),
 
 			new MiniCssExtractPlugin({
