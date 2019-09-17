@@ -59,7 +59,7 @@ $(window).load(function(e) {
  
 	//横屏 的时候调用
 	//window.orientation = 180
-	/*JSeasy.rotateWindows({
+	/*J.rotateWindows({
 		viewportMinHeight: 1008,
 		callback: function(){},
 		onRotate: function(opt){
