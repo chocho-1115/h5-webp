@@ -651,45 +651,50 @@ JSeasy.compressionPIC = function(src, opt, callback){
 		
 		if(!maxSize)maxSize = Math.max(this.width, this.height);
 		
-		var pw = Number(this.width);
-		var ph = Number(this.height);
-		var w = 0, h = 0;
-		if(pw>=ph){
-			w = Math.min(maxSize, pw)
-			h = ph*w/pw;
+		//图片原始尺寸
+		var sw = this.width;
+		var sh = this.height;
+		//缩放后的尺寸
+		var ew = 0, eh = 0;
+		if(sw>=sh){
+			ew = Math.min(maxSize, sw)
+			eh = sh*ew/sw;
 		}else{
-			h = Math.min(maxSize, ph);
-			w = pw*h/ph;
+			eh = Math.min(maxSize, sh);
+			ew = sw*eh/sh;
 		}
 		
-//	Orientation  1	0°  3	180°  6	顺时针90°  8	逆时针90°
-
+		//	Orientation  1	0°  3	180°  6	顺时针90°  8	逆时针90°
+		//画布尺寸 输出尺寸
+		var canW = ew, canH = eh;
 		var rotate = 0;
 		if(exif_orientation==6){
-			var w_ = w;
-			var h_ = h;
-			w = h_;
-			h = w_;
+			canW = eh;
+			canH = ew;
 			rotate = 90
 		}else if(exif_orientation==8){
-			var w_ = w;
-			var h_ = h;
-			w = h_;
-			h = W_;
+			canW= eh;
+			canH = ew;
 			rotate = -90
 		}else if(exif_orientation==3){
 			rotate = 180
 		}
 		
-		canvas.width = w;
-		canvas.height = h;
+		canvas.width = canW;
+		canvas.height = canH;
 		var ctx = canvas.getContext("2d");
-		ctx.translate(w/2, h/2)
+		ctx.translate(canW/2, canH/2)
 		ctx.rotate(Math.PI/180*rotate);
 		
-		ctx.drawImage(this, -w/2, -h/2, w, h);
+		ctx.drawImage(this, -ew/2, -eh/2, ew, eh);
+		//ctx.drawImage(this, 0, 0, this.width, this.height, -h/2, -w/2, h, w);
 
-		if(callback)callback(canvas.toDataURL(type,encoderOptions));
+
+		if(callback)callback({
+			width: canW,
+			height: canH,
+			result: canvas.toDataURL(type,encoderOptions)
+		});
 
 	}
 
