@@ -116,6 +116,9 @@ display:-webkit-flex;}
 .scrollBox::-webkit-scrollbar-track-piece { background:rgba(0,0,0,.2);border-radius:4px;}
 .scrollBox .scrollNr{position:relative;}
 
+.m-close{width:70px;height:70px;border:2px solid #ccc;border-radius:1000px;}
+.m-close:before{content:'';position: absolute;left:50%;top:50%;transform: translateX(-50%) rotate(-45deg);width:80%;margin:-1px;width:66%;height:2px;background:#fff;}
+.m-close:after {content:'';position: absolute;left:50%;top:50%;transform: translateX(-50%) rotate(45deg) ;width:80%;margin:-1px;width:66%;height:2px;background:#fff;}
 
 /*  开启硬件加速	*/
 .threeD{
