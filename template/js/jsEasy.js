@@ -195,11 +195,10 @@ JSeasy.H5Init = function (opt){
 				resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
 				viewportMinHeight = opt.remInfo.viewportMinHeight,
 				pageWidth = opt.remInfo.pageWidth,
-				pageHeight = opt.remInfo.pageHeight,
 				zoomOutByHeight = false,
 				recalc = null;
 			
-			if(docEl.clientWidth/docEl.clientHeight>pageWidth/pageHeight){
+			if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>pageWidth/viewportMinHeight){
 				zoomOutByHeight = true;
 			}
 			recalc = function () {

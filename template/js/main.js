@@ -37,9 +37,8 @@ $(window).load(function(e) {
 	//跳到第二页  
 	J.H5Init({
 		remInfo: {
-			viewportMinHeight: 1206,
+			viewportMinHeight: 1206,//1334 = 128+1206(?+98)  //640 1138 1236 1250    750 1334 1448 1450   
 			pageWidth: 750,
-			pageHeight: 1206,
 		},
 		pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
 		pageSwipeB : {
@@ -52,13 +51,12 @@ $(window).load(function(e) {
 			'6':false,
 		}
 	});
-	//1334 = 128+1206(?+98)
-	//640 1138 1236 1250    750 1334 1448 1450    
-	if(window.history.length==1){//没白条
-		J.setViewportMinHeight(1206); 
-	}else{//有白条
-		J.setViewportMinHeight(1206+98);
-	}
+	 
+	// if(window.history.length==1){//没白条
+	// 	J.setViewportMinHeight(1206); 
+	// }else{//有白条
+	// 	J.setViewportMinHeight(1206+98);
+	// }
 
 	//横屏 的时候调用
 	//window.orientation = 180
