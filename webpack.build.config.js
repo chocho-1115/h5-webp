@@ -56,7 +56,7 @@ module.exports = function(env){
 		                {
 		                    loader: 'url-loader', // url-loader是file-loader的加强版
 		                    options: {
-		                        limit: '1000', //小于1000字节就转base64
+		                        limit: -1, //小于1000字节就转base64
 		                        name: 'image/[name].[ext]'
 		                    }
 		                },

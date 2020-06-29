@@ -36,6 +36,11 @@ $(window).load(function(e) {
 
 	//跳到第二页  
 	J.H5Init({
+		remInfo: {
+			viewportMinHeight: 1206,
+			pageWidth: 750,
+			pageHeight: 1206,
+		},
 		pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
 		pageSwipeB : {
 			'0':false,//
@@ -55,8 +60,6 @@ $(window).load(function(e) {
 		J.setViewportMinHeight(1206+98);
 	}
 
-
- 
 	//横屏 的时候调用
 	//window.orientation = 180
 	/*J.rotateWindows({
@@ -72,7 +75,7 @@ $(window).load(function(e) {
 			
 		}
 	};
-	
+
 	/*+function(){
 		
 		var end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"

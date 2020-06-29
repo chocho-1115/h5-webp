@@ -89,11 +89,11 @@ display:-webkit-flex;}
 #fx img{float:right;}
 
 #tipsBox{background:rgba(0,0,0,.7);position:fixed;left:0;top:0;height:100%;width:100%;text-align:center;display:none;z-index:9999;}
-#tipsBox span{background:#ccc;padding:20px;border-radius:4px;color:#333;font-size:25px;left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}
+#tipsBox span{background:#ccc;padding:.2rem;border-radius:.04rem;color:#333;font-size:.25rem;left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}
 
 
 /*向上滑动提示箭头*/
-.pt-page-moveIconUp {display:none;height:auto;width:25px;position:absolute;left:50%;bottom:3%;margin-left:-12px;-webkit-animation: moveIconUp ease 1.5s both infinite;animation: moveIconUp ease 1.5s both infinite;}
+.pt-page-moveIconUp {display:none;height:auto;width:.25rem;position:absolute;left:50%;bottom:3%;margin-left:-.12rem;-webkit-animation: moveIconUp ease 1.5s both infinite;animation: moveIconUp ease 1.5s both infinite;}
 @-webkit-keyframes moveIconUp{
 	0% { -webkit-transform: translateY(100%); opacity:0;}
 	50% { -webkit-transform: translateY(0%); opacity:1;}
@@ -109,14 +109,14 @@ display:-webkit-flex;}
 ::-moz-selection {background-color: rgba(230,224,203,0.3);color: #fff8e1;}
 ::selection {background-color: rgba(230,224,203,0.3);color: #fff8e1;}
 
-.scrollBox{min-height:250px;overflow-y:auto !important;-webkit-overflow-scrolling: touch;}
-.scrollBox::-webkit-scrollbar {width:6px;}
-.scrollBox::-webkit-scrollbar-thumb{background:#333;border-radius:4px;}
+.scrollBox{min-height:2.5rem;overflow-y:auto !important;-webkit-overflow-scrolling: touch;}
+.scrollBox::-webkit-scrollbar {width:.06rem;}
+.scrollBox::-webkit-scrollbar-thumb{background:#333;border-radius:.04rem;}
 .scrollBox::-webkit-scrollbar-resizer  {background:#333;}
-.scrollBox::-webkit-scrollbar-track-piece { background:rgba(0,0,0,.2);border-radius:4px;}
+.scrollBox::-webkit-scrollbar-track-piece { background:rgba(0,0,0,.2);border-radius:0.04rem;}
 .scrollBox .scrollNr{position:relative;}
 
-.m-close{width:70px;height:70px;border:2px solid #ccc;border-radius:1000px;}
+.m-close{width:.7rem;height:.7rem;border:.02rem solid #ccc;border-radius:1000px;}
 .m-close:before{content:'';position: absolute;left:50%;top:50%;transform: translateX(-50%) rotate(-45deg);width:80%;margin:-1px;width:66%;height:2px;background:#fff;}
 .m-close:after {content:'';position: absolute;left:50%;top:50%;transform: translateX(-50%) rotate(45deg) ;width:80%;margin:-1px;width:66%;height:2px;background:#fff;}
 
@@ -153,17 +153,17 @@ display:-webkit-flex;}
 
 .content{width:100%;height:100%;position:relative;overflow:hidden;margin:auto;}
 .page{width:100%;height:100%;position:absolute;left:0;top:0;overflow:hidden;display:none;}
-.page .nr{width:750px;min-height:100%;margin:auto;position:relative;}
+.page .nr{width:7.5rem;min-height:100%;margin:auto;position:relative;}
 .page .nr:before{content:'';height:1px;display:block;margin-bottom:-1px;}
 
 
 .horizontalWindows .content{position:absolute;left:50%;top:50%;-webkit-transform: translateX(-50%) translateY(-50%);transform: translateX(-50%) translateY(-50%);}
-.horizontalWindows .page .nr{position:absolute;width:1206px;height:750px;min-height:auto;left:50%;top:50%;-webkit-transform: translateX(-50%) translateY(-50%);transform: translateX(-50%) translateY(-50%);}
+.horizontalWindows .page .nr{position:absolute;width:12.06rem;height:7.5rem;min-height:auto;left:50%;top:50%;-webkit-transform: translateX(-50%) translateY(-50%);transform: translateX(-50%) translateY(-50%);}
 
-.micBtn{display:none;right:50%;margin-right:-346px;top:20px;width:45px;height:45px;background:url(../image/mc.gif) no-repeat center top;cursor:pointer;}
-.micBtn.hide{background-position:center -100px;}
+.micBtn{display:none;right:50%;margin-right:-3.46rem;top:.2rem;width:.45rem;height:.45rem;background:url(../image/mc.gif) no-repeat center top;cursor:pointer;background-size:.23rem auto;}
+.micBtn.hide{background-position:center -1rem;}
 .micBtn.show{background-position:center 0;}
-.micBtn .cen{width:100%;height:100%;display:block;border-radius:100px;border:2px solid #fff;}
+.micBtn .cen{width:100%;height:100%;display:block;border-radius:1000px;border:.02rem solid #fff;}
 
 /* .micBtn.show{-webkit-animation: mc linear 1.5s both infinite;animation: mc linear 1.5s both infinite;}
 @-webkit-keyframes mc{
@@ -176,7 +176,7 @@ display:-webkit-flex;}
 } */
 
 
-.horizontalWindows .micBtn{top:auto;bottom:75px;
+.horizontalWindows .micBtn{top:auto;bottom:.75rem;
 	-webkit-transform: rotate(90deg);transform: rotate(90deg);}
 
 

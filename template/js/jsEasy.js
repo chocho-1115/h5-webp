@@ -45,8 +45,11 @@ $('.close').on('click',function(e){
 	$(this.parentNode).css('display','none');
 });
 
-$("input,select").blur(function(){
-  $(window).scrollTop(0);
+$("input,select").not('.no-blur').blur(function(){
+	// 延迟0秒 解决在聚焦时 点击页面提交按钮无法触发提交事件的问题
+	setTimeout(function(){
+		$(window).scrollTop(0);
+	},0);
 });
 
 $("select").change(function(){
@@ -185,60 +188,83 @@ JSeasy.H5Init = function (opt){
 		}())
 		
 	}
-	
 	//rem适配   DOMContentLoaded
-	if(publicInfo.isRem){
-		(function(){
-			var doc = document,
-				win = window,
-				docEl = doc.documentElement,
-				resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
-				bodyEle = document.getElementsByTagName('body')[0],
-				recalc = function () {
-					var winH = window.innerHeight,
-						winW = window.innerWidth;
-					if(640/1136<winW/winH){
-						var sizeV = 100 * (winH / 1136);
-					}else{
-						var sizeV = 100 * (winW / 640);
-					}
-					sizeV = sizeV>100?100:sizeV;
-					sizeV = Math.round(sizeV*10000)/10000;
-					
-					docEl.style.fontSize = sizeV + 'px';
-					bodyEle.style.fontSize = '24px';
-					window.publicInfo.htmlFontSize = sizeV;
-				};
-			recalc();
+	if(opt.remInfo){
+		(function (doc, win) {
+			var docEl = doc.documentElement,
+				resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+				viewportMinHeight = opt.remInfo.viewportMinHeight,
+				pageWidth = opt.remInfo.pageWidth,
+				pageHeight = opt.remInfo.pageHeight,
+				zoomOutByHeight = false,
+				recalc = null;
 			
-			//点击页面输入框 输入内容后 页面无法复位 上移了
-			/*document.addEventListener('DOMContentLoaded', function(){
-				$("body").height($(window).height());
-			});*/
-			
-			if (!doc.addEventListener) return;
-			win.addEventListener(resizeEvt, function(){
-				if(resizeEvt==='orientationchange'){
-					setTimeout(recalc,300);//orientationchange事件发生时 立马获取的window的宽高不正确 要延时获取才行
+			if(docEl.clientWidth/docEl.clientHeight>pageWidth/pageHeight){
+				zoomOutByHeight = true;
+			}
+			recalc = function () {
+				var clientWidth = docEl.clientWidth;
+				var clientHeight = docEl.clientHeight;
+				var maxW = pageWidth;
+				if(zoomOutByHeight){
+					var v = 100 * (clientHeight / viewportMinHeight);
 				}else{
-					recalc();
+					var v = 100 * (Math.min(clientWidth, maxW) / pageWidth);
 				}
-			}, false);
-			
-			
-
-		}());
-	};
-
+				docEl.style.fontSize = v + 'px';
+				docEl.setAttribute('data', v);
+			};
 	
+			if (!doc.addEventListener) return;
+			win.addEventListener(resizeEvt, recalc, false);
+			// doc.addEventListener('DOMContentLoaded', recalc, false);
+			recalc();
+		})(document, window);
+
+		// (function(){
+		// 	var doc = document,
+		// 		win = window,
+		// 		docEl = doc.documentElement,
+		// 		resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
+		// 		bodyEle = document.getElementsByTagName('body')[0],
+		// 		recalc = function () {
+		// 			var winH = window.innerHeight,
+		// 				winW = window.innerWidth;
+		// 			if(640/1136<winW/winH){
+		// 				var sizeV = 100 * (winH / 1136);
+		// 			}else{
+		// 				var sizeV = 100 * (winW / 640);
+		// 			}
+		// 			sizeV = sizeV>100?100:sizeV;
+		// 			sizeV = Math.round(sizeV*10000)/10000;
+					
+		// 			docEl.style.fontSize = sizeV + 'px';
+		// 			bodyEle.style.fontSize = '24px';
+		// 			window.publicInfo.htmlFontSize = sizeV;
+		// 		};
+		// 	recalc();
+			
+		// 	//点击页面输入框 输入内容后 页面无法复位 上移了
+		// 	/*document.addEventListener('DOMContentLoaded', function(){
+		// 		$("body").height($(window).height());
+		// 	});*/
+			
+		// 	if (!doc.addEventListener) return;
+		// 	win.addEventListener(resizeEvt, function(){
+		// 		if(resizeEvt==='orientationchange'){
+		// 			setTimeout(recalc,300);//orientationchange事件发生时 立马获取的window的宽高不正确 要延时获取才行
+		// 		}else{
+		// 			recalc();
+		// 		}
+		// 	}, false);
+		// }());
+	};
 };
 
 
-
-	
-	
 JSeasy.setViewportMinHeight = function(minH, callback){
-	
+	var metaEle = document.getElementById('viewEle');
+	if(!metaEle)return;
 	var winW = document.documentElement.clientWidth;
 	var winH = document.documentElement.clientHeight;
 	if(minH&&winH<minH){
@@ -246,7 +272,6 @@ JSeasy.setViewportMinHeight = function(minH, callback){
 		document.getElementById('viewEle').setAttribute('content','width='+w+', user-scalable=no,target-densitydpi = device-dpi');
 	}
 	callback&&callback();
-	
 };
 
 JSeasy.countDown = function (endTime,opt){
@@ -290,6 +315,50 @@ JSeasy.countDown = function (endTime,opt){
 	var timer = setInterval(anim, 1000/opt.framerate);
 	anim();
 	return timer;
+};
+
+JSeasy.copyText = function (text, success){
+	// 数字没有 .length 不能执行selectText 需要转化成字符串
+	const textString = text.toString();
+	let input = document.querySelector('#copy-input');
+	if (!input) {
+		input = document.createElement('input');
+		input.id = "copy-input";
+		input.readOnly = "readOnly";        // 防止ios聚焦触发键盘事件
+		input.style.position = "absolute";
+		input.style.left = "-1000px";
+		input.style.zIndex = "-1000";
+		document.body.appendChild(input);
+	}
+	input.value = textString;
+	// ios必须先选中文字且不支持 input.select();
+	selectText(input, 0, textString.length);
+	if (document.execCommand('copy')) {
+		document.execCommand('copy');
+		if(success){
+			success(textString)
+		}else{
+			alert('已复制到粘贴板');
+		}
+		
+	}else {
+		console.log('不兼容');
+	}
+	input.blur();
+	// input自带的select()方法在苹果端无法进行选择，所以需要自己去写一个类似的方法
+	// 选择文本。createTextRange(setSelectionRange)是input方法
+	function selectText(textbox, startIndex, stopIndex) {
+		if (textbox.createTextRange) {//ie
+			const range = textbox.createTextRange();
+			range.collapse(true);
+			range.moveStart('character', startIndex);//起始光标
+			range.moveEnd('character', stopIndex - startIndex);//结束光标
+			range.select();//不兼容苹果
+		} else {//firefox/chrome
+			textbox.setSelectionRange(startIndex, stopIndex);
+			textbox.focus();
+		}
+	}
 };
 
 JSeasy.throttle = function (method,context){

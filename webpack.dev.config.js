@@ -8,12 +8,11 @@ module.exports = function(env){
 
 	// const isDevMode = env.mode=='development' ? true : false;
 
-
 	let config = {
 		mode: 'development',
 
 		// webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。
-		watch: true,
+		watch: false,
 		watchOptions: {
 			aggregateTimeout: 300,
 			poll: 1000
@@ -22,6 +21,7 @@ module.exports = function(env){
 	        contentBase: projectConfig.srcPath
 	    },
 		devtool: 'cheap-module-eval-source-map', 
+		//devtool: 'inline-source-map',
 
 		entry: projectConfig.srcPath + 'js/main.js',
 		output: {
@@ -51,7 +51,7 @@ module.exports = function(env){
 		                {
 		                    loader: 'url-loader', // url-loader是file-loader的加强版
 		                    options: {
-		                        limit: '1000',//小于1000字节就转base64
+		                        limit: 1000,//小于1000字节就转base64
 		                        name: 'image/[name].[ext]'
 		                    }
 		                }
