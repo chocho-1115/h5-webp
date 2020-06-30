@@ -22,6 +22,12 @@ function setFX(opt){
 
 $(window).load(function(e) {
 
+	// TITLE: '',// 页面标题
+    // SHARE_TITLE: '',// 分享标题
+    // SHARE_DESC: '',// 分享副标题
+    // SHARE_DESC: '',// 分享图标
+
+
 	/* setFX({
 		title:'',
 		desc:'',
@@ -29,7 +35,6 @@ $(window).load(function(e) {
 		link:'', 
 		success:null
 	}); */
-
 
 	//关闭页面下拉露出网页来源
 	J.setScroll(false)//

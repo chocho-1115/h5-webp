@@ -1,26 +1,5 @@
 // https://github.com/chocho-1115/h5-webp by 杨燚平 email：849890769@qq.com
 
-
-+function(){
-	var logCss = "font-size:1.2em;background: rgba(141, 248, 0, 1);background: -moz-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 25%, rgba(0,247,49,1) 50%, rgba(0,210,247,1) 75%,rgba(0,189,247,1) 100%);background: -webkit-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 25%, rgba(0,247,49,1) 50%, rgba(0,210,247,1) 75%,rgba(0,189,247,1) 100%);background: -ms-linear-gradient(left, rgba(252,234,187,1) 0%, rgba(175,250,77,1) 25%, rgba(0,247,49,1) 50%, rgba(0,210,247,1) 75%,rgba(0,189,247,1) 100%);"
-	console.log("%c email：849890769@qq.com", logCss);
-	console.log("%c github：https://github.com/chocho-1115/h5-webp ", logCss);
-}();
-
-// let TweenMax = require('../libs/TweenMax.min.js');
-
-/*function getElementByAttr(tag,attr,value)
-{
-    var aElements=document.getElementsByTagName(tag);
-    var aEle=[];
-    for(var i=0;i<aElements.length;i++)
-    {
-        if(aElements[i].getAttribute(attr)==value)
-            aEle.push( aElements[i] );
-    }
-    return aEle;
-}*/
-
 $('img').on('click',function(e){
 	if(e.target.parentNode.nodeName=='A')return;
 	e.preventDefault();
