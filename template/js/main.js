@@ -45,6 +45,7 @@ $(window).load(function(e) {
 			viewportMinHeight: 1206,//1334 = 128+1206(?+98)  //640 1138 1236 1250    750 1334 1448 1450   
 			pageWidth: 750,
 		},
+		//pageAnimateTime: 600,
 		pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
 		pageSwipeB : {
 			'0':false,//

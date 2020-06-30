@@ -86,6 +86,7 @@ var publicInfo = {
 	
 	pageSwipeB :[],
 	
+	pageAnimateTime: 0,
 	pageAnimateType: 'fade',//fade translate threeD
 	setPrefix : false, //
 	isRem : false, //是否为rem适配
@@ -100,9 +101,9 @@ JSeasy.publicInfo = publicInfo;
 JSeasy.H5Init = function (opt){
 	
 	publicInfo.pageSwipeB = opt.pageSwipeB;
-	
 	publicInfo.scale = opt.scale||1;
 	publicInfo.pageAnimateType = opt.pageAnimateType||'fade';
+	publicInfo.pageAnimateTime = opt.pageAnimateTime===undefined?600:opt.pageAnimateTime;
 	publicInfo.isRem = opt.isRem||false;
 	publicInfo.setPrefix = opt.setPrefix||false;
 	
@@ -425,7 +426,7 @@ JSeasy.gotoPage = function(num,opt){
 		oldPage = publicInfo.page.eq(publicInfo.indexPage),
 		newPage = publicInfo.page.eq(num),
 		self = this,
-		time = opt.time===undefined?800:opt.time;
+		time = opt.time===undefined?publicInfo.pageAnimateTime:opt.time;
 	
 	if(publicInfo.indexPage==num || num>=publicInfo.pageLen){
 		if(opt&&opt.startCallback)opt.startCallback();
