@@ -140,9 +140,11 @@ module.exports = function(env){
 				//chunkFilename: 'css/main.css',
 			}),
 			new OptimizeCssAssetsPlugin(),
-			new CopyPlugin([
-				{ from: projectConfig.srcPath+'media', to: 'media' }
-			])
+			new CopyPlugin({
+				patterns: [
+					{ from: projectConfig.srcPath+'media', to: 'media' }
+				]
+			})
 
 		],
 		externals: {
@@ -151,6 +153,7 @@ module.exports = function(env){
 	};
 
 
+	
 	return config;
 
 }
