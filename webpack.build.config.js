@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectConfig = require('./config/projectConfig.json');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -80,8 +80,42 @@ module.exports = function(env){
 		                {
 		                    loader: 'html-loader',
 		                    options: {
-								minimize: true,
-								attrs: ['img:src', ':data-src', 'video:poster'], // 如果attrs的值为false  将不打包图片
+								minimize: false,
+								attributes: {
+									list: [
+										// 原生
+										{tag: 'img', attribute: 'src', type: 'src'},
+										{tag: 'video', attribute: 'poster', type: 'src'},
+										// 自定义
+										{tag: 'div', attribute: 'data-src', type: 'src'},
+										{tag: 'span', attribute: 'data-src', type: 'src'},
+										{tag: 'img', attribute: 'data-src', type: 'src'},
+										{tag: 'ul', attribute: 'data-src', type: 'src'},
+										{tag: 'ol', attribute: 'data-src', type: 'src'},
+										{tag: 'li', attribute: 'data-src', type: 'src'},
+										{tag: 'dl', attribute: 'data-src', type: 'src'},
+										{tag: 'dt', attribute: 'data-src', type: 'src'},
+										{tag: 'dd', attribute: 'data-src', type: 'src'},
+										{tag: 'input', attribute: 'data-src', type: 'src'},
+										{tag: 'textarea', attribute: 'data-src', type: 'src'},
+										{tag: 'form', attribute: 'data-src', type: 'src'},
+										// html5
+										{tag: 'header', attribute: 'data-src', type: 'src'},
+										{tag: 'footer', attribute: 'data-src', type: 'src'},
+										{tag: 'article', attribute: 'data-src', type: 'src'},
+										{tag: 'section', attribute: 'data-src', type: 'src'}
+									],
+									urlFilter: (attribute, value, resourcePath) => {
+										if(attribute=='data-src'){
+											
+										}
+										if (/example\.pdf$/.test(value)) {
+											return false;
+										}
+										return true;
+									},
+								},
+								
 		                    }
 		                }
 		            ]
@@ -113,9 +147,21 @@ module.exports = function(env){
 
 		plugins: [
 
-			new CleanWebpackPlugin({
-				// cleanAfterEveryBuildPatterns:
-			}),
+			/**
+			 * All files inside webpack's output.path directory will be removed once, but the
+			 * directory itself will not be. If using webpack 4+'s default configuration,
+			 * everything under <PROJECT_DIR>/dist/ will be removed.
+			 * Use cleanOnceBeforeBuildPatterns to override this behavior.
+			 *
+			 * During rebuilds, all webpack assets that are not used anymore
+			 * will be removed automatically.
+			 *
+			 * See `Options and Defaults` for information
+			 */
+			new CleanWebpackPlugin(),
+			// new CleanWebpackPlugin({
+			// 	// cleanAfterEveryBuildPatterns:
+			// }),
 
 			// https://webpack.js.org/plugins/html-webpack-plugin/
 			new HtmlWebpackPlugin({
@@ -142,7 +188,8 @@ module.exports = function(env){
 			new OptimizeCssAssetsPlugin(),
 			new CopyPlugin({
 				patterns: [
-					{ from: projectConfig.srcPath+'media', to: 'media' }
+					{ from: projectConfig.srcPath+'media', to: 'media' },
+					{ from: projectConfig.srcPath+'libs', to: 'libs' }
 				]
 			})
 
@@ -151,7 +198,6 @@ module.exports = function(env){
 			// jquery: 'jQuery'
 		}
 	};
-
 
 	
 	return config;
