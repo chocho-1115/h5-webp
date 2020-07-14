@@ -1,33 +1,19 @@
-//https://github.com/chocho-1115/H5-template by 华扬长沙 杨燚平 email：849890769@qq.com
-let TweenMax = require('../libs/TweenMax.min.js');
-
-
-/*function getElementByAttr(tag,attr,value)
-{
-    var aElements=document.getElementsByTagName(tag);
-    var aEle=[];
-    for(var i=0;i<aElements.length;i++)
-    {
-        if(aElements[i].getAttribute(attr)==value)
-            aEle.push( aElements[i] );
-    }
-    return aEle;
-}*/
+// https://github.com/chocho-1115/h5-webp by 杨燚平 email：849890769@qq.com
 
 $('img').on('click',function(e){
 	if(e.target.parentNode.nodeName=='A')return;
 	e.preventDefault();
-	//e.stopPropagation();
-	//return false;
 })
+
 document.body.ondragstart=function(e){
 	e.preventDefault();
-	//e.stopPropagation();
 }
+
 if(document.querySelector('#fx')){
 	$('.fxBtn').on('click',function(){$('#fx').fadeIn(500);});
 	$('#fx').on('click',function(){$(this).fadeOut(500);});
 }
+
 if(document.querySelector('#tipsBox')){
 	$('#tipsBox').on('click',function(){
 		if($('#tipsBox').attr('close')=='true')$(this).fadeOut(500);
@@ -37,6 +23,24 @@ if(document.querySelector('#tipsBox')){
 $('.close').on('click',function(e){
 	$(this.parentNode).css('display','none');
 });
+
+$("input,select").not('.no-blur').blur(function(){
+	// 延迟0秒 解决在聚焦时 点击页面提交按钮无法触发提交事件的问题
+	setTimeout(function(){
+		$(window).scrollTop(0);
+	},0);
+});
+
+$("select").change(function(){
+	var v = $(this).val();
+	if(v==''){
+		$(this).addClass('select-placeholder');
+	}else{
+		$(this).removeClass('select-placeholder');
+	}
+});
+
+
 
 //var thisData = new Date();
 //thisData.format("yyyy/MM/dd")
@@ -65,6 +69,8 @@ Date.prototype.format = function(format)
 
 //////////////////////////////////////////////
 
+var JSeasy = {};
+var J = JSeasy;
 
 var publicInfo = {
 	content : $('#content'),
@@ -80,6 +86,7 @@ var publicInfo = {
 	
 	pageSwipeB :[],
 	
+	pageAnimateTime: 0,
 	pageAnimateType: 'fade',//fade translate threeD
 	setPrefix : false, //
 	isRem : false, //是否为rem适配
@@ -88,20 +95,15 @@ var publicInfo = {
 };
 
 publicInfo.pageLen = publicInfo.page.length;
-
-
-var JSeasy = {};
-var J = JSeasy;
-
 JSeasy.publicInfo = publicInfo;
 
 
 JSeasy.H5Init = function (opt){
 	
 	publicInfo.pageSwipeB = opt.pageSwipeB;
-	
 	publicInfo.scale = opt.scale||1;
 	publicInfo.pageAnimateType = opt.pageAnimateType||'fade';
+	publicInfo.pageAnimateTime = opt.pageAnimateTime===undefined?600:opt.pageAnimateTime;
 	publicInfo.isRem = opt.isRem||false;
 	publicInfo.setPrefix = opt.setPrefix||false;
 	
@@ -110,7 +112,7 @@ JSeasy.H5Init = function (opt){
 	//设置翻页事件
 	if(publicInfo.page.length>0){
 		
-		var mc = new Hammer(publicInfo.content[0]);
+		var mc = new Hammer(publicInfo.content[0], {touchAction:'pan-x pan-y'});
 		mc.get('swipe').set({velocity:0,threshold:30,direction:30});//修改滑动的速度与方向
 		
 		//下一页
@@ -166,120 +168,95 @@ JSeasy.H5Init = function (opt){
 		}())
 		
 	}
-	
 	//rem适配   DOMContentLoaded
-	if(publicInfo.isRem){
-		(function(){
-			var doc = document,
-				win = window,
-				docEl = doc.documentElement,
-				resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
-				bodyEle = document.getElementsByTagName('body')[0],
-				recalc = function () {
-					var winH = window.innerHeight,
-						winW = window.innerWidth;
-					if(640/1136<winW/winH){
-						var sizeV = 100 * (winH / 1136);
-					}else{
-						var sizeV = 100 * (winW / 640);
-					}
-					sizeV = sizeV>100?100:sizeV;
-					sizeV = Math.round(sizeV*10000)/10000;
-					
-					docEl.style.fontSize = sizeV + 'px';
-					bodyEle.style.fontSize = '24px';
-					window.publicInfo.htmlFontSize = sizeV;
-				};
-			recalc();
+	if(opt.remInfo){
+		(function (doc, win) {
+			var docEl = doc.documentElement,
+				resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+				viewportMinHeight = opt.remInfo.viewportMinHeight,
+				pageWidth = opt.remInfo.pageWidth,
+				zoomOutByHeight = false,
+				recalc = null;
 			
-			//点击页面输入框 输入内容后 页面无法复位 上移了
-			/*document.addEventListener('DOMContentLoaded', function(){
-				$("body").height($(window).height());
-			});*/
-			
-			if (!doc.addEventListener) return;
-			win.addEventListener(resizeEvt, function(){
-				if(resizeEvt==='orientationchange'){
-					setTimeout(recalc,300);//orientationchange事件发生时 立马获取的window的宽高不正确 要延时获取才行
+			if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>pageWidth/viewportMinHeight){
+				zoomOutByHeight = true;
+			}
+			recalc = function () {
+				var clientWidth = docEl.clientWidth;
+				var clientHeight = docEl.clientHeight;
+				var maxW = pageWidth;
+				if(zoomOutByHeight){
+					var v = 100 * (clientHeight / viewportMinHeight);
 				}else{
-					recalc();
+					var v = 100 * (Math.min(clientWidth, maxW) / pageWidth);
 				}
-			}, false);
-			
-			/*window.addEventListener('orientationchange', function(event){
-				setTimeout(recalc,300);
-				if ( window.orientation == 180 || window.orientation==0 ) {
-					//alert("竖屏");
-				}
-				if( window.orientation == 90 || window.orientation == -90 ) {
-					//alert("横屏");
-				}
-			});*/
-
-		}());
-	};
-
+				docEl.style.fontSize = v + 'px';
+				docEl.setAttribute('data', v);
+			};
 	
+			if (!doc.addEventListener) return;
+			win.addEventListener(resizeEvt, recalc, false);
+			// doc.addEventListener('DOMContentLoaded', recalc, false);
+			recalc();
+		})(document, window);
+
+		// (function(){
+		// 	var doc = document,
+		// 		win = window,
+		// 		docEl = doc.documentElement,
+		// 		resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
+		// 		bodyEle = document.getElementsByTagName('body')[0],
+		// 		recalc = function () {
+		// 			var winH = window.innerHeight,
+		// 				winW = window.innerWidth;
+		// 			if(640/1136<winW/winH){
+		// 				var sizeV = 100 * (winH / 1136);
+		// 			}else{
+		// 				var sizeV = 100 * (winW / 640);
+		// 			}
+		// 			sizeV = sizeV>100?100:sizeV;
+		// 			sizeV = Math.round(sizeV*10000)/10000;
+					
+		// 			docEl.style.fontSize = sizeV + 'px';
+		// 			bodyEle.style.fontSize = '24px';
+		// 			window.publicInfo.htmlFontSize = sizeV;
+		// 		};
+		// 	recalc();
+			
+		// 	//点击页面输入框 输入内容后 页面无法复位 上移了
+		// 	/*document.addEventListener('DOMContentLoaded', function(){
+		// 		$("body").height($(window).height());
+		// 	});*/
+			
+		// 	if (!doc.addEventListener) return;
+		// 	win.addEventListener(resizeEvt, function(){
+		// 		if(resizeEvt==='orientationchange'){
+		// 			setTimeout(recalc,300);//orientationchange事件发生时 立马获取的window的宽高不正确 要延时获取才行
+		// 		}else{
+		// 			recalc();
+		// 		}
+		// 	}, false);
+		// }());
+	};
 };
 
 
-
-	
-	
-JSeasy.setViewportMinHeight = function(minH){
-	
+JSeasy.setViewportMinHeight = function(minH, callback){
+	var metaEle = document.getElementById('viewEle');
+	if(!metaEle)return;
 	var winW = document.documentElement.clientWidth;
 	var winH = document.documentElement.clientHeight;
 	if(minH&&winH<minH){
 		var w = minH*winW/winH;
 		document.getElementById('viewEle').setAttribute('content','width='+w+', user-scalable=no,target-densitydpi = device-dpi');
 	}
-	
-};
-JSeasy.EventUtil = {
-	
-	//事件处理程序
-	addHandler:function(element,type,handler){
-		if(element.addEventListener){element.addEventListener(type,handler,false)}//DOM2
-		else if(element.attachEvent){element.attachEvent('on'+type,handler);}//ie
-		else{element['on'+type]=handler;}//DOM0
-	},
-	//滚轮事件对象的 wheelDelta/FF DOMMouseScroll
-	getWheelDelta:function(event){
-		if(event.wheelDelta){//ff以外的浏览器
-			//在最新版的opera中window返回undefined ， 在opera9.5中返回对象 在9.5版本之前的版本中wheelDelta的正负号颠倒的
-			return (window.opera&&window.opera.version()<9.5?-event.wheelDelta:event.wheelDelta);
-		}else{return -event.detail*40;}//ff
-	},
-	//返回事件对象的引用
-	getEvent:function(event){return event?event:window.event;},
-	//返回鼠标相对于事件对象的 X 坐标
-	getX:function(event){return event.offsetX?event.offsetX:event.layerX;},//火狐中的layerX  要保证元素用了position相对/绝对
-	//返回鼠标相对于事件对象的 Y 坐标
-	getY:function(event){return event.offsetY?event.offsetY:event.layerY;},
-	//返回事件目标元素
-	getTarget:function(event){return event.target||event.srcElement;},
-	//取消事件默认行为
-	preventDefaclt:function(event){
-		if(event.preventDefault){event.preventDefault();}
-		else {event.returnValue=false;}
-	},
-	//取消事件进一步捕获或冒泡
-	stopPropagation:function(event){
-		if(event.stopPropagation){event.stopPropagation();}
-		else{event.cancelBubble=true;}//ie
-	},
-	//移除事件处理程序
-	removeHandler:function(element,type,handler){
-		if(element.removeEventListener){element.removeEventListener(type,handler,false);}
-		else if(element.detachEvent){element.detachEvent('on'+type,handler)}
-		else{element['on'+type]=null;}
-	}
+	callback&&callback();
 };
 
-JSeasy.countDown = function (time,opt){
-	
+JSeasy.countDown = function (endTime,opt){
+		
 	opt.framerate = opt.framerate||1;
+	opt.nowTime = opt.nowTime||new Date().getTime();
 	
 	var res = {
 		death: false,
@@ -290,7 +267,7 @@ JSeasy.countDown = function (time,opt){
 		millisecond: 0
 	};
 	
-	var sys_second = (time-new Date().getTime())/1000;
+	var sys_second = (endTime-opt.nowTime)/1000;
 	var sys_second_speed = 1/opt.framerate;
 	
 	function anim(){
@@ -313,9 +290,54 @@ JSeasy.countDown = function (time,opt){
 		}
 		
 	}
-	anim();
+	// 
 	var timer = setInterval(anim, 1000/opt.framerate);
+	anim();
 	return timer;
+};
+
+JSeasy.copyText = function (text, success){
+	// 数字没有 .length 不能执行selectText 需要转化成字符串
+	const textString = text.toString();
+	let input = document.querySelector('#copy-input');
+	if (!input) {
+		input = document.createElement('input');
+		input.id = "copy-input";
+		input.readOnly = "readOnly";        // 防止ios聚焦触发键盘事件
+		input.style.position = "absolute";
+		input.style.left = "-1000px";
+		input.style.zIndex = "-1000";
+		document.body.appendChild(input);
+	}
+	input.value = textString;
+	// ios必须先选中文字且不支持 input.select();
+	selectText(input, 0, textString.length);
+	if (document.execCommand('copy')) {
+		document.execCommand('copy');
+		if(success){
+			success(textString)
+		}else{
+			alert('已复制到粘贴板');
+		}
+		
+	}else {
+		console.log('不兼容');
+	}
+	input.blur();
+	// input自带的select()方法在苹果端无法进行选择，所以需要自己去写一个类似的方法
+	// 选择文本。createTextRange(setSelectionRange)是input方法
+	function selectText(textbox, startIndex, stopIndex) {
+		if (textbox.createTextRange) {//ie
+			const range = textbox.createTextRange();
+			range.collapse(true);
+			range.moveStart('character', startIndex);//起始光标
+			range.moveEnd('character', stopIndex - startIndex);//结束光标
+			range.select();//不兼容苹果
+		} else {//firefox/chrome
+			textbox.setSelectionRange(startIndex, stopIndex);
+			textbox.focus();
+		}
+	}
 };
 
 JSeasy.throttle = function (method,context){
@@ -397,9 +419,6 @@ JSeasy.tipsText = function (text,closeB){
 	
 };
 
-
-
-//publicInfo.pageSwipeB[publicInfo.indexPage]!=-1&&publicInfo.pageSwipeB[publicInfo.indexPage]!==false
 JSeasy.gotoPage = function(num,opt){
 	
 	var opt = opt || {},
@@ -407,7 +426,7 @@ JSeasy.gotoPage = function(num,opt){
 		oldPage = publicInfo.page.eq(publicInfo.indexPage),
 		newPage = publicInfo.page.eq(num),
 		self = this,
-		time = opt.time===undefined?800:opt.time;
+		time = opt.time===undefined?publicInfo.pageAnimateTime:opt.time;
 	
 	if(publicInfo.indexPage==num || num>=publicInfo.pageLen){
 		if(opt&&opt.startCallback)opt.startCallback();
@@ -480,15 +499,15 @@ JSeasy.preload = function(srcArr, params){
 			newImg.onload = newImg.onerror = function(e) {
 				e = e || window.event;
 				var self = this;
-				setTimeout(function(){
+				// setTimeout(function(){
 					endLoad(self,e.type,i);
-				},t*(i+1)-( (new Date()).getTime() -st));
+				// },t*(i+1)-( (new Date()).getTime() -st));
 			};
 			
 			if(typeof(srcArr[i]) == 'string') srcArr[i] = {path:srcArr[i],name:i};
-			
-			newImg.src = baseUrl + srcArr[i].path;
-			
+			setTimeout(function(){
+				newImg.src = baseUrl + srcArr[i].path;
+			},t*(i+1)-( (new Date()).getTime() -st));
 		}(i));
 	}
 	
@@ -527,13 +546,13 @@ JSeasy.lazyLoad = function(selector,params){
 		}else{
 			obj.type = 'bj';
 		}
-		obj.path = ele[i].getAttribute('data-pic');
+		obj.path = ele[i].getAttribute('data-src');
 		if(obj.path){
 			assets.push(obj)
 		}
 	};
 	//console.log(assets)
-	window.J.preload(assets,{
+	J.preload(assets,{
 		fileload:function(item){
 			if(item.status===200){
 				if(item.type=='img'){
@@ -590,6 +609,75 @@ JSeasy.scrollBox_M = function(boxEle,nrEle){
 	});
 };
 
+JSeasy.getLunarDay = function(solarYear, solarMonth, solarDay) {
+	
+	solarMonth = (parseInt(solarMonth) > 0) ? (solarMonth - 1) : 11;
+
+	var madd = [0,31,59,90,120,151,181,212,243,273,304,334];
+	var tgString = "甲乙丙丁戊己庚辛壬癸";
+	var dzString = "子丑寅卯辰巳午未申酉戌亥";
+	var numString = "一二三四五六七八九十";
+	var monString = "正二三四五六七八九十冬腊";
+	var weekString = "日一二三四五六";
+	var sx = "鼠牛虎兔龙蛇马羊猴鸡狗猪";
+	var cYear, cMonth, cDay, TheDate;
+	var CalendarData = new Array(0xA4B, 0x5164B, 0x6A5, 0x6D4, 0x415B5, 0x2B6, 0x957, 0x2092F, 0x497, 0x60C96, 0xD4A, 0xEA5, 0x50DA9, 0x5AD, 0x2B6, 0x3126E, 0x92E, 0x7192D, 0xC95, 0xD4A, 0x61B4A, 0xB55, 0x56A, 0x4155B, 0x25D, 0x92D, 0x2192B, 0xA95, 0x71695, 0x6CA, 0xB55, 0x50AB5, 0x4DA, 0xA5B, 0x30A57, 0x52B, 0x8152A, 0xE95, 0x6AA, 0x615AA, 0xAB5, 0x4B6, 0x414AE, 0xA57, 0x526, 0x31D26, 0xD95, 0x70B55, 0x56A, 0x96D, 0x5095D, 0x4AD, 0xA4D, 0x41A4D, 0xD25, 0x81AA5, 0xB54, 0xB6A, 0x612DA, 0x95B, 0x49B, 0x41497, 0xA4B, 0xA164B, 0x6A5, 0x6D4, 0x615B4, 0xAB6, 0x957, 0x5092F, 0x497, 0x64B, 0x30D4A, 0xEA5, 0x80D65, 0x5AC, 0xAB6, 0x5126D, 0x92E, 0xC96, 0x41A95, 0xD4A, 0xDA5, 0x20B55, 0x56A, 0x7155B, 0x25D, 0x92D, 0x5192B, 0xA95, 0xB4A, 0x416AA, 0xAD5, 0x90AB5, 0x4BA, 0xA5B, 0x60A57, 0x52B, 0xA93, 0x40E95);
+
+	function GetBit(m, n) {
+		return (m >> n) & 1;
+	}
+	function e2c() {
+		TheDate = (arguments.length != 3) ? new Date() : new Date(arguments[0], arguments[1], arguments[2]);
+		var total, m, n, k;
+		var isEnd = false;
+		var tmp = TheDate.getYear();
+		if (tmp < 1900) {
+			tmp += 1900;
+		}
+		total = (tmp - 1921) * 365 + Math.floor((tmp - 1921) / 4) + madd[TheDate.getMonth()] + TheDate.getDate() - 38;
+
+		if (TheDate.getYear() % 4 == 0 && TheDate.getMonth() > 1) {
+			total++;
+		}
+		for (m = 0; ; m++) {
+			k = (CalendarData[m] < 0xfff) ? 11 : 12;
+			for (n = k; n >= 0; n--) {
+				if (total <= 29 + GetBit(CalendarData[m], n)) {
+					isEnd = true; break;
+				}
+				total = total - 29 - GetBit(CalendarData[m], n);
+			}
+			if (isEnd) break;
+		}
+		cYear = 1921 + m;
+		cMonth = k - n + 1;
+		cDay = total;
+		if (k == 12) {
+			if (cMonth == Math.floor(CalendarData[m] / 0x10000) + 1) {
+				cMonth = 1 - cMonth;
+			}
+			if (cMonth > Math.floor(CalendarData[m] / 0x10000) + 1) {
+				cMonth--;
+			}
+		}
+	}
+	
+	e2c(solarYear, solarMonth, solarDay);
+
+	
+	var res = {};
+	res.year = tgString.charAt((cYear - 4) % 10) + dzString.charAt((cYear - 4) % 12);
+	res.signs = sx.charAt((cYear - 4) % 12);
+	res.month = cMonth < 1 ? "(闰)"+monString.charAt(-cMonth - 1) : monString.charAt(cMonth - 1);
+
+	res.day = (cDay < 11) ? "初" : ((cDay < 20) ? "十" : ((cDay < 30) ? "廿" : "三十"));
+	if (cDay % 10 != 0 || cDay == 10) {
+		res.day += numString.charAt((cDay - 1) % 10);
+	}
+
+	return res;
+	
+};
 
 JSeasy.isMobile = function (str){
 	if(str==null||str=="") return false;
@@ -680,45 +768,50 @@ JSeasy.compressionPIC = function(src, opt, callback){
 		
 		if(!maxSize)maxSize = Math.max(this.width, this.height);
 		
-		var pw = Number(this.width);
-		var ph = Number(this.height);
-		var w = 0, h = 0;
-		if(pw>=ph){
-			w = Math.min(maxSize, pw)
-			h = ph*w/pw;
+		//图片原始尺寸
+		var sw = this.width;
+		var sh = this.height;
+		//缩放后的尺寸
+		var ew = 0, eh = 0;
+		if(sw>=sh){
+			ew = Math.min(maxSize, sw)
+			eh = sh*ew/sw;
 		}else{
-			h = Math.min(maxSize, ph);
-			w = pw*h/ph;
+			eh = Math.min(maxSize, sh);
+			ew = sw*eh/sh;
 		}
 		
-//	Orientation  1	0°  3	180°  6	顺时针90°  8	逆时针90°
-
+		//	Orientation  1	0°  3	180°  6	顺时针90°  8	逆时针90°
+		//画布尺寸 输出尺寸
+		var canW = ew, canH = eh;
 		var rotate = 0;
 		if(exif_orientation==6){
-			var w_ = w;
-			var h_ = h;
-			w = h_;
-			h = w_;
+			canW = eh;
+			canH = ew;
 			rotate = 90
 		}else if(exif_orientation==8){
-			var w_ = w;
-			var h_ = h;
-			w = h_;
-			h = W_;
+			canW= eh;
+			canH = ew;
 			rotate = -90
 		}else if(exif_orientation==3){
 			rotate = 180
 		}
 		
-		canvas.width = w;
-		canvas.height = h;
+		canvas.width = canW;
+		canvas.height = canH;
 		var ctx = canvas.getContext("2d");
-		ctx.translate(w/2, h/2)
+		ctx.translate(canW/2, canH/2)
 		ctx.rotate(Math.PI/180*rotate);
 		
-		ctx.drawImage(this, -w/2, -h/2, w, h);
+		ctx.drawImage(this, -ew/2, -eh/2, ew, eh);
+		//ctx.drawImage(this, 0, 0, this.width, this.height, -h/2, -w/2, h, w);
 
-		if(callback)callback(canvas.toDataURL(type,encoderOptions));
+
+		if(callback)callback({
+			width: canW,
+			height: canH,
+			result: canvas.toDataURL(type,encoderOptions)
+		});
 
 	}
 
@@ -939,10 +1032,13 @@ JSeasy.rotateWindows = function(opt){
 		//alert(window.orientation)
 		if ( window.orientation === 180 || window.orientation === 0 ) {//竖着的
 			if(!isSet){
-				opt.callback&&opt.callback();
-				
-				J.setViewportMinHeight(opt.viewportMinHeight||1008);
-				
+
+				//opt.callback&&opt.callback();
+				//J.setViewportMinHeight(opt.viewportMinHeight||1008);
+				J.setViewportMinHeight(opt.viewportMinHeight||1008, function(){
+					opt.callback&&opt.callback();
+				});
+
 				isSet = true;
 				// var winW = window.innerHeight, winH = window.innerWidth;
 				var winW = document.documentElement.clientHeight, winH = document.documentElement.clientWidth;
@@ -1005,9 +1101,7 @@ JSeasy.pageAnimate = {
 		TweenMax.set(opt.newPage,{//display: 'block',
 			y:opt.oldPage.height()*opt.direction,'z-index':3});
 		TweenMax.to(opt.newPage,opt.time/1000,{y:0,opacity:1,onComplete:function(){
-			//if(publicInfo.indexPage==window.publicInfo.page.index(newPage)){
-				TweenMax.set(opt.oldPage,{display: 'none','z-index':1});
-			//}
+				if(opt.oldPage>=0)TweenMax.set(opt.oldPage,{display: 'none','z-index':1});
 			opt.endCallback()
 		}});
 	},
