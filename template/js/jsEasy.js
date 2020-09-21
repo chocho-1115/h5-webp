@@ -534,6 +534,7 @@ JSeasy.preload = function(srcArr, params){
 };
 
 JSeasy.lazyLoad = function(selector,params){
+	params = params || {};
 	var doc = document,
 		assets = [],
 		ele = doc.querySelectorAll(selector);
