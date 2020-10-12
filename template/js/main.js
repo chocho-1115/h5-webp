@@ -175,18 +175,23 @@ $(window).load(function(e) {
 	
 	
 	//调用手机相册
-	/*var fileEle = J.initUpImg(document.documentElement,'image/*',function(reader){
-		console.log(reader)
-		var exif_orientation = J.exifOrientation(reader.result)
-		//.substring(22)
-		//type为jpeg webp的情况下 encoderOptions才起作用
-		J.compressionPIC(reader.result,{maxSize:750,exif_orientation:exif_orientation,type:'image/jpeg',encoderOptions:0.8},function(res){
-			//$('.page4 .logo').attr('src',res.result)
-			info.img = res.result.substring(23);
-			$('.page3 .pic').css({'background-image':'url('+res.result+')','opacity':1});
-		})
-	});
-	*/
+	// var fileEle = J.bindFileControl(document.documentElement,'image/*',{
+	// 	successCallback: function(reader){
+	// 		console.log(reader)
+	// 		var exif_orientation = J.exifOrientation(reader.result)
+	// 		//.substring(22)
+	// 		//type为jpeg webp的情况下 encoderOptions才起作用
+	// 		J.compressionPIC(reader.result,{maxSize:750,exif_orientation:exif_orientation,type:'image/jpeg',encoderOptions:0.8},function(res){
+	// 			//$('.page4 .logo').attr('src',res.result)
+	// 			info.img = res.result.substring(23);
+	// 			$('.page3 .pic').css({'background-image':'url('+res.result+')','opacity':1});
+	// 		})
+	// 	},
+	// 	errorCallback: function(res){
+
+	// 	}
+	// });
+	
 	
 	
 	

@@ -701,42 +701,39 @@ JSeasy.isEmail = function (str){
 
 };
 
-
 //<input class="abso upimg" id="upimg" accept="image/*" type="file" style='left:100px;top:100px;width:100px;height:100px;opacity:0.5'/>
-	
-JSeasy.initUpImg = function(btnEle, accept, endCallback){
-	
+JSeasy.bindFileControl = function(btnEle, accept, opt){
 	var fileEle = document.createElement('input');
 	fileEle.setAttribute('type','file');
 	fileEle.setAttribute('accept',accept);
-	
 	fileEle.addEventListener('change', function () {
-	
 		var file = this.files[0]; //获取file对象
 		//判断file的类型是不是图片类型。
-		if(!/image\/\w+/.test(file.type)){ 
-			alert("文件必须为图片！"); 
-			return false; 
-		} 
-		
+		// if(!file || !/image\/\w+/.test(file.type)){ 
+		// 	console.log("文件必须为图片！"); 
+		// 	return false; 
+		// } 
+		if(!file){
+			if(opt.errorCallback)opt.errorCallback({});
+			return;
+		}
 		var reader = new FileReader(); //声明一个FileReader实例
-		
 		//最后在onload事件中，获取到成功读取的文件内容，并以插入一个img节点的方式显示选中的图片
 		reader.onload = function(e){ 
 			//alert(reader.readyState)
-			if(endCallback)endCallback(this)
+			if(opt.successCallback)opt.successCallback(this)
 			
 		} 
+		reader.onerror = function(e){
+			if(opt.errorCallback)opt.errorCallback(this)
+		}
 		reader.readAsDataURL(file); //调用readAsDataURL方法来读取选中的图像文件
 		
 	});
-	
 	btnEle.onclick = function(){
 		fileEle.click();
 	}
-	
 	return fileEle;
-	
 };
 
 
@@ -1001,7 +998,17 @@ JSeasy.setScroll = function(isScroll){
 		document.addEventListener('touchmove',JSeasy.stopDefaultScroll,{passive: false});
 	}
 };
-
+//生成随机字符串
+JSeasy.getRandomStr = function(len) {
+	len = len || 32;
+	var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';// 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+	var maxPos = $chars.length;
+	var sttr = '';
+	for (var i = 0; i < len; i++) {
+		sttr += $chars.charAt(Math.floor(Math.random() * maxPos));
+	}
+	return 'JSeasy_' + sttr + '_' + new Date().getTime();
+};
 //整数[]  任意数（）
 JSeasy.getRandomNum = function (Min,Max,integerB){ 
 	if(integerB){
