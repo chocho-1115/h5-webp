@@ -116,7 +116,7 @@ display:-webkit-flex;}
 .scrollBox::-webkit-scrollbar-track-piece { background:rgba(0,0,0,.2);border-radius:0.04rem;}
 .scrollBox .scrollNr{position:relative;}
 
-.m-close{width:.7rem;height:.7rem;border:.02rem solid #ccc;border-radius:1000px;}
+.m-close{width:.7rem;height:.7rem;border:.02rem solid #ccc;border-radius:1000px;position: relative;}
 .m-close:before{content:'';position: absolute;left:50%;top:50%;transform: translateX(-50%) rotate(-45deg);width:80%;margin:-1px;width:66%;height:2px;background:#fff;}
 .m-close:after {content:'';position: absolute;left:50%;top:50%;transform: translateX(-50%) rotate(45deg) ;width:80%;margin:-1px;width:66%;height:2px;background:#fff;}
 
