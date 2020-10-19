@@ -174,21 +174,21 @@ JSeasy.H5Init = function (opt){
 			var docEl = doc.documentElement,
 				resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
 				viewportMinHeight = opt.remInfo.viewportMinHeight,
-				pageWidth = opt.remInfo.pageWidth,
+				baseWidth = opt.remInfo.baseWidth,
+				maxWidth = opt.remInfo.maxWidth ? opt.remInfo.maxWidth : 10000,
 				zoomOutByHeight = false,
 				recalc = null;
 			
-			if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>pageWidth/viewportMinHeight){
+			if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>baseWidth/viewportMinHeight){
 				zoomOutByHeight = true;
 			}
 			recalc = function () {
 				var clientWidth = docEl.clientWidth;
 				var clientHeight = docEl.clientHeight;
-				var maxW = pageWidth;
 				if(zoomOutByHeight){
 					var v = 100 * (clientHeight / viewportMinHeight);
 				}else{
-					var v = 100 * (Math.min(clientWidth, maxW) / pageWidth);
+					var v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
 				}
 				docEl.style.fontSize = v + 'px';
 				docEl.setAttribute('data', v);
@@ -574,7 +574,7 @@ JSeasy.lazyLoad = function(selector,params){
 };
 
 //获取地址参数
-JSeasy.getQueryString = function(name){
+JSeasy.queryString = function(name){
 	 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
 	 var r = window.location.search.substr(1).match(reg);
 	 if(r!=null)return unescape(r[2]);
@@ -700,6 +700,7 @@ JSeasy.isEmail = function (str){
 	}
 
 };
+
 
 //<input class="abso upimg" id="upimg" accept="image/*" type="file" style='left:100px;top:100px;width:100px;height:100px;opacity:0.5'/>
 JSeasy.bindFileControl = function(btnEle, accept, opt){

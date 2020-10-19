@@ -43,7 +43,8 @@ $(window).load(function(e) {
 	J.H5Init({
 		remInfo: {
 			viewportMinHeight: 1206,//1334 = 128+1206(?+98)  //640 1138 1236 1250    750 1334 1448 1450   
-			pageWidth: 750,
+			baseWidth: 750,
+			// maxWidth: 750 // 不限制最大宽度 即按浏览器宽度适配
 		},
 		//pageAnimateTime: 600,
 		pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
@@ -119,7 +120,7 @@ $(window).load(function(e) {
 
 	/////////////////////////////////////////////////////////
 
-	var page = Number(J.getQueryString('page'))||1;
+	var page = Number(J.queryString('page'))||1;
 	//J.gotoPage(page,{time:0});
 	//懒加载   在有load页面的时候用
 	J.lazyLoad('.lazy_load',{
