@@ -31,7 +31,10 @@ module.exports = function(env){
 	        contentBase: projectConfig.srcPath
 	    },
 
-		entry: projectConfig.srcPath + 'js/main.js',
+		entry: {
+			main: projectConfig.srcPath + 'js/main.js',
+			// maiji: projectConfig.srcPath + 'js/maiji.js',
+		},
 		output: {
 			filename: 'js/[name]-[chunkhash].js',
 			path: path.resolve(__dirname, projectConfig.distPath)
@@ -45,7 +48,29 @@ module.exports = function(env){
 					use: {
 						loader: 'babel-loader',
 						options: {
-						presets: ['@babel/preset-env']
+							presets: [
+								[
+									'@babel/preset-env',
+									{
+										"corejs": "3",
+										"useBuiltIns": "usage",// usage 会根据配置的浏览器兼容，以及你代码中用到的 API 来进行 polyfill，实现了按需添加
+										"debug": true,
+										// "targets": {
+										// 	"chrome": "58",
+										// 	"ie": "14"
+										// }
+									}
+								]
+							],
+							// modules: 'commonjs',
+							plugins: [
+								["@babel/plugin-transform-runtime", {
+									"corejs": 3,
+									"helpers": true,
+									"regenerator": true,
+									"useESModules": false
+								}]
+							]
 						}
 					}
 		        },
@@ -192,6 +217,8 @@ module.exports = function(env){
 					{ from: projectConfig.srcPath+'libs', to: 'libs' }
 				]
 			})
+
+			
 
 		],
 		externals: {

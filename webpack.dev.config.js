@@ -1,3 +1,4 @@
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const projectConfig = require('./config/projectConfig.json');
@@ -18,7 +19,23 @@ module.exports = function(env){
 			poll: 1000
 		},
 		devServer:{
-	        contentBase: projectConfig.srcPath
+			contentBase: projectConfig.srcPath,
+
+			// https: true,
+			// clientLogLevel: 'warning',
+			// key: fs.readFileSync('/path/to/server.key'),
+			// cert: fs.readFileSync('/path/to/server.crt'),
+			// ca: fs.readFileSync('/path/to/ca.pem'),
+			// contentBase: './src',
+            // inline: true,
+            // hot: true,
+            // host: '127.0.0.1',
+			// port: 443
+			// contentBase: './src',
+            // inline: true,
+            // hot: true,
+            // host: '127.0.0.1',
+            // port: 443
 	    },
 		devtool: 'cheap-module-eval-source-map', 
 		//devtool: 'inline-source-map',

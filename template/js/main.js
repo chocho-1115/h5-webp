@@ -4,8 +4,8 @@
 import resetCss from '../css/reset.css';
 import mainCss from '../css/main.css';
 import fxpic from '../image/160.jpg';
+import J from './jsEasy.js';
 
-let J = require('./jsEasy.js');
 
 function setFX(opt){
 	var wx={
@@ -112,7 +112,7 @@ $(window).load(function(e) {
 
 
 
-
+	console.log(J);
 
 
 
