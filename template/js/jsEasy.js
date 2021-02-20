@@ -508,7 +508,8 @@ JSeasy.lazyLoad = function(selector,params){
 	params = params || {};
 	var doc = document,
 		assets = [],
-		ele = doc.querySelectorAll(selector);
+		ele = doc.querySelectorAll(selector),
+		baseUrl = params.baseUrl || '';
 	
 	for(var i=0,len=ele.length;i<len;i++){
 		var id = i;
@@ -528,9 +529,9 @@ JSeasy.lazyLoad = function(selector,params){
 		fileload:function(item){
 			if(item.status===200){
 				if(item.type=='img'){
-					item.ele.setAttribute('src',item.path);
+					item.ele.setAttribute('src',baseUrl+item.path);
 				}else if(item.type=='bj'){
-					item.ele.style.backgroundImage = 'url('+item.path+')';
+					item.ele.style.backgroundImage = 'url('+baseUrl+item.path+')';
 				}
 			}
 			if(params.fileload)params.fileload(item);
@@ -539,7 +540,7 @@ JSeasy.lazyLoad = function(selector,params){
 			if(params.complete)params.complete(result);
 		},
 		minTime:params.minTime,
-		baseUrl:params.baseUrl || ''
+		baseUrl:baseUrl
 	})
 	
 };
