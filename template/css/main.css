@@ -13,7 +13,7 @@ img.block{display:block;margin-top:-1px;}
 
 .logo{left:20px;top:20px;}
 
-.load_num{font-size:16px;left:0;top:550px;color:#886d38;text-align:center;width:100%;font-weight:bold;}
+.load_num{font-size:.22rem;left:0;top:45%;color:#fff;text-align:center;width:100%;font-weight:bold;}
 
 .page1 {background:#966}
 .page2 {background:#669}
