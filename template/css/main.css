@@ -5,7 +5,18 @@
 	0%, 9%, 11%, 19%, 21%, 69%, 71%, 100% { transform: scaleY(1) }
 	10%, 20%, 70% { transform: scaleY(0.1) }
 }*/
-
+.weui-toast-text .weui-icon_toast{
+	display:none;
+}
+.weui-toast-text .weui-toast__content{
+	margin: 12px 12px;
+}
+.weui-toast-text .weui-toast{
+	min-height:auto;
+	width:auto;
+	margin-left:0;
+	transform: translateX(-50%);
+}
 
 img.block{display:block;margin-top:-1px;}	
 

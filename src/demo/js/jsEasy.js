@@ -1188,4 +1188,4 @@ JSeasy.pageAnimate = {
 };
 
 
-module.exports = JSeasy;
+export default JSeasy;

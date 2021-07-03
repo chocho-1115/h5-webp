@@ -5,7 +5,7 @@ import resetCss from '../css/reset.css';
 import mainCss from '../css/main.css';
 import fxpic from '../image/160.jpg';
 
-let J = require('./jsEasy.js');
+import J from './jsEasy.js';
 
 function setFX(opt){
 	var wx={
