@@ -8,8 +8,8 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');//css提取
-// const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+// const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');// weipack4
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');// weipack5
 
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -185,13 +185,12 @@ module.exports = function(env){
 		/// config.optimization.minimize instead.
 		optimization: {
 			minimize: true,
-			// minimizer: [new TerserPlugin({
-			// 	extractComments: false,//不将注释提取到单独的文件中
-			// })],
 			minimizer: [
-				// 在 webpack@5 中，你可以使用 `...` 语法来扩展现有的 minimizer（即 `terser-webpack-plugin`），将下一行取消注释
-				// `...`,
-				new CssMinimizerPlugin(),
+				// ...
+				new TerserPlugin({
+					extractComments: false,//不将注释提取到单独的文件中
+				}),
+				new CssMinimizerPlugin()
 			],
 		},
 
