@@ -1,9 +1,24 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const projectConfig = require('./config/projectConfig.json');
+// const projectConfig = require('./config/projectConfig.json');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+
+let projectName = JSON.parse(process.env.npm_config_argv).remain[0];
+let projectConfig = {};
+
+if (projectName && projectName != 'template') {
+	projectConfig.name = projectName;
+	projectConfig.srcPath = './src/' + projectName + '/';
+	projectConfig.distPath = './dist/' + projectName + '/';
+} else {
+	projectConfig.name = 'template';
+	projectConfig.srcPath = './template/';
+	projectConfig.distPath = './dist/template/';
+}
+
 
 module.exports = function(env){
 
@@ -37,7 +52,7 @@ module.exports = function(env){
             // host: '127.0.0.1',
             // port: 443
 	    },
-		devtool: 'cheap-module-eval-source-map', 
+		devtool: 'inline-source-map', 
 		//devtool: 'inline-source-map',
 
 		entry: projectConfig.srcPath + 'js/main.js',

@@ -1,15 +1,32 @@
 const path = require('path');
 const webpack = require('webpack');
+const readline = require('readline');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const projectConfig = require('./config/projectConfig.json');
+// const projectConfig = require('./config/projectConfig.json');
 const CopyPlugin = require('copy-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');//css提取
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+const TerserPlugin = require('terser-webpack-plugin');
 
 // const webpack = require("webpack");
+let projectName = JSON.parse(process.env.npm_config_argv).remain[0];
+let projectConfig = {};
+let copyFolderConfig = [];
+
+if (projectName && projectName != 'template') {
+	projectConfig.name = projectName;
+	projectConfig.srcPath = './src/' + projectName + '/';
+	projectConfig.distPath = './dist/' + projectName + '/';
+} else {
+	projectConfig.name = 'template';
+	projectConfig.srcPath = './template/';
+	projectConfig.distPath = './dist/template/';
+}
 
 console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');
 
@@ -20,16 +37,15 @@ module.exports = function(env){
 
 	let config = {
 		mode: 'production',
+		performance: false,// 不显示大文件警告
+		stats: 'errors-only',// 只输出错误信息
 
 		// webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。
 		watch: true,
-		watchOptions: {
-			aggregateTimeout: 300,
-			poll: 1000
-		},
-		devServer:{
-	        contentBase: projectConfig.srcPath
-	    },
+		// watchOptions: {
+		// 	aggregateTimeout: 300,
+		// 	poll: 1000
+		// },
 
 		entry: {
 			main: projectConfig.srcPath + 'js/main.js',
@@ -54,7 +70,7 @@ module.exports = function(env){
 									{
 										"corejs": "3",
 										"useBuiltIns": "usage",// usage 会根据配置的浏览器兼容，以及你代码中用到的 API 来进行 polyfill，实现了按需添加
-										"debug": true,
+										"debug": false,
 										// "targets": {
 										// 	"chrome": "58",
 										// 	"ie": "14"
@@ -105,41 +121,42 @@ module.exports = function(env){
 		                {
 		                    loader: 'html-loader',
 		                    options: {
-								minimize: false,
-								attributes: {
+								minimize: true,
+								esModule: false,
+								sources: {
 									list: [
 										// 原生
-										{tag: 'img', attribute: 'src', type: 'src'},
-										{tag: 'video', attribute: 'poster', type: 'src'},
+										{ tag: 'img', attribute: 'src', type: 'src' },
+										{ tag: 'video', attribute: 'poster', type: 'src' },
 										// 自定义
-										{tag: 'div', attribute: 'data-src', type: 'src'},
-										{tag: 'span', attribute: 'data-src', type: 'src'},
-										{tag: 'img', attribute: 'data-src', type: 'src'},
-										{tag: 'ul', attribute: 'data-src', type: 'src'},
-										{tag: 'ol', attribute: 'data-src', type: 'src'},
-										{tag: 'li', attribute: 'data-src', type: 'src'},
-										{tag: 'dl', attribute: 'data-src', type: 'src'},
-										{tag: 'dt', attribute: 'data-src', type: 'src'},
-										{tag: 'dd', attribute: 'data-src', type: 'src'},
-										{tag: 'input', attribute: 'data-src', type: 'src'},
-										{tag: 'textarea', attribute: 'data-src', type: 'src'},
-										{tag: 'form', attribute: 'data-src', type: 'src'},
+										{ tag: 'body', attribute: 'data-src', type: 'src' },
+										{ tag: 'div', attribute: 'data-src', type: 'src' },
+										{ tag: 'span', attribute: 'data-src', type: 'src' },
+										{ tag: 'img', attribute: 'data-src', type: 'src' },
+										{ tag: 'ul', attribute: 'data-src', type: 'src' },
+										{ tag: 'ol', attribute: 'data-src', type: 'src' },
+										{ tag: 'li', attribute: 'data-src', type: 'src' },
+										{ tag: 'dl', attribute: 'data-src', type: 'src' },
+										{ tag: 'dt', attribute: 'data-src', type: 'src' },
+										{ tag: 'dd', attribute: 'data-src', type: 'src' },
+										{ tag: 'input', attribute: 'data-src', type: 'src' },
+										{ tag: 'textarea', attribute: 'data-src', type: 'src' },
+										{ tag: 'form', attribute: 'data-src', type: 'src' },
 										// html5
-										{tag: 'header', attribute: 'data-src', type: 'src'},
-										{tag: 'footer', attribute: 'data-src', type: 'src'},
-										{tag: 'article', attribute: 'data-src', type: 'src'},
-										{tag: 'section', attribute: 'data-src', type: 'src'}
+										{ tag: 'header', attribute: 'data-src', type: 'src' },
+										{ tag: 'footer', attribute: 'data-src', type: 'src' },
+										{ tag: 'article', attribute: 'data-src', type: 'src' },
+										{ tag: 'section', attribute: 'data-src', type: 'src' }
 									],
 									urlFilter: (attribute, value, resourcePath) => {
-										if(attribute=='data-src'){
-											
-										}
 										if (/example\.pdf$/.test(value)) {
 											return false;
 										}
+										//console.log(attribute,value, resourcePath)
 										return true;
 									},
-								},
+								}
+								
 								
 		                    }
 		                }
@@ -167,7 +184,15 @@ module.exports = function(env){
 		},
 		/// config.optimization.minimize instead.
 		optimization: {
-			minimize: true
+			minimize: true,
+			// minimizer: [new TerserPlugin({
+			// 	extractComments: false,//不将注释提取到单独的文件中
+			// })],
+			minimizer: [
+				// 在 webpack@5 中，你可以使用 `...` 语法来扩展现有的 minimizer（即 `terser-webpack-plugin`），将下一行取消注释
+				// `...`,
+				new CssMinimizerPlugin(),
+			],
 		},
 
 		plugins: [
@@ -187,7 +212,20 @@ module.exports = function(env){
 			// new CleanWebpackPlugin({
 			// 	// cleanAfterEveryBuildPatterns:
 			// }),
-
+			// 打包完成监控
+			new webpack.ProgressPlugin({
+				// percentBy: 'entries' 
+				handler(percentage, message, ...args) {
+					// console.log(percentage, message, ...args)
+					readline.clearLine(process.stdout, 0);
+					readline.cursorTo(process.stdout, 0); // readline.cursorTo(process.stdout, 0, 0)
+					var str = (percentage * 100).toFixed(0) + '% '
+					process.stdout.write(str);
+					if (percentage == 1) {
+						console.log('\r\r========= 完成打包：' + projectConfig.name + ' =========');
+					}
+				},
+			}),
 			// https://webpack.js.org/plugins/html-webpack-plugin/
 			new HtmlWebpackPlugin({
 				template: projectConfig.srcPath + 'index.html',
@@ -210,7 +248,7 @@ module.exports = function(env){
 				filename: 'css/[name]-[contenthash].css', //'css/main.css',
 				//chunkFilename: 'css/main.css',
 			}),
-			new OptimizeCssAssetsPlugin(),
+			// new OptimizeCssAssetsPlugin(),
 			new CopyPlugin({
 				patterns: [
 					{ from: projectConfig.srcPath+'media', to: 'media' },
