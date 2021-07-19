@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const getFreePort = require('./config/getFreePort')
+
 
 let projectName = JSON.parse(process.env.npm_config_argv).remain[0];
 let projectConfig = {};
@@ -35,22 +37,7 @@ module.exports = function(env){
 		},
 		devServer:{
 			contentBase: projectConfig.srcPath,
-
-			// https: true,
-			// clientLogLevel: 'warning',
-			// key: fs.readFileSync('/path/to/server.key'),
-			// cert: fs.readFileSync('/path/to/server.crt'),
-			// ca: fs.readFileSync('/path/to/ca.pem'),
-			// contentBase: './src',
-            // inline: true,
-            // hot: true,
-            // host: '127.0.0.1',
-			// port: 443
-			// contentBase: './src',
-            // inline: true,
-            // hot: true,
-            // host: '127.0.0.1',
-            // port: 443
+			port: getFreePort()
 	    },
 		devtool: 'inline-source-map', 
 		//devtool: 'inline-source-map',
