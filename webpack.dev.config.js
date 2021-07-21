@@ -28,7 +28,8 @@ module.exports = function(env){
 
 	let config = {
 		mode: 'development',
-
+		performance: false,// 不显示大文件警告
+		stats: 'errors-only',// 只输出错误信息
 		// webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。
 		watch: false,
 		watchOptions: {
