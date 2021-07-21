@@ -24,8 +24,6 @@ if (projectName && projectName != 'template') {
 
 module.exports = function(env){
 
-	// const isDevMode = env.mode=='development' ? true : false;
-
 	let config = {
 		mode: 'development',
 		performance: false,// 不显示大文件警告
@@ -106,7 +104,6 @@ module.exports = function(env){
 				filename: 'index.html',
 				inject: 'body'
 			}),
-
 
 			// 用于对 <script> 标签添加 async，defer,module 属性，或者内联这些属性
 			new ScriptExtHtmlWebpackPlugin({
