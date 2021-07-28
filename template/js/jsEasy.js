@@ -88,7 +88,6 @@ var publicInfo = {
 	
 	pageAnimateTime: 0,
 	pageAnimateType: 'fade',//fade translate threeD
-	setPrefix : false, //
 	isRem : false, //是否为rem适配
 	
 	pageCallback: {}
@@ -105,7 +104,6 @@ JSeasy.H5Init = function (opt){
 	publicInfo.pageAnimateType = opt.pageAnimateType||'fade';
 	publicInfo.pageAnimateTime = opt.pageAnimateTime===undefined?600:opt.pageAnimateTime;
 	publicInfo.isRem = opt.isRem||false;
-	publicInfo.setPrefix = opt.setPrefix||false;
 	
 	
 	JSeasy.pageAnimate[publicInfo.pageAnimateType+'Init']();
@@ -143,32 +141,6 @@ JSeasy.H5Init = function (opt){
 		});
 	}
 
-	
-	if(publicInfo.setPrefix){
-		
-		publicInfo.prefix = (function(){
-			/*
-			获取浏览器前缀：
-				文档模式为 [ie8- 和 [Opera12.16- prefix 将返回null；
-				(Opera12.16+ 内核改为谷歌内核 将返回 webkit 前缀；
-				不过这些浏览器没有必要获取浏览器前缀了 浏览器前缀主要用于css3 而这些老古董浏览器不支持大部分的css3；
-			*/
-			if(window.opera||!window.getComputedStyle)return null;
-			var styles = window.getComputedStyle(document.documentElement, ''),
-				pre = (Array.prototype.slice
-				.call(styles)
-				.join('') 
-				.match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o']))[1],
-				dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
-			return {
-				dom: dom,
-				lowercase: pre,
-				css: '-' + pre + '-',
-				js: pre[0].toUpperCase() + pre.substr(1)
-			};
-		}())
-		
-	}
 	//rem适配   DOMContentLoaded
 	if(opt.remInfo){
 		(function (doc, win) {
@@ -209,6 +181,27 @@ JSeasy.H5Init = function (opt){
 	};
 };
 
+JSeasy.getPrefix = function(){
+	/*
+	获取浏览器前缀：
+		文档模式为 [ie8- 和 [Opera12.16- prefix 将返回null；
+		(Opera12.16+ 内核改为谷歌内核 将返回 webkit 前缀；
+		不过这些浏览器没有必要获取浏览器前缀了 浏览器前缀主要用于css3 而这些老古董浏览器不支持大部分的css3；
+	*/
+	if(window.opera||!window.getComputedStyle)return null;
+	var styles = window.getComputedStyle(document.documentElement, ''),
+		pre = (Array.prototype.slice
+		.call(styles)
+		.join('') 
+		.match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o']))[1],
+		dom = ('WebKit|Moz|MS|O').match(new RegExp('(' + pre + ')', 'i'))[1];
+	return {
+		dom: dom,
+		lowercase: pre,
+		css: '-' + pre + '-',
+		js: pre[0].toUpperCase() + pre.substr(1)
+	};
+};
 
 JSeasy.setViewportMinHeight = function(minH, callback){
 	var metaEle = document.getElementById('viewEle');
