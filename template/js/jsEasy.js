@@ -24,7 +24,7 @@ $('.close').on('click',function(e){
 	$(this.parentNode).css('display','none');
 });
 
-$("input,select").not('.no-blur').blur(function(){
+$("input,select,textarea").not('.no-blur').blur(function(){
 	// 延迟0秒 解决在聚焦时 点击页面提交按钮无法触发提交事件的问题
 	setTimeout(function(){
 		$(window).scrollTop(0);
