@@ -140,45 +140,41 @@ JSeasy.H5Init = function (opt){
 			}
 		});
 	}
+};
 
-	//rem适配   DOMContentLoaded
-	if(opt.remInfo){
-		(function (doc, win) {
-			var docEl = doc.documentElement,
-				resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-				viewportMinHeight = opt.remInfo.viewportMinHeight,
-				baseWidth = opt.remInfo.baseWidth,
-				maxWidth = opt.remInfo.maxWidth ? opt.remInfo.maxWidth : 10000,
-				zoomOutByHeight = false,
-				recalc = null,
-				timer = null;
-			
-			if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>baseWidth/viewportMinHeight){
-				zoomOutByHeight = true;
-			}
-			recalc = function () {
-				var clientWidth = docEl.clientWidth;
-				var clientHeight = docEl.clientHeight;
-				if(zoomOutByHeight){
-					var v = 100 * (clientHeight / viewportMinHeight);
-				}else{
-					var v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
-				}
-				docEl.style.fontSize = v + 'px';
-				docEl.setAttribute('data', v);
-			};
-	
-			if (!win.addEventListener) return;
-			win.addEventListener(resizeEvt, function(){
-				if(timer) clearTimeout(timer);
-				timer = setTimeout(recalc, 800);
-			}, false);
-			// doc.addEventListener('DOMContentLoaded', recalc, false);
-			recalc();
-		})(document, window);
+//rem适配   DOMContentLoaded
+JSeasy.remInit = function(opt){
+	var docEl = document.documentElement,
+		resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
+		viewportMinHeight = opt.viewportMinHeight,
+		baseWidth = opt.baseWidth,
+		maxWidth = opt.maxWidth ? opt.maxWidth : 10000,
+		zoomOutByHeight = false,
+		recalc = null,
+		timer = null;
 
-		
+	if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>baseWidth/viewportMinHeight){
+		zoomOutByHeight = true;
+	}
+	recalc = function () {
+		var clientWidth = docEl.clientWidth;
+		var clientHeight = docEl.clientHeight;
+		if(zoomOutByHeight){
+			var v = 100 * (clientHeight / viewportMinHeight);
+		}else{
+			var v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
+		}
+		docEl.style.fontSize = v + 'px';
+		docEl.setAttribute('data', v);
 	};
+
+	if (!window.addEventListener) return;
+	window.addEventListener(resizeEvt, function(){
+		if(timer) clearTimeout(timer);
+		timer = setTimeout(recalc, 800);
+	}, false);
+	// doc.addEventListener('DOMContentLoaded', recalc, false);
+	recalc();
 };
 
 JSeasy.getPrefix = function(){

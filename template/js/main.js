@@ -41,11 +41,6 @@ $(window).load(function(e) {
 
 	//跳到第二页  
 	J.H5Init({
-		remInfo: {
-			viewportMinHeight: 1334,//1334 = 128+1206(?+98)  //640 1138 1236 1250    750 1334 1448 1450   
-			baseWidth: 750,
-			// maxWidth: 750 // 不限制最大宽度 即按浏览器宽度适配
-		},
 		//pageAnimateTime: 600,
 		pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
 		pageSwipeB : {
@@ -54,11 +49,25 @@ $(window).load(function(e) {
 			'2':false,
 			'3':false,
 			'4':false,
-			'5':false, 
+			'5':false,
 			'6':false,
 		}
 	});
-	 
+
+	var browserDetectInfo = J.browserDetect();
+
+	J.remInit({
+		// 设置后将页面不随窗口大小而缩放
+        viewportMinHeight: 1334,//1334 = 128+1206(?+98)  //640 1138 1236 1250    750 1334 1448 1450  
+        // viewportMinHeight: browserDetectInfo.isPc ? 1334 : null,
+        baseWidth: 750,
+        maxWidth: browserDetectInfo.isPc ? 750 : null // 不限制最大宽度 即按浏览器宽度适配
+	});
+
+
+
+
+	
 	// if(window.history.length==1){//没白条
 	// 	J.setViewportMinHeight(1206); 
 	// }else{//有白条
