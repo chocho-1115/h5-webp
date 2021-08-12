@@ -142,21 +142,113 @@ JSeasy.H5Init = function (opt){
 	}
 };
 
+
 //rem适配   DOMContentLoaded
-JSeasy.remInit = function(opt){
+// JSeasy.remInit = function(opt){
+// 	var docEl = document.documentElement,
+// 		resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
+// 		viewportMinHeight = opt.viewportMinHeight,
+// 		baseWidth = opt.baseWidth,
+// 		maxWidth = opt.maxWidth ? opt.maxWidth : 10000,
+// 		zoomOutByHeight = false,
+// 		recalc = null,
+// 		timer = null;
+
+// 	if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>baseWidth/viewportMinHeight){
+// 		zoomOutByHeight = true;
+// 	}
+// 	recalc = function () {
+// 		var clientWidth = docEl.clientWidth;
+// 		var clientHeight = docEl.clientHeight;
+// 		if(zoomOutByHeight){
+// 			var v = 100 * (clientHeight / viewportMinHeight);
+// 		}else{
+// 			var v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
+// 		}
+// 		docEl.style.fontSize = v + 'px';
+// 		docEl.setAttribute('data', v);
+// 	};
+
+// 	if (!window.addEventListener) return;
+// 	window.addEventListener(resizeEvt, function(){
+// 		if(timer) clearTimeout(timer);
+// 		timer = setTimeout(recalc, 800);
+// 	}, false);
+// 	// doc.addEventListener('DOMContentLoaded', recalc, false);
+// 	recalc();
+// };
+
+//rem适配   DOMContentLoaded
+JSeasy.remInit = function(config){
+	
 	var docEl = document.documentElement,
 		resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
-		viewportMinHeight = opt.viewportMinHeight,
-		baseWidth = opt.baseWidth,
-		maxWidth = opt.maxWidth ? opt.maxWidth : 10000,
-		zoomOutByHeight = false,
-		recalc = null,
 		timer = null;
 
-	if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>baseWidth/viewportMinHeight){
-		zoomOutByHeight = true;
+	// 可配置参数
+	var isLandscape = config.isLandscape ? true : false; // 是否横屏 这里是只页面是否要横屏展示 并不代表当前的设备状态
+	var autoRotatingScreen = config.autoRotatingScreen===false ? false : true; // 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 讲会在横屏时显示提示层
+
+	// 添加横屏标识
+	if(isLandscape) docEl.classList.add('landscape');
+
+	window.addEventListener(resizeEvt, function(){
+		if(timer) clearTimeout(timer);
+		// 下面的延迟是必要的
+		// ios 下 resize|orientationchange 事件 需要延迟1秒 不然rem适配时获取的屏幕宽高值不对 比如在ios的safari下 pc手机调试模式下 或者部分安卓机下
+		timer = setTimeout(changeFunc, 1000);
+	}, false);
+	// doc.addEventListener('DOMContentLoaded', recalc, false);
+	changeFunc();
+
+	function changeFunc(){
+		if(
+			!isLandscape // 非横屏展示
+			||
+			window.orientation === undefined // pc端 不考虑横屏问题
+		){
+			recalc({
+				viewportMinHeight: config.viewportMinHeight,
+				baseWidth: config.baseWidth,
+				maxWidth: config.maxWidth
+			});
+			return;
+		};
+
+		if (window.orientation === 180 || window.orientation === 0) {//竖着的
+			// console.log('===竖着的==='+window.orientation)
+			docEl.classList.add('rotateWin');
+			if(!autoRotatingScreen) $('.rotateWindows_tips').css('display','none');
+			recalc({
+				viewportMinHeight: config.baseWidth,
+				baseWidth: config.viewportMinHeight,
+				maxWidth: config.viewportMinHeight
+			});
+		} else if (window.orientation == 90 || window.orientation == -90) {
+			// console.log('===横着的==='+window.orientation)
+			docEl.classList.remove('rotateWin');
+			if(!autoRotatingScreen) $('.rotateWindows_tips').css('display','block');
+			recalc({
+				viewportMinHeight: config.viewportMinHeight,
+				baseWidth: config.baseWidth,
+				maxWidth: config.maxWidth
+			});
+		}
 	}
-	recalc = function () {
+	
+	function recalc(opt) {
+		// 可配置参数
+		var viewportMinHeight = opt.viewportMinHeight,
+			baseWidth = opt.baseWidth,
+			maxWidth = opt.maxWidth ? opt.maxWidth : 10000;
+
+		var zoomOutByHeight = false;
+
+		if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>baseWidth/viewportMinHeight){
+			zoomOutByHeight = true;
+		}
+		console.log('zoomOutByHeight:'+zoomOutByHeight)
+		//
 		var clientWidth = docEl.clientWidth;
 		var clientHeight = docEl.clientHeight;
 		if(zoomOutByHeight){
@@ -168,14 +260,64 @@ JSeasy.remInit = function(opt){
 		docEl.setAttribute('data', v);
 	};
 
-	if (!window.addEventListener) return;
-	window.addEventListener(resizeEvt, function(){
-		if(timer) clearTimeout(timer);
-		timer = setTimeout(recalc, 800);
-	}, false);
-	// doc.addEventListener('DOMContentLoaded', recalc, false);
-	recalc();
 };
+
+
+
+
+// JSeasy.rotateWindows = function(opt){
+
+// 	opt = opt||{};
+// 	var isSet = false;
+	
+// 	$('body').addClass('horizontalWindows');//水平窗口
+	
+// 	changeFunc();
+// 	//window.addEventListener('orientationchange', changeFunc);
+// 	window.addEventListener('resize', changeFunc);
+// 	function changeFunc(event){
+// 		//pc端
+// 		if(window.orientation===undefined){
+// 			var winW = window.innerWidth, winH = window.innerHeight;
+// 			$('.content').css({width:winW,height:winH});
+// 			opt.callback&&opt.callback({winW:winW,winH:winH});
+// 			return false
+// 		}
+		
+// 		//alert(window.orientation)
+// 		if ( window.orientation === 180 || window.orientation === 0 ) {//竖着的
+// 			if(!isSet){
+
+// 				//opt.callback&&opt.callback();
+// 				//J.setViewportMinHeight(opt.viewportMinHeight||1008);
+// 				J.setViewportMinHeight(opt.viewportMinHeight||1008, function(){
+// 					opt.callback&&opt.callback();
+// 				});
+
+// 				isSet = true;
+// 				// var winW = window.innerHeight, winH = window.innerWidth;
+// 				var winW = document.documentElement.clientHeight, winH = document.documentElement.clientWidth;
+// 				//winW = $('body').height();//window.innerHeight;
+// 				$('.content').css({
+// 					//position:'absolute',
+// 					//left:'50%',
+// 					//top:'50%',
+// 					transform:'rotate(90deg)',
+// 					width:winW,
+// 					height:winH,
+// 					marginLeft:winW/-2,
+// 					marginTop:winH/-2
+// 				})
+				
+// 			}
+// 			$('.rotateWindows_tips').css('display','none');
+// 			opt.onRotate&&opt.onRotate(0);
+// 		}else if( window.orientation == 90 || window.orientation == -90 ) {
+// 			$('.rotateWindows_tips').css('display','block');
+// 			opt.onRotate&&opt.onRotate(90);
+// 		}
+// 	}
+// }
 
 JSeasy.getPrefix = function(){
 	/*
@@ -1024,59 +1166,7 @@ JSeasy.getRandomNum = function (Min,Max,integerB){
 	}
 };
  
-JSeasy.rotateWindows = function(opt){
 
-	opt = opt||{};
-	var isSet = false;
-	
-	$('body').addClass('horizontalWindows');//水平窗口
-	
-	changeFunc();
-	//window.addEventListener('orientationchange', changeFunc);
-	window.addEventListener('resize', changeFunc);
-	function changeFunc(event){
-		//pc端
-		if(window.orientation===undefined){
-			var winW = window.innerWidth, winH = window.innerHeight;
-			$('.content').css({width:winW,height:winH});
-			opt.callback&&opt.callback({winW:winW,winH:winH});
-			return false
-		}
-		
-		//alert(window.orientation)
-		if ( window.orientation === 180 || window.orientation === 0 ) {//竖着的
-			if(!isSet){
-
-				//opt.callback&&opt.callback();
-				//J.setViewportMinHeight(opt.viewportMinHeight||1008);
-				J.setViewportMinHeight(opt.viewportMinHeight||1008, function(){
-					opt.callback&&opt.callback();
-				});
-
-				isSet = true;
-				// var winW = window.innerHeight, winH = window.innerWidth;
-				var winW = document.documentElement.clientHeight, winH = document.documentElement.clientWidth;
-				//winW = $('body').height();//window.innerHeight;
-				$('.content').css({
-					//position:'absolute',
-					//left:'50%',
-					//top:'50%',
-					transform:'rotate(90deg)',
-					width:winW,
-					height:winH,
-					marginLeft:winW/-2,
-					marginTop:winH/-2
-				})
-				
-			}
-			$('.rotateWindows_tips').css('display','none');
-			opt.onRotate&&opt.onRotate(0);
-		}else if( window.orientation == 90 || window.orientation == -90 ) {
-			$('.rotateWindows_tips').css('display','block');
-			opt.onRotate&&opt.onRotate(90);
-		}
-	}
-}
 
 JSeasy.pageAnimate = {
 	

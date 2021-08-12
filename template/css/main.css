@@ -5,6 +5,14 @@
 	0%, 9%, 11%, 19%, 21%, 69%, 71%, 100% { transform: scaleY(1) }
 	10%, 20%, 70% { transform: scaleY(0.1) }
 }*/
+
+
+
+.rotateWin .weui-toast{
+	transform: translateY(-50%) rotate(90deg);
+	transform-origin: center center;
+}
+
 .weui-toast-text .weui-icon_toast{
 	display:none;
 }
@@ -26,7 +34,14 @@ img.block{display:block;margin-top:-1px;}
 
 .load_num{font-size:.22rem;left:0;top:45%;color:#fff;text-align:center;width:100%;font-weight:bold;}
 
-.page1 {background:#966}
+.page1 {
+	background:#966;
+	
+}
+.page1 .nr{
+	box-shadow:#fff 0 0 0 .1rem inset;
+	background:#1898f1;
+}
 .page2 {background:#669}
 
 

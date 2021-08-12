@@ -57,33 +57,13 @@ $(window).load(function(e) {
 	var browserDetectInfo = J.browserDetect();
 
 	J.remInit({
-		// 设置后将页面不随窗口大小而缩放
-        viewportMinHeight: 1334,//1334 = 128+1206(?+98)  //640 1138 1236 1250    750 1334 1448 1450  
-        // viewportMinHeight: browserDetectInfo.isPc ? 1334 : null,
+		isLandscape: false,// 是否横屏 默认false
+        viewportMinHeight: 1334, // 设置页面垂直方向上最少显示多少内容 在短屏幕手机防止上线被裁切  
         baseWidth: 750,
-        maxWidth: browserDetectInfo.isPc ? 750 : null // 不限制最大宽度 即按浏览器宽度适配
+        maxWidth: browserDetectInfo.isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
+		autoRotatingScreen: false, // 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 讲会在横屏时显示提示层 只有在isLandscape为true时才有效
 	});
 
-
-
-
-	
-	// if(window.history.length==1){//没白条
-	// 	J.setViewportMinHeight(1206); 
-	// }else{//有白条
-	// 	J.setViewportMinHeight(1206+98);
-	// }
-
-	//横屏 的时候调用
-	//window.orientation = 180
-	/*J.rotateWindows({
-		viewportMinHeight: 1008,
-		callback: function(){},
-		onRotate: function(opt){
-			
-		}
-	});*/
-	
 	J.publicInfo.pageCallback = {
 		'2':function(){
 			
