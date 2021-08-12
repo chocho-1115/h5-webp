@@ -92,10 +92,33 @@ H5Init({
 	},
 });
 ~~~
-### 设置最小适配高度
+
+### rem适配，支持横屏适配
+
+竖屏适配
 ~~~ js
-J.setViewportMinHeight(1008);//1008为 页面内容最小高度；默认按640的宽度适配  但是在如ip4屏幕按相对较短的手机下  底部内容显示不全  需要根据页面内容的高度 来调整适配宽度
+J.remInit({
+	viewportMinHeight: 1334, // 设置页面垂直方向上最少显示多少内容 在短屏幕手机防止上线被裁切  
+	baseWidth: 750,
+	maxWidth: 750, // 不限制最大宽度 即按浏览器宽度适配
+});
 ~~~
+
+横屏适配
+~~~ js
+J.remInit({
+	isLandscape: true,// 是否横屏 默认false
+	viewportMinHeight: 750, // 设置页面垂直方向上最少显示多少内容 在短屏幕手机防止上线被裁切  
+	baseWidth: 1334,
+	maxWidth: 1334, // 不限制最大宽度 即按浏览器宽度适配
+	autoRotatingScreen: false, // 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层 只有在isLandscape为true时才有效
+});
+~~~
+
+横屏模式下不支持threeD翻页动画
+
+这里要注意，如果旋转了canvas，canvas的坐标获取并没有因此发生旋转，另外在ios有滚动条的情况下，也有些不可描述的地方，不过都可以找到解决办法，这里就不详细说明了。
+
 ### 手动页面跳转
 ~~~ js
 J.gotoPage(1,{
@@ -184,30 +207,6 @@ J.gotoPage(page,{
 });
 ~~~
 上面通过参数page来跳转到相应的页面，可方便本地调试。
-
-### 设置横屏
-~~~ html
-<div class="rotateWindows_tips"></div>
-~~~
-横屏模式下，不要手动调用J.setViewportMinHeight();
-
-横屏模式下不支持threeD翻页动画
-~~~ js
-J.rotateWindows({
-	viewportMinHeight: 1008,
-	callback: function(opt){
-
-
-
-	},
-	onRotate: function(opt){
-
-	}
-});
-~~~
-原理是在关闭系统横屏功能的同时，用css3旋转 div#content 元素；
-
-这里要注意，如果旋转了canvas，canvas的坐标获取并没有因此发生旋转，另外在ios有滚动条的情况下，也有些不可描述的地方，不过都可以找到解决办法，这里就不详细说明了。
 
 ### 调用相册图片
 ~~~ js
