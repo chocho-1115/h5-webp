@@ -7,7 +7,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const getFreePort = require('./config/getFreePort')
 
-
 let projectName = JSON.parse(process.env.npm_config_argv).remain[0];
 let projectConfig = {};
 

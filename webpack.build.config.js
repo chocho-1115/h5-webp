@@ -97,7 +97,7 @@ module.exports = function(env){
 		                {
 		                    loader: 'url-loader', // url-loader是file-loader的加强版
 		                    options: {
-		                        limit: -1, //小于1000字节就转base64
+		                        limit: false, //小于1000字节就转base64
 		                        name: 'image/[name].[ext]'
 		                    }
 		                },
@@ -139,6 +139,7 @@ module.exports = function(env){
 										{ tag: 'dl', attribute: 'data-src', type: 'src' },
 										{ tag: 'dt', attribute: 'data-src', type: 'src' },
 										{ tag: 'dd', attribute: 'data-src', type: 'src' },
+										{ tag: 'p', attribute: 'data-src', type: 'src' },
 										{ tag: 'input', attribute: 'data-src', type: 'src' },
 										{ tag: 'textarea', attribute: 'data-src', type: 'src' },
 										{ tag: 'form', attribute: 'data-src', type: 'src' },
