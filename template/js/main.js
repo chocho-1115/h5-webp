@@ -61,7 +61,7 @@ $(window).load(function(e) {
         viewportMinHeight: 1334, // 设置页面垂直方向上最少显示多少内容 在短屏幕手机防止上线被裁切  
         baseWidth: 750,
         maxWidth: browserDetectInfo.isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
-		autoRotatingScreen: false, // 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层 只有在isLandscape为true时才有效
+		autoRotatingScreen: true, // 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层 只有在isLandscape为true时才有效
 	});
 
 	J.publicInfo.pageCallback = {
