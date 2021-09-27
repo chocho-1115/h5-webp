@@ -13,7 +13,13 @@
 <!--<link href="https://cdn.bootcss.com/animate.css/3.7.0/animate.min.css" rel="stylesheet">-->
 
 <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script> 
-
+<script>
+    (function(){
+        if(location.href.indexOf('debug')>-1){
+            new window.VConsole();
+        }
+    })(); 
+</script>
 </head>
 <body>
 <!--主体部分-->
