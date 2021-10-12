@@ -258,6 +258,12 @@ JSeasy.remInit = function(config){
 		}
 		docEl.style.fontSize = v + 'px';
 		docEl.setAttribute('data', v);
+
+		// 解决部分 Android 手机(例如华为) 通过 rem 计算的宽度和手机上实际显示的宽度不一致
+		var realFs = parseFloat(window.getComputedStyle(docEl)["font-size"]);
+		if (Math.abs(realFs - v) >= 1) {
+			docEl.style.fontSize = (v / (realFs / v)) + "px";
+		}
 	};
 
 };
