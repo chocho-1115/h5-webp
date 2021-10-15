@@ -892,16 +892,16 @@ JSeasy.checkIDCard = function(idcode){
 	return last === last_no && format ? true : false;
 }
 
-// encoderOptions 可选
 // 在指定图片格式为 image/jpeg 或 image/webp的情况下，可以从 0 到 1 的区间内选择图片的质量。如果超出取值范围，将会使用默认值 0.92。其他参数会被忽略。
-// encoderOptions 可选
+// quality 可选
 // 在指定图片格式为 image/jpeg 或 image/webp的情况下，可以从 0 到 1 的区间内选择图片的质量。如果超出取值范围，将会使用默认值 0.92。其他参数会被忽略。
 JSeasy.compressionPIC = function(src, opt, callback){
 	
 	var maxSize = Math.max(opt.maxSize, 0) || 0;
 	var exif_orientation = opt.exif_orientation || 0;
 	var type = opt.type || 'image/png';
-	var encoderOptions = opt.encoderOptions || 0.92;
+	var quality = opt.quality || 0.92;
+	var encode = opt.encode || 'base64';//支持 base64、blob、file 默认base64
 	
 	var Img = new Image(); 
 	Img.onload = init;  
@@ -952,21 +952,37 @@ JSeasy.compressionPIC = function(src, opt, callback){
 		canvas.width = canW;
 		canvas.height = canH;
 		var ctx = canvas.getContext("2d");
-		ctx.translate(canW/2, canH/2)
+		ctx.translate(canW/2, canH/2);
 		ctx.rotate(Math.PI/180*rotate);
 		
 		ctx.drawImage(this, -ew/2, -eh/2, ew, eh);
 		//ctx.drawImage(this, 0, 0, this.width, this.height, -h/2, -w/2, h, w);
 
-
-		if(callback)callback({
+		// 导出 base64
+		callback && encode === 'base64' && callback({
 			width: canW,
 			height: canH,
-			result: canvas.toDataURL(type,encoderOptions)
+			result: canvas.toDataURL(type, quality)
 		});
-
+		// 导出 blob
+		callback && encode === 'blob' && canvas.toBlob(function(blob) {
+			callback({
+				width: canW,
+				height: canH,
+				result: blob
+			});
+		}, type);
+		// 导出 file
+		callback && encode === 'file' && canvas.toBlob(function(blob) {
+			var filesName = J.getRandomStr(8);
+			var files = new File([blob], filesName, {type: type});
+			callback({
+				width: canW,
+				height: canH,
+				result: files
+			});
+		}, type);
 	}
-
 }
 
 
