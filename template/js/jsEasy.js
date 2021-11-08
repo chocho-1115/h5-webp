@@ -476,13 +476,11 @@ JSeasy.isTime = function (time,tips,callback){
 	}
 };
 
-JSeasy.isWeixin = function (){
-	var ua = window.navigator.userAgent.toLowerCase();
-	if(ua.match(/MicroMessenger/i) == 'micromessenger'){
-		return true;
-	}else{
-		return false;
-	}
+// includePc 包括pc
+JSeasy.isWechat = function (includePc){
+	var isWechat = navigator.userAgent.match(/MicroMessenger/i);
+	if (!includePc && navigator.userAgent.match(/(WindowsWechat)/i)) isWechat = false;
+	return isWechat;
 }
 
 JSeasy.browserDetect = function() {
@@ -1134,21 +1132,20 @@ JSeasy.setMp4Btn = function(opt){
 	
 	audioBtn.style.display = 'block';
 	audioEle.btn = audioBtn;
-	var oldClass = audioBtn.className;
 	
 	if(autoplay){
-		audioBtn.className = oldClass+' show';
+		audioBtn.classList.remove('hide');
 		audioEle.play();
 	}else{
-		audioBtn.className = oldClass+' hide';
+		audioBtn.classList.add('hide');
 		audioEle.pause();
 	}
 	$(audioBtn).on('click',function(e){
-		if(audioBtn.className==oldClass+' hide'){
-			audioBtn.className = oldClass+' show';
+		if(audioEle.paused){
+			audioBtn.classList.remove('hide');
 			audioEle.play();
 		}else{
-			audioBtn.className = oldClass+' hide';
+			audioBtn.classList.add('hide');
 			audioEle.pause();
 		}
 	});
