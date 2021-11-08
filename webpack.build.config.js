@@ -143,6 +143,7 @@ module.exports = function(env){
 										{ tag: 'input', attribute: 'data-src', type: 'src' },
 										{ tag: 'textarea', attribute: 'data-src', type: 'src' },
 										{ tag: 'form', attribute: 'data-src', type: 'src' },
+										{ tag: 'canvas', attribute: 'data-src', type: 'src' },
 										// html5
 										{ tag: 'header', attribute: 'data-src', type: 'src' },
 										{ tag: 'footer', attribute: 'data-src', type: 'src' },
