@@ -34,7 +34,7 @@ module.exports = function(env){
 			poll: 1000
 		},
 		devServer:{
-			contentBase: projectConfig.srcPath,
+			static: projectConfig.srcPath,
 			port: getFreePort()
 	    },
 		devtool: 'inline-source-map', 
