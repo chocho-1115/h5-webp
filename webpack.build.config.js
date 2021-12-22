@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const readline = require('readline');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const projectConfig = require('./config/projectConfig.json');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -53,7 +53,8 @@ module.exports = function(env){
 		},
 		output: {
 			filename: 'js/[name]-[chunkhash].js',
-			path: path.resolve(__dirname, projectConfig.distPath)
+			path: path.resolve(__dirname, projectConfig.distPath),
+			clean: true, // 每次构建清除dist包
 		},
 
 	    module: {
@@ -90,18 +91,19 @@ module.exports = function(env){
 						}
 					}
 		        },
-		        // 图片
-		        {
-		            test: /\.(png|jpe?g|gif|svg)$/,
-		            use: [
-		                {
-		                    loader: 'url-loader', // url-loader是file-loader的加强版
-		                    options: {
-		                        limit: false, //小于1000字节就转base64
-		                        name: 'image/[name].[ext]'
-		                    }
-		                },
-		                {
+				{
+                    test: /\.(jpe?g|png|gif|svg)$/i,
+                    type: 'asset',
+                    parser: {
+                        dataUrlCondition: {
+                            maxSize: 2 * 1024 // 小于 ？kb 转 base64
+                        }
+                    },
+                    generator: {
+                        filename: 'image/[name][ext]'
+                    },
+					use: [
+						{
 							loader: 'image-webpack-loader',
 							options: {
 								//bypassOnDebug : true, // webpack@1.x 
@@ -112,8 +114,8 @@ module.exports = function(env){
 								},
 							}
 						}
-		            ]
-		        },
+					]
+                },
 		        // html
 		        {
 		            test: /\.html$/,
@@ -158,8 +160,6 @@ module.exports = function(env){
 										return true;
 									},
 								}
-								
-								
 		                    }
 		                }
 		            ]
@@ -209,7 +209,7 @@ module.exports = function(env){
 			 *
 			 * See `Options and Defaults` for information
 			 */
-			new CleanWebpackPlugin(),
+			// new CleanWebpackPlugin(),
 			// new CleanWebpackPlugin({
 			// 	// cleanAfterEveryBuildPatterns:
 			// }),
