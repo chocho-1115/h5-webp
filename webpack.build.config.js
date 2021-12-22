@@ -5,7 +5,7 @@ const readline = require('readline');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const projectConfig = require('./config/projectConfig.json');
 const CopyPlugin = require('copy-webpack-plugin');
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+// const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');//css提取
 // const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');// weipack4
@@ -54,7 +54,7 @@ module.exports = function(env){
 		output: {
 			filename: 'js/[name]-[chunkhash].js',
 			path: path.resolve(__dirname, projectConfig.distPath),
-			clean: true, // 每次构建清除dist包
+			// clean: true, // 每次构建清除dist包
 		},
 
 	    module: {
@@ -236,11 +236,11 @@ module.exports = function(env){
 
 			// new webpack.optimize.UglifyJsPlugin(),
 
-			// 用于对 <script> 标签添加 async，defer,module 属性，或者内联这些属性
-			new ScriptExtHtmlWebpackPlugin({
-				// defer: 'js/[name]-[chunkhash].js'
-				defaultAttribute: 'defer'
-			}),
+			// // 用于对 <script> 标签添加 async，defer,module 属性，或者内联这些属性
+			// new ScriptExtHtmlWebpackPlugin({
+			// 	// defer: 'js/[name]-[chunkhash].js'
+			// 	defaultAttribute: 'defer'
+			// }),
 
 			new MiniCssExtractPlugin({
 				// Options similar to the same options in webpackOptions.output
