@@ -1,12 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const readline = require('readline');
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const projectConfig = require('./config/projectConfig.json');
 const CopyPlugin = require('copy-webpack-plugin');
-// const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');//css提取
 // const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');// weipack4
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');// weipack5
@@ -54,7 +50,7 @@ module.exports = function(env){
 		output: {
 			filename: 'js/[name]-[chunkhash].js',
 			path: path.resolve(__dirname, projectConfig.distPath),
-			// clean: true, // 每次构建清除dist包
+			clean: true, // 每次构建清除dist包
 		},
 
 	    module: {
@@ -164,24 +160,14 @@ module.exports = function(env){
 		                }
 		            ]
 		        },
-				// css 
 				{
-					// test 表示测试什么文件类型
-					test:/\.css$/,
-					// 使用 'style-loader','css-loader'
-					use: [
-						{
-							loader: MiniCssExtractPlugin.loader,
-							options: {
-								// you can specify a publicPath here
-								// by default it uses publicPath in webpackOptions.output
-								publicPath: '../'
-								// hmr: process.env.NODE_ENV === 'development',
-							},
-						},
-						'css-loader',
-					]
-				}
+                    test: /\.(s[ac]|c)ss$/i, //匹配所有的 sass/scss/css 文件, // 匹配所有的 css 文件
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        'css-loader',
+                        // 'sass-loader'
+                    ]
+                },
 		    ]
 		},
 		/// config.optimization.minimize instead.
@@ -195,31 +181,12 @@ module.exports = function(env){
 				new CssMinimizerPlugin()
 			],
 		},
-
 		plugins: [
-
-			/**
-			 * All files inside webpack's output.path directory will be removed once, but the
-			 * directory itself will not be. If using webpack 4+'s default configuration,
-			 * everything under <PROJECT_DIR>/dist/ will be removed.
-			 * Use cleanOnceBeforeBuildPatterns to override this behavior.
-			 *
-			 * During rebuilds, all webpack assets that are not used anymore
-			 * will be removed automatically.
-			 *
-			 * See `Options and Defaults` for information
-			 */
-			// new CleanWebpackPlugin(),
-			// new CleanWebpackPlugin({
-			// 	// cleanAfterEveryBuildPatterns:
-			// }),
 			// 打包完成监控
 			new webpack.ProgressPlugin({
-				// percentBy: 'entries' 
 				handler(percentage, message, ...args) {
-					// console.log(percentage, message, ...args)
 					readline.clearLine(process.stdout, 0);
-					readline.cursorTo(process.stdout, 0); // readline.cursorTo(process.stdout, 0, 0)
+					readline.cursorTo(process.stdout, 0);
 					var str = (percentage * 100).toFixed(0) + '% '
 					process.stdout.write(str);
 					if (percentage == 1) {
@@ -233,14 +200,6 @@ module.exports = function(env){
 				filename: 'index.html',
 				inject: 'body'
 			}),
-
-			// new webpack.optimize.UglifyJsPlugin(),
-
-			// // 用于对 <script> 标签添加 async，defer,module 属性，或者内联这些属性
-			// new ScriptExtHtmlWebpackPlugin({
-			// 	// defer: 'js/[name]-[chunkhash].js'
-			// 	defaultAttribute: 'defer'
-			// }),
 
 			new MiniCssExtractPlugin({
 				// Options similar to the same options in webpackOptions.output
@@ -256,18 +215,12 @@ module.exports = function(env){
 					{ from: projectConfig.srcPath+'libs', to: 'libs' }
 				]
 			})
-
-			
-
 		],
 		externals: {
 			// jquery: 'jQuery'
 		}
 	};
-
-	
 	return config;
-
 }
 
 

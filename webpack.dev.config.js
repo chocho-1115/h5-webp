@@ -2,7 +2,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const projectConfig = require('./config/projectConfig.json');
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const getFreePort = require('./config/getFreePort')
@@ -81,26 +80,14 @@ module.exports = function (env) {
                         filename: '[name].[contenthash:8].[ext]'
                     },
                 },
-				// css 
 				{
-					// test 表示测试什么文件类型
-					test: /\.css$/,
-					// 使用 'style-loader','css-loader'
-					// style-loader能够在需要载入的html中创建一个<style></style>标签，标签里的内容就是CSS内容。
-					// css-loader是允许在js中import一个css文件，会将css文件当成一个模块引入到js文件中
-					use: [
-						{
-							loader: MiniCssExtractPlugin.loader,
-							options: {
-								// you can specify a publicPath here
-								// by default it uses publicPath in webpackOptions.output
-								publicPath: '../'
-								// hmr: process.env.NODE_ENV === 'development',
-							},
-						},
-						'css-loader',
-					]
-				}
+                    test: /\.(s[ac]|c)ss$/i, //匹配所有的 sass/scss/css 文件, // 匹配所有的 css 文件
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        'css-loader',
+                        // 'sass-loader'
+                    ]
+                },
 			]
 		},
 		plugins: [
@@ -109,12 +96,6 @@ module.exports = function (env) {
 				template: projectConfig.srcPath + 'index.html',
 				filename: 'index.html',
 				inject: 'body'
-			}),
-
-			// 用于对 <script> 标签添加 async，defer,module 属性，或者内联这些属性
-			new ScriptExtHtmlWebpackPlugin({
-				// defer: 'js/[name]-[chunkhash].js'
-				defaultAttribute: 'defer'
 			}),
 
 			new MiniCssExtractPlugin({
