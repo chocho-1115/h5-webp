@@ -34,7 +34,8 @@ module.exports = function (env) {
 			static: projectConfig.srcPath,
 			port: getFreePort()
 		},
-		devtool: 'inline-source-map',
+		// devtool: 'inline-source-map',
+        devtool: 'eval-cheap-module-source-map', // 定位到错误所在行信息，不需要定位列信息，速度较快
 		entry: projectConfig.srcPath + 'js/main.js',
 		output: {
 			filename: 'js/[name]-[chunkhash].js',

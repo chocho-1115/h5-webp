@@ -98,19 +98,27 @@ module.exports = function(env){
                     generator: {
                         filename: 'image/[name][ext]'
                     },
-					use: [
-						{
-							loader: 'image-webpack-loader',
-							options: {
-								//bypassOnDebug : true, // webpack@1.x 
-								disable: false, // webpack@2.x and newer 
-								mozjpeg: {
-									progressive: true,
-									quality: 80
-								},
-							}
-						}
-					]
+                    use: [
+                        {
+                            loader: 'image-webpack-loader',
+                            options: {
+                                //bypassOnDebug : true, // webpack@1.x 
+                                disable: false, // webpack@2.x and newer 
+                                // jpeg / jpg
+                                mozjpeg: {
+                                    progressive: true,
+                                    quality: 85
+                                },
+                                // png
+                                pngquant: {
+                                    quality: [0.8, 0.90],
+                                    speed: 4
+                                },
+                                // webp
+                                // webp: { quality: 85 }
+                            }
+                        }
+                    ]
                 },
 		        // html
 		        {
