@@ -15,9 +15,11 @@
 <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script> 
 <script>
     (function(){
-        if(location.href.indexOf('debug')>-1){
-            new window.VConsole();
-        }
+        if(window.VConsole && location.search.indexOf('debug')>-1){
+            if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
+                new window.VConsole();
+            }
+        };
     })();
 </script>
 </head>
@@ -48,7 +50,7 @@
     </div>
 </div>
 
-<div class="fixed micBtn" id="micBtn"><span class="cen boxSizing"></span></div>
+<div class="fixed micBtn" id="micBtn"></div>
 <!--向上滑动的箭头提示--> 
 <img class="pt-page-moveIconUp" id='upJt' src="image/icon_up.png">
 
