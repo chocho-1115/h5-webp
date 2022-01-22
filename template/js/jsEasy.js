@@ -655,6 +655,16 @@ JSeasy.lazyLoad = function(selector,params){
 			obj.type = 'bj';
 		}
 		obj.path = ele[i].getAttribute('data-src');
+		// 过滤已转为base64的图片
+		var result = /^data\:([^\;]+)\;base64,/gmi;
+		if(result.test(obj.path)){
+			if(obj.type=='img'){
+				obj.ele.setAttribute('src', obj.path);
+			}else if(obj.type=='bj'){
+				obj.ele.style.backgroundImage = 'url('+obj.path+')';
+			}
+			continue;
+		}
 		if(obj.path){
 			assets.push(obj)
 		}
