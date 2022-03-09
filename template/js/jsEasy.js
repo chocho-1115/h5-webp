@@ -373,11 +373,11 @@ JSeasy.countDown = function (endTime,opt){
 		millisecond: 0
 	};
 	
-	var sys_second = (endTime-opt.nowTime)/1000;
-	var sys_second_speed = 1/opt.framerate;
+	var sys_millisecond = endTime-opt.nowTime;
+	var sys_millisecond_speed = 1000/opt.framerate;
 	
 	function anim(){
-		if (sys_second < 1) {
+		if (sys_millisecond < sys_millisecond_speed) {
 			clearInterval(timer);
 			res.death = true;//
 			res.day = 0;//计算天
@@ -386,18 +386,18 @@ JSeasy.countDown = function (endTime,opt){
 			res.second = 0;//计算秒杀
 			if(opt.onComplete)opt.onComplete(res);
 		} else {
-			res.day = Math.floor((sys_second / 3600) / 24);
-			res.hour = Math.floor((sys_second / 3600) % 24);
-			res.minute = Math.floor((sys_second / 60) % 60);
-			res.second = Math.floor(sys_second % 60);
-			res.millisecond = Math.floor(sys_second % 1 * 1000);
-			sys_second -= sys_second_speed;
+			res.day = Math.floor((sys_millisecond / 1000 / 3600) / 24);
+			res.hour = Math.floor((sys_millisecond / 1000 / 3600) % 24);
+			res.minute = Math.floor((sys_millisecond / 1000 / 60) % 60);
+			res.second = Math.floor(sys_millisecond / 1000 % 60);
+			res.millisecond = Math.floor(sys_millisecond % 1000);
+			sys_millisecond -= sys_millisecond_speed;
 			if(opt.onUpdate)opt.onUpdate(res);
 		}
 		
 	}
 	// 
-	var timer = setInterval(anim, 1000/opt.framerate);
+	var timer = setInterval(anim, sys_millisecond_speed);
 	anim();
 	return timer;
 };
