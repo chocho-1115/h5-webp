@@ -384,6 +384,7 @@ JSeasy.countDown = function (endTime,opt){
 			res.hour = 0;//计算小时
 			res.minute = 0;//计算分钟
 			res.second = 0;//计算秒杀
+			res.millisecond = 0;
 			if(opt.onUpdate)opt.onUpdate(res);
 			if(opt.onComplete)opt.onComplete(res);
 		} else {
