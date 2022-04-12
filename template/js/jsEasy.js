@@ -560,13 +560,13 @@ JSeasy.gotoPage = function(num,opt){
 		endCallback:function(){
 			oldPage.removeClass('show');
 			newPage.addClass('show');
-			
+
+			publicInfo.pageIndex = num;
+
 			if(publicInfo.callback&&publicInfo.callback[num])publicInfo.callback[num]();
-			
 			if(opt.endCallback)opt.endCallback();
 			
 			var d = publicInfo.pageSwipeB[num]
-
 			if(opt.upJtB===undefined&&(d===0||d===1)){
 				self.setUpJt(true);
 			}else{
@@ -576,9 +576,6 @@ JSeasy.gotoPage = function(num,opt){
 			publicInfo.pageStatus = 1;
 		}
 	});
-	publicInfo.pageIndex = num;
-	
-	
 };
 //预载器
 JSeasy.preload = function(srcArr, params){
