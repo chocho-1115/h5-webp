@@ -1149,6 +1149,9 @@ JSeasy.setMp4Btn = function(opt){
 		audioBtn.classList.add('hide');
 		audioEle.pause();
 	}
+	if(autoplay && audioEle.paused){
+		audioBtn.classList.add('hide');
+	}
 	$(audioBtn).on('click',function(e){
 		if(audioEle.paused){
 			audioBtn.classList.remove('hide');
