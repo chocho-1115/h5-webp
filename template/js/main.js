@@ -152,11 +152,11 @@ $(window).load(function(e) {
 	//以下是为了兼容ios自动播放音乐
 	document.addEventListener("WeixinJSBridgeReady", function () {  
 		audioEle.play();
-		$('#micBtn').addClass('show');
+		$('#micBtn').removeClass('hide');
 	}, false);  
 	document.addEventListener('YixinJSBridgeReady', function() {  
 		audioEle.play(); 
-		$('#micBtn').addClass('show');
+		$('#micBtn').removeClass('hide');
 	}, false);
 	
 	 
