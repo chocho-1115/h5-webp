@@ -481,8 +481,8 @@ JSeasy.isTime = function (time,tips,callback){
 // includePc 包括pc
 JSeasy.isWechat = function (includePc){
 	var isWechat = navigator.userAgent.match(/MicroMessenger/i);
-	if (!includePc && navigator.userAgent.match(/(WindowsWechat)/i)) isWechat = false;
-	return isWechat;
+	if (!includePc && navigator.userAgent.match(/(WindowsWechat|MacWechat)/i)) isWechat = false;
+	return !!isWechat;
 }
 
 JSeasy.browserDetect = function() {
