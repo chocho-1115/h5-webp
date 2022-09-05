@@ -92,7 +92,7 @@ module.exports = function(env){
                     type: 'asset',
                     parser: {
                         dataUrlCondition: {
-                            maxSize: 2 * 1024 // 小于 ？kb 转 base64
+                            maxSize: 0, //2 * 1024 // 小于 ？kb 转 base64
                         }
                     },
                     generator: {
@@ -135,6 +135,7 @@ module.exports = function(env){
 										{ tag: 'img', attribute: 'src', type: 'src' },
 										{ tag: 'video', attribute: 'poster', type: 'src' },
 										// 自定义
+										{ tag: 'a', attribute: 'data-src', type: 'src' },
 										{ tag: 'body', attribute: 'data-src', type: 'src' },
 										{ tag: 'div', attribute: 'data-src', type: 'src' },
 										{ tag: 'span', attribute: 'data-src', type: 'src' },
@@ -173,9 +174,20 @@ module.exports = function(env){
                     use: [
                         MiniCssExtractPlugin.loader,
                         'css-loader',
-                        // 'sass-loader'
                     ]
                 },
+				{
+                    test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+                    type: 'asset',
+                    generator: {
+                        filename: 'font/[name][ext]'
+                    },
+                    parser: {
+                        dataUrlCondition: {
+                            maxSize: 10 * 1024
+                        }
+                    }
+                }
 		    ]
 		},
 		/// config.optimization.minimize instead.
@@ -220,7 +232,8 @@ module.exports = function(env){
 			new CopyPlugin({
 				patterns: [
 					{ from: projectConfig.srcPath+'media', to: 'media' },
-					{ from: projectConfig.srcPath+'libs', to: 'libs' }
+					{ from: projectConfig.srcPath+'libs', to: 'libs' },
+					{ from: projectConfig.srcPath+'static', to: 'static' }
 				]
 			})
 		],
