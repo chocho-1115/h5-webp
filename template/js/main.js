@@ -1,11 +1,10 @@
 // JavaScript Document
 //escape   unescape
 
-import resetCss from '../css/reset.css';
-import mainCss from '../css/main.css';
-import fxpic from '../image/160.jpg';
+import '../css/reset.css';
+import '../css/main.css';
+import '../image/160.jpg';
 import J from './jsEasy.js';
-
 
 function setFX(opt){
 	var wx={

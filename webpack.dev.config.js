@@ -32,7 +32,10 @@ module.exports = function (env) {
 		},
 		devServer: {
 			static: projectConfig.srcPath,
-			port: getFreePort()
+			port: getFreePort(),
+			client: {
+                logging: 'error',
+            },
 		},
 		// devtool: 'inline-source-map',
         devtool: 'eval-cheap-module-source-map', // 定位到错误所在行信息，不需要定位列信息，速度较快

@@ -11,6 +11,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 // const webpack = require("webpack");
 let projectName = JSON.parse(process.env.npm_config_argv).remain[0];
+
+
 let projectConfig = {};
 let copyFolderConfig = [];
 
@@ -25,7 +27,6 @@ if (projectName && projectName != 'template') {
 }
 
 console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');
-
 
 module.exports = function(env){
 
@@ -55,6 +56,19 @@ module.exports = function(env){
 
 	    module: {
 		    rules: [
+				{
+                    test: /\.(s[ac]|c)ss$/i, //匹配所有的 sass/scss/css 文件, // 匹配所有的 css 文件
+					
+                    use: [
+                        MiniCssExtractPlugin.loader,
+						{
+							loader: 'css-loader',
+							options: {
+								modules: false,
+							},
+						},
+                    ]
+                },
 		        {
 		            test: /\.js$/,
 					exclude: /(node_modules|bower_components)/,
@@ -169,13 +183,7 @@ module.exports = function(env){
 		                }
 		            ]
 		        },
-				{
-                    test: /\.(s[ac]|c)ss$/i, //匹配所有的 sass/scss/css 文件, // 匹配所有的 css 文件
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        'css-loader',
-                    ]
-                },
+				
 				{
                     test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
                     type: 'asset',
