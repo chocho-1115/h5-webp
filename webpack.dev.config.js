@@ -20,8 +20,7 @@ if (projectName && projectName != 'template') {
 }
 
 module.exports = function (env) {
-
-	let config = {
+	return {
 		mode: 'development',
 		performance: false, // 不显示大文件警告
 		stats: 'errors-only', // 只输出错误信息
@@ -114,8 +113,4 @@ module.exports = function (env) {
 			// jquery: 'jQuery'
 		}
 	};
-
-
-	return config;
-
 }

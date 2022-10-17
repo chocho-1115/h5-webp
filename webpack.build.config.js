@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const readline = require('readline');
@@ -11,11 +12,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 // const webpack = require("webpack");
 let projectName = JSON.parse(process.env.npm_config_argv).remain[0];
-
-
 let projectConfig = {};
-let copyFolderConfig = [];
-
 if (projectName && projectName != 'template') {
 	projectConfig.name = projectName;
 	projectConfig.srcPath = './src/' + projectName + '/';
@@ -31,8 +28,7 @@ console.log('========= 老版开始帮你打包：' + projectConfig.name + ' ===
 module.exports = function(env){
 
 	// const isDevMode = env.mode=='development' ? true : false;
-
-	let config = {
+	return {
 		mode: 'production',
 		performance: false,// 不显示大文件警告
 		stats: 'errors-only',// 只输出错误信息
@@ -50,7 +46,7 @@ module.exports = function(env){
 		},
 		output: {
 			filename: 'js/[name]-[chunkhash].js',
-			path: path.resolve(__dirname, projectConfig.distPath),
+			path: path.resolve(projectConfig.distPath),
 			clean: true, // 每次构建清除dist包
 		},
 
@@ -239,17 +235,28 @@ module.exports = function(env){
 			// new OptimizeCssAssetsPlugin(),
 			new CopyPlugin({
 				patterns: [
-					{ from: projectConfig.srcPath+'media', to: 'media' },
-					{ from: projectConfig.srcPath+'libs', to: 'libs' },
-					{ from: projectConfig.srcPath+'static', to: 'static' }
-				]
-			})
+					{ 
+						from: path.join(projectConfig.srcPath, 'media'),
+						to: 'media',
+						noErrorOnMissing: true
+					},
+					{ 
+						from: path.resolve(projectConfig.srcPath, 'static'),
+						to: 'static',
+						noErrorOnMissing: true
+					},
+					{ 
+						from: path.resolve(projectConfig.srcPath, 'libs'),
+						to: 'libs',
+						noErrorOnMissing: true
+					}
+				],
+            })
 		],
 		externals: {
 			// jquery: 'jQuery'
 		}
 	};
-	return config;
 }
 
 
