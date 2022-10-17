@@ -11,16 +11,17 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');// weipack5
 const TerserPlugin = require('terser-webpack-plugin');
 
 // const webpack = require("webpack");
-let projectName = JSON.parse(process.env.npm_config_argv).remain[0];
+let projectName = JSON.parse(process.env.npm_config_argv).remain[0] || 'template';
 let projectConfig = {};
-if (projectName && projectName != 'template') {
-	projectConfig.name = projectName;
-	projectConfig.srcPath = './src/' + projectName + '/';
-	projectConfig.distPath = './dist/' + projectName + '/';
-} else {
+
+if (projectName && projectName === 'template') {
 	projectConfig.name = 'template';
 	projectConfig.srcPath = './template/';
 	projectConfig.distPath = './dist/template/';
+} else {
+	projectConfig.name = projectName;
+	projectConfig.srcPath = './src/' + projectName + '/';
+	projectConfig.distPath = './dist/' + projectName + '/';
 }
 
 console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');

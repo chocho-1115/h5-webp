@@ -6,17 +6,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const getFreePort = require('./config/getFreePort')
 
-let projectName = JSON.parse(process.env.npm_config_argv).remain[0];
+let projectName = JSON.parse(process.env.npm_config_argv).remain[0] || 'template';
 let projectConfig = {};
 
-if (projectName && projectName != 'template') {
-	projectConfig.name = projectName;
-	projectConfig.srcPath = './src/' + projectName + '/';
-	projectConfig.distPath = './dist/' + projectName + '/';
-} else {
+if (projectName && projectName === 'template') {
 	projectConfig.name = 'template';
 	projectConfig.srcPath = './template/';
 	projectConfig.distPath = './dist/template/';
+} else {
+	projectConfig.name = projectName;
+	projectConfig.srcPath = './src/' + projectName + '/';
+	projectConfig.distPath = './dist/' + projectName + '/';
 }
 
 module.exports = function (env) {
