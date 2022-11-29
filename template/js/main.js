@@ -137,13 +137,13 @@ $(window).load(function(e) {
 	
 	
 	//添加背景音乐
-	var audioEle = J.addMp4({
+	var audioEle = J.addMp3({
 		src:'media/bj.mp3',
 		autoplay:true,//音乐是否自动播放
 		loop:true//是否循环播放
 	});
 	//给背景音乐添加一个按钮
-	J.setMp4Btn({
+	J.setMp3Btn({
 		audioBtn:document.getElementById('micBtn'),
 		audioEle:audioEle,
 		autoplay:true

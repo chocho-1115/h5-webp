@@ -1103,38 +1103,32 @@ JSeasy.exifOrientation = function (base64){
 
 };
 
-
-
-
-
-
-JSeasy.addMp4 = function(opt){
+JSeasy.addMp3 = function(opt){
 	var audioEle = document.createElement('audio');
+	var eventName = 'ontouchstart' in window ? 'touchstart' : 'mousedown';
 	audioEle.setAttribute('src',opt.src);
 	audioEle.loop = opt.loop;
-	
 	if(opt.autoplay){
 		audioEle.autoplay = true;
-		//audioEle.setAttribute('autoplay',true);
 		audioEle.play();
-		
 		if(audioEle.paused==true){
-			window.addEventListener('touchstart',clickF,false)
+			window.addEventListener(eventName, clickF, false)
 		}
-		
-	}else{audioEle.autoplay = false;}
-	
+	}else{
+		audioEle.autoplay = false;
+	}
 	function clickF(){
 		audioEle.play();
-		if(audioEle.btn)audioEle.btn.className += ' show';
-		window.removeEventListener('touchstart',clickF,false)
+		if(audioEle.btn && !audioEle.paused) {
+			audioEle.btn.classList.remove('hide'); // audioEle.btn.className += ' show';
+			window.removeEventListener(eventName, clickF)
+		}
 	}
-	
 	return audioEle;
 };
+
 //设置mp4 背景音乐按钮	
-JSeasy.setMp4Btn = function(opt){
-	
+JSeasy.setMp3Btn = function(opt){
 	var audioBtn = opt.audioBtn,
 		audioEle = opt.audioEle,
 		autoplay = opt.autoplay;
@@ -1152,7 +1146,7 @@ JSeasy.setMp4Btn = function(opt){
 	if(autoplay && audioEle.paused){
 		audioBtn.classList.add('hide');
 	}
-	$(audioBtn).on('click',function(e){
+	audioBtn.addEventListener('click',function(e){
 		if(audioEle.paused){
 			audioBtn.classList.remove('hide');
 			audioEle.play();
@@ -1162,7 +1156,6 @@ JSeasy.setMp4Btn = function(opt){
 		}
 	});
 };
-
 
 JSeasy.stopDefaultScroll = function(e){
 	e.preventDefault();
