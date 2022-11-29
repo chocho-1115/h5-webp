@@ -4,11 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const projectConfig = require('./config/projectConfig.json');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const getFreePort = require('./config/getFreePort')
+const getFreePort = require('./config/getFreePort');
 
-let projectName = JSON.parse(process.env.npm_config_argv).remain[0] || 'template';
+let projectName = process.argv[6];
+
 let projectConfig = {};
-
 if (projectName && projectName === 'template') {
 	projectConfig.name = 'template';
 	projectConfig.srcPath = './template/';

@@ -11,7 +11,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');// weipack5
 const TerserPlugin = require('terser-webpack-plugin');
 
 // const webpack = require("webpack");
-let projectName = JSON.parse(process.env.npm_config_argv).remain[0] || 'template';
+let projectName = process.argv[5];
+
 let projectConfig = {};
 
 if (projectName && projectName === 'template') {
