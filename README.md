@@ -30,17 +30,9 @@ npm run build demo
 ##### 开发环境运行template
 `npm run dev template`
 
-`npm run dev`
-
-`npm run template`
-
-
-以上三种方式都可。
+`npm run build template`
 
 template下的模版是需要不断更新迭代的，所以我们需要让template也能跑起来。
-
-
-
 
 # h5-template
 
