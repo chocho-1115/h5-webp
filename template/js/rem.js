@@ -1,24 +1,27 @@
 
-(function(){
+(function () {
     function remInit(opt) {
         var docEl = document.documentElement,
             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
             viewportMinHeight = opt.viewportMinHeight,
+            zoomOutCriticalValue = opt.zoomOutCriticalValue,
             baseWidth = opt.baseWidth,
             maxWidth = opt.maxWidth ? opt.maxWidth : 10000,
-            zoomOutByHeight = false,
             recalc = null,
             timer = null;
-        
-        if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>baseWidth/viewportMinHeight){
-            zoomOutByHeight = true;
-        }
+
         recalc = function () {
             var clientWidth = docEl.clientWidth;
             var clientHeight = docEl.clientHeight;
-            if(zoomOutByHeight){
+            var zoomOutByHeight = false;
+            if (viewportMinHeight && docEl.clientWidth / docEl.clientHeight > (zoomOutCriticalValue || baseWidth / viewportMinHeight)) {
+                zoomOutByHeight = true;
+            }
+            if (zoomOutByHeight) {
+                console.log(1)
                 var v = 100 * (clientHeight / viewportMinHeight);
-            }else{
+            } else {
+                console.log(2)
                 var v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
             }
             docEl.style.fontSize = v + 'px';
@@ -29,12 +32,11 @@
             if (Math.abs(realFs - v) >= 1) {
                 docEl.style.fontSize = (v / (realFs / v)) + "px";
             }
-            
         };
 
         if (!window.addEventListener) return;
-        window.addEventListener(resizeEvt, function(){
-            if(timer) clearTimeout(timer);
+        window.addEventListener(resizeEvt, function () {
+            if (timer) clearTimeout(timer);
             timer = setTimeout(recalc, 800);
         }, false);
         // doc.addEventListener('DOMContentLoaded', recalc, false);
@@ -42,9 +44,9 @@
     }
     function browserDetect() {
         var obj = {
-                agent : window.navigator.userAgent
-            };
-        
+            agent: window.navigator.userAgent
+        };
+
         obj.isWindowPhone = (obj.agent.indexOf("IEMobile") > -1) || (obj.agent.indexOf("Windows Phone") > -1);
         obj.isFirefox = (obj.agent.indexOf("Firefox") > -1);
         obj.isOpera = (window.opera != null);
@@ -53,19 +55,26 @@
         obj.isAndroid = (obj.agent.indexOf("Android") > -1) && !obj.isWindowPhone;
         obj.isBlackberry = (obj.agent.indexOf("Blackberry") > -1);
         obj.isPc = /(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent) ? false : true;
-    
+
         return obj;
-        
+
         //throw "BrowserDetect cannot be instantiated";
     }
 
     var browserDetectInfo = browserDetect();
     remInit({
-        // 设置后将页面不随窗口大小而缩放
-        // viewportMinHeight: 1206,//1334 = 128+1206(?+98)  //640 1138 1236 1250    750 1334 1448 1450  
-        viewportMinHeight: browserDetectInfo.isPc ? 1300 : null,
+        // 基础宽度 通常和设计稿宽度一致
         baseWidth: 750,
-        maxWidth: browserDetectInfo.isPc ? 750 : null // 不限制最大宽度 即按浏览器宽度适配
+        // 在使用宽度适配时的 页面的最大宽度，此值只在按宽度适配时，才有效
+        maxWidth: browserDetectInfo.isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
+        // 视窗显示的最小高度范围 当按宽度适配会裁切掉viewportMinHeight所指定的高度范围内的内容时 此时将按高度来适配
+        // 所以按高度适配的临界值为 baseWidth / viewportMinHeight, 界面宽高比大于此值时 按高度适配
+        // 此值可以为空
+        viewportMinHeight: 1334,
+        // 按高度适配时的临界值，会覆盖设置viewportMinHeight后默认的临界值（baseWidth / viewportMinHeight）
+        // viewportMinHeight未设置时 此值无效
+        // 使用场景：在横屏下才使用高度适配 就可以把zoomOutCriticalValue设置为 1/1
+        zoomOutCriticalValue: !browserDetectInfo.isPc ? 1 / 1 : null,
     });
-    
+
 })();

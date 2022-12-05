@@ -151,15 +151,6 @@ J.setScroll(false)
 ~~~
 setScroll 是通过取消document的touchmove默认行为来实现的，如果页面有滚动条会使滚动条失效，需要根据项目实际情况来适时开启或关闭。
 
-### 弹出提示文案
-~~~ js
-J.tipsText('请输入您的昵称')
-~~~
-提示文案默认会在一段时间后自动关闭，如果您不希望自动关闭，可以:
-~~~ js
-J.tipsText('请输入您的昵称',false);
-~~~
-
 ### 图片资源懒加载（并列加载方式）
 ~~~ html
 <div class='lazy' data-pic='image/bj.jpg'></div>

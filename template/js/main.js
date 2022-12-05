@@ -26,7 +26,6 @@ $(window).load(function(e) {
     // SHARE_DESC: '',// 分享副标题
     // SHARE_DESC: '',// 分享图标
 
-
 	/* setFX({
 		title:'',
 		desc:'',
@@ -88,23 +87,7 @@ $(window).load(function(e) {
 		J.gotoPage(1,{time:0,endCallback:function(){console.log('翻页成功后的回调')}})//显示第indexPage页
 	});*/
 	
-
-
-
-
-
-
-
-
-
-
-
-
 	console.log(J);
-
-
-
-
 
 	/////////////////////////////////////////////////////////
 
@@ -133,9 +116,6 @@ $(window).load(function(e) {
 		minTime:0
 	});
 
-	
-	
-	
 	//添加背景音乐
 	var audioEle = J.addMp3({
 		src:'media/bj.mp3',
@@ -157,11 +137,6 @@ $(window).load(function(e) {
 		audioEle.play(); 
 		$('#micBtn').removeClass('hide');
 	}, false);
-	
-	 
-	
-	
-	
 	
 	//调用手机相册
 	// var fileEle = J.bindFileControl(document.documentElement,'image/*',{
