@@ -18,10 +18,8 @@
                 zoomOutByHeight = true;
             }
             if (zoomOutByHeight) {
-                console.log(1)
                 var v = 100 * (clientHeight / viewportMinHeight);
             } else {
-                console.log(2)
                 var v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
             }
             docEl.style.fontSize = v + 'px';

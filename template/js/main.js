@@ -55,11 +55,18 @@ $(window).load(function(e) {
 	var browserDetectInfo = J.browserDetect();
 
 	J.remInit({
-		isLandscape: false,// 是否横屏 默认false
-        viewportMinHeight: 1334, // 设置页面垂直方向上最少显示多少内容 在短屏幕手机防止上线被裁切  
-        baseWidth: 750,
-        maxWidth: browserDetectInfo.isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
-		autoRotatingScreen: true, // 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层 只有在isLandscape为true时才有效
+		// 基础宽度 通常和设计稿宽度一致
+		baseWidth: 750,
+		// 在使用宽度适配时的 页面的最大宽度，此值只在按宽度适配时，才有效
+		maxWidth: browserDetectInfo.isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
+		// 视窗显示的最小高度范围 当按宽度适配会裁切掉viewportMinHeight所指定的高度范围内的内容时 此时将按高度来适配
+        // 所以按高度适配的临界值为 baseWidth / viewportMinHeight, 界面宽高比大于此值时 按高度适配
+        // 此值可以为空
+        viewportMinHeight: 1334,
+		// 是否横屏 默认false
+		isLandscape: false,
+		// 默认true 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层 只有在isLandscape为true时才有效
+		autoRotatingScreen: true, 
 	});
 
 	J.publicInfo.pageCallback = {

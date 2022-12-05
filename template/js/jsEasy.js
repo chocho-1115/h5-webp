@@ -2,36 +2,36 @@
 
 import utils from './utils.js';
 
-$('img').on('click',function(e){
-	if(e.target.parentNode.nodeName=='A')return;
+$('img').on('click', function (e) {
+	if (e.target.parentNode.nodeName == 'A') return;
 	e.preventDefault();
 })
 
-document.body.ondragstart=function(e){
+document.body.ondragstart = function (e) {
 	e.preventDefault();
 }
 
-if(document.querySelector('#fx')){
-	$('.fxBtn').on('click',function(){$('#fx').fadeIn(500);});
-	$('#fx').on('click',function(){$(this).fadeOut(500);});
+if (document.querySelector('#fx')) {
+	$('.fxBtn').on('click', function () { $('#fx').fadeIn(500); });
+	$('#fx').on('click', function () { $(this).fadeOut(500); });
 }
 
-$('.close').on('click',function(e){
-	$(this.parentNode).css('display','none');
+$('.close').on('click', function (e) {
+	$(this.parentNode).css('display', 'none');
 });
 
-$("input,select,textarea").not('.no-blur').blur(function(){
+$("input,select,textarea").not('.no-blur').blur(function () {
 	// 延迟0秒 解决在聚焦时 点击页面提交按钮无法触发提交事件的问题
-	setTimeout(function(){
+	setTimeout(function () {
 		$(window).scrollTop(0);
-	},0);
+	}, 0);
 });
 
-$("select").change(function(){
+$("select").change(function () {
 	var v = $(this).val();
-	if(v==''){
+	if (v == '') {
 		$(this).addClass('select-placeholder');
-	}else{
+	} else {
 		$(this).removeClass('select-placeholder');
 	}
 });
@@ -40,26 +40,25 @@ $("select").change(function(){
 
 //var thisData = new Date();
 //thisData.format("yyyy/MM/dd")
-Date.prototype.format = function(format)   
-{   
-   var o = {   
-     "M+" : this.getMonth()+1, //month   
-     "d+" : this.getDate(),    //day   
-     "h+" : this.getHours(),   //hour   
-     "m+" : this.getMinutes(), //minute   
-     "s+" : this.getSeconds(), //second   
-     "q+" : Math.floor((this.getMonth()+3)/3), //quarter   
-     "S" : this.getMilliseconds() //millisecond   
-   }   
-   if(/(y+)/.test(format)) format=format.replace(RegExp.$1,   
-     (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
-   for(var k in o)if(new RegExp("("+ k +")").test(format))   
-     format = format.replace(RegExp.$1,   
-       RegExp.$1.length==1 ? o[k] :    
-         ("00"+ o[k]).substr((""+ o[k]).length));   
-   return format;   
+Date.prototype.format = function (format) {
+	var o = {
+		"M+": this.getMonth() + 1, //month   
+		"d+": this.getDate(),    //day   
+		"h+": this.getHours(),   //hour   
+		"m+": this.getMinutes(), //minute   
+		"s+": this.getSeconds(), //second   
+		"q+": Math.floor((this.getMonth() + 3) / 3), //quarter   
+		"S": this.getMilliseconds() //millisecond   
+	}
+	if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
+		(this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	for (var k in o) if (new RegExp("(" + k + ")").test(format))
+		format = format.replace(RegExp.$1,
+			RegExp.$1.length == 1 ? o[k] :
+				("00" + o[k]).substr(("" + o[k]).length));
+	return format;
 };
- 
+
 
 
 
@@ -69,22 +68,22 @@ var JSeasy = {};
 var J = JSeasy;
 
 var publicInfo = {
-	content : $('#content'),
-	page : $('.page'),
-	pageIndex : -1,
-	pageStatus : -1,//页面切换状态
-	pageCutover : true,//页面切换开关 可以用来从外部限制页面是否可以滑动翻页
-	pageLen : 0,//总共多少页
-	
-	scale : 1,
-	htmlFontSize : -1,
-	
-	pageSwipeB :[],
-	
+	content: $('#content'),
+	page: $('.page'),
+	pageIndex: -1,
+	pageStatus: -1,//页面切换状态
+	pageCutover: true,//页面切换开关 可以用来从外部限制页面是否可以滑动翻页
+	pageLen: 0,//总共多少页
+
+	scale: 1,
+	htmlFontSize: -1,
+
+	pageSwipeB: [],
+
 	pageAnimateTime: 0,
 	pageAnimateType: 'fade',//fade translate threeD
-	isRem : false, //是否为rem适配
-	
+	isRem: false, //是否为rem适配
+
 	pageCallback: {}
 };
 
@@ -92,103 +91,67 @@ publicInfo.pageLen = publicInfo.page.length;
 JSeasy.publicInfo = publicInfo;
 
 
-JSeasy.H5Init = function (opt){
-	
+JSeasy.H5Init = function (opt) {
+
 	publicInfo.pageSwipeB = opt.pageSwipeB;
-	publicInfo.scale = opt.scale||1;
-	publicInfo.pageAnimateType = opt.pageAnimateType||'fade';
-	publicInfo.pageAnimateTime = opt.pageAnimateTime===undefined?600:opt.pageAnimateTime;
-	publicInfo.isRem = opt.isRem||false;
-	
-	
-	JSeasy.pageAnimate[publicInfo.pageAnimateType+'Init']();
-	
+	publicInfo.scale = opt.scale || 1;
+	publicInfo.pageAnimateType = opt.pageAnimateType || 'fade';
+	publicInfo.pageAnimateTime = opt.pageAnimateTime === undefined ? 600 : opt.pageAnimateTime;
+	publicInfo.isRem = opt.isRem || false;
+
+
+	JSeasy.pageAnimate[publicInfo.pageAnimateType + 'Init']();
+
 	//设置翻页事件
-	if(window.Hammer && publicInfo.page.length>0){
-		
-		var mc = new Hammer(publicInfo.content[0], {touchAction:'pan-x pan-y'});
-		mc.get('swipe').set({velocity:0,threshold:30,direction:30});//修改滑动的速度与方向
-		
+	if (window.Hammer && publicInfo.page.length > 0) {
+
+		var mc = new Hammer(publicInfo.content[0], { touchAction: 'pan-x pan-y' });
+		mc.get('swipe').set({ velocity: 0, threshold: 30, direction: 30 });//修改滑动的速度与方向
+
 		//下一页
-		mc.on("swipeup",function(){
-			if(!publicInfo.pageStatus)return false;
-			if(!publicInfo.pageCutover)return false;
-			if(publicInfo.pageSwipeB[publicInfo.pageIndex]===false||publicInfo.pageSwipeB[publicInfo.pageIndex]<0)return false;
+		mc.on("swipeup", function () {
+			if (!publicInfo.pageStatus) return false;
+			if (!publicInfo.pageCutover) return false;
+			if (publicInfo.pageSwipeB[publicInfo.pageIndex] === false || publicInfo.pageSwipeB[publicInfo.pageIndex] < 0) return false;
 			var nextPage = publicInfo.page.eq(publicInfo.pageIndex).attr('next-page')
-			if(nextPage){
+			if (nextPage) {
 				J.gotoPage(Number(nextPage));
-			}else{
-				J.gotoPage(publicInfo.pageIndex+1);
+			} else {
+				J.gotoPage(publicInfo.pageIndex + 1);
 			}
 		});
 		//上一页
-		mc.on("swipedown",function(){
-			if(!publicInfo.pageStatus)return false;
-			if(!publicInfo.pageCutover)return false;
-			if(publicInfo.pageSwipeB[publicInfo.pageIndex]===false||publicInfo.pageSwipeB[publicInfo.pageIndex]>0)return false;
-			
+		mc.on("swipedown", function () {
+			if (!publicInfo.pageStatus) return false;
+			if (!publicInfo.pageCutover) return false;
+			if (publicInfo.pageSwipeB[publicInfo.pageIndex] === false || publicInfo.pageSwipeB[publicInfo.pageIndex] > 0) return false;
+
 			var nextPage = publicInfo.page.eq(publicInfo.pageIndex).attr('previous-page')
-			if(nextPage){
+			if (nextPage) {
 				J.gotoPage(Number(nextPage));
-			}else{
-				J.gotoPage(publicInfo.pageIndex-1);
+			} else {
+				J.gotoPage(publicInfo.pageIndex - 1);
 			}
 		});
 	}
 };
 
-
 //rem适配   DOMContentLoaded
-// JSeasy.remInit = function(opt){
-// 	var docEl = document.documentElement,
-// 		resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
-// 		viewportMinHeight = opt.viewportMinHeight,
-// 		baseWidth = opt.baseWidth,
-// 		maxWidth = opt.maxWidth ? opt.maxWidth : 10000,
-// 		zoomOutByHeight = false,
-// 		recalc = null,
-// 		timer = null;
+JSeasy.remInit = function (config) {
 
-// 	if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>baseWidth/viewportMinHeight){
-// 		zoomOutByHeight = true;
-// 	}
-// 	recalc = function () {
-// 		var clientWidth = docEl.clientWidth;
-// 		var clientHeight = docEl.clientHeight;
-// 		if(zoomOutByHeight){
-// 			var v = 100 * (clientHeight / viewportMinHeight);
-// 		}else{
-// 			var v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
-// 		}
-// 		docEl.style.fontSize = v + 'px';
-// 		docEl.setAttribute('data', v);
-// 	};
-
-// 	if (!window.addEventListener) return;
-// 	window.addEventListener(resizeEvt, function(){
-// 		if(timer) clearTimeout(timer);
-// 		timer = setTimeout(recalc, 800);
-// 	}, false);
-// 	// doc.addEventListener('DOMContentLoaded', recalc, false);
-// 	recalc();
-// };
-
-//rem适配   DOMContentLoaded
-JSeasy.remInit = function(config){
-	
 	var docEl = document.documentElement,
 		resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
 		timer = null;
 
 	// 可配置参数
 	var isLandscape = config.isLandscape ? true : false; // 是否横屏 这里是只页面是否要横屏展示 并不代表当前的设备状态
-	var autoRotatingScreen = config.autoRotatingScreen===false ? false : true; // 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 讲会在横屏时显示提示层
+	var autoRotatingScreen = config.autoRotatingScreen === false ? false : true; // 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层
 
 	// 添加横屏标识
-	if(isLandscape) docEl.classList.add('landscape');
+	if (isLandscape) docEl.classList.add('landscape');
 
-	window.addEventListener(resizeEvt, function(){
-		if(timer) clearTimeout(timer);
+	window.addEventListener(resizeEvt, function () {
+		if (timer) clearTimeout(timer);
 		// 下面的延迟是必要的
 		// ios 下 resize|orientationchange 事件 需要延迟1秒 不然rem适配时获取的屏幕宽高值不对 比如在ios的safari下 pc手机调试模式下 或者部分安卓机下
 		timer = setTimeout(changeFunc, 1000);
@@ -196,12 +159,12 @@ JSeasy.remInit = function(config){
 	// doc.addEventListener('DOMContentLoaded', recalc, false);
 	changeFunc();
 
-	function changeFunc(){
-		if(
+	function changeFunc() {
+		if (
 			!isLandscape // 非横屏展示
 			||
 			window.orientation === undefined // pc端 不考虑横屏问题
-		){
+		) {
 			recalc({
 				viewportMinHeight: config.viewportMinHeight,
 				baseWidth: config.baseWidth,
@@ -213,7 +176,7 @@ JSeasy.remInit = function(config){
 		if (window.orientation === 180 || window.orientation === 0) {//竖着的
 			// console.log('===竖着的==='+window.orientation)
 			docEl.classList.add('rotateWin');
-			if(!autoRotatingScreen) $('.rotateWindows_tips').css('display','none');
+			if (!autoRotatingScreen) $('.rotateWindows_tips').css('display', 'none');
 			recalc({
 				viewportMinHeight: config.baseWidth,
 				baseWidth: config.viewportMinHeight,
@@ -222,7 +185,7 @@ JSeasy.remInit = function(config){
 		} else if (window.orientation == 90 || window.orientation == -90) {
 			// console.log('===横着的==='+window.orientation)
 			docEl.classList.remove('rotateWin');
-			if(!autoRotatingScreen) $('.rotateWindows_tips').css('display','block');
+			if (!autoRotatingScreen) $('.rotateWindows_tips').css('display', 'block');
 			recalc({
 				viewportMinHeight: config.viewportMinHeight,
 				baseWidth: config.baseWidth,
@@ -230,7 +193,7 @@ JSeasy.remInit = function(config){
 			});
 		}
 	}
-	
+
 	function recalc(opt) {
 		// 可配置参数
 		var viewportMinHeight = opt.viewportMinHeight,
@@ -239,16 +202,16 @@ JSeasy.remInit = function(config){
 
 		var zoomOutByHeight = false;
 
-		if(viewportMinHeight && docEl.clientWidth/docEl.clientHeight>baseWidth/viewportMinHeight){
+		if (viewportMinHeight && docEl.clientWidth / docEl.clientHeight > baseWidth / viewportMinHeight) {
 			zoomOutByHeight = true;
 		}
-		console.log('zoomOutByHeight:'+zoomOutByHeight)
+		console.log('zoomOutByHeight:' + zoomOutByHeight)
 		//
 		var clientWidth = docEl.clientWidth;
 		var clientHeight = docEl.clientHeight;
-		if(zoomOutByHeight){
+		if (zoomOutByHeight) {
 			var v = 100 * (clientHeight / viewportMinHeight);
-		}else{
+		} else {
 			var v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
 		}
 		docEl.style.fontSize = v + 'px';
@@ -260,85 +223,84 @@ JSeasy.remInit = function(config){
 			docEl.style.fontSize = (v / (realFs / v)) + "px";
 		}
 	};
-
 };
 
-JSeasy.setUpJt = function (B){
-	if(B){
+JSeasy.setUpJt = function (B) {
+	if (B) {
 		$('#upJt').show();
-	}else{
+	} else {
 		$('#upJt').hide();
 	}
 };
 
-JSeasy.gotoPage = function(num,opt){
-	
+JSeasy.gotoPage = function (num, opt) {
+
 	var opt = opt || {},
 		direction = 1,
 		oldPage = publicInfo.page.eq(publicInfo.pageIndex),
 		newPage = publicInfo.page.eq(num),
 		self = this,
-		time = opt.time===undefined?publicInfo.pageAnimateTime:opt.time;
-	
-	if(publicInfo.pageIndex==num || num>=publicInfo.pageLen){
-		if(opt&&opt.startCallback)opt.startCallback();
-		if(opt&&opt.endCallback)opt.endCallback();
+		time = opt.time === undefined ? publicInfo.pageAnimateTime : opt.time;
+
+	if (publicInfo.pageIndex == num || num >= publicInfo.pageLen) {
+		if (opt && opt.startCallback) opt.startCallback();
+		if (opt && opt.endCallback) opt.endCallback();
 		return false;
 	}
 	publicInfo.pageStatus = 0;
-		
-	if(publicInfo.pageIndex>num)direction = -1;
+
+	if (publicInfo.pageIndex > num) direction = -1;
 	self.setUpJt(false);
-	
-	
+
+
 	//TweenMax.set(opt.newPage,{display:'block'});
-	newPage.css({display:'block'})
-	if(opt.startCallback)opt.startCallback();
-	if(publicInfo.pageCallback&&publicInfo.pageCallback[num])publicInfo.pageCallback[num]();
-		
+	newPage.css({ display: 'block' })
+	if (opt.startCallback) opt.startCallback();
+	if (publicInfo.pageCallback && publicInfo.pageCallback[num]) publicInfo.pageCallback[num]();
+
 	JSeasy.pageAnimate[publicInfo.pageAnimateType]({
-		newPage:newPage,
-		oldPage:oldPage,
-		direction:direction,
-		time:time,
-		endCallback:function(){
+		newPage: newPage,
+		oldPage: oldPage,
+		direction: direction,
+		time: time,
+		endCallback: function () {
 			oldPage.removeClass('show');
 			newPage.addClass('show');
 
 			publicInfo.pageIndex = num;
 
-			if(publicInfo.callback&&publicInfo.callback[num])publicInfo.callback[num]();
-			if(opt.endCallback)opt.endCallback();
-			
+			if (publicInfo.callback && publicInfo.callback[num]) publicInfo.callback[num]();
+			if (opt.endCallback) opt.endCallback();
+
 			var d = publicInfo.pageSwipeB[num]
-			if(opt.upJtB===undefined&&(d===0||d===1)){
+			if (opt.upJtB === undefined && (d === 0 || d === 1)) {
 				self.setUpJt(true);
-			}else{
+			} else {
 				self.setUpJt(opt.upJtB);
 			}
-			
+
 			publicInfo.pageStatus = 1;
 		}
 	});
 };
 
-JSeasy.addMp3 = function(opt){
+JSeasy.addMp3 = function (opt) {
 	var audioEle = document.createElement('audio');
 	var eventName = 'ontouchstart' in window ? 'touchstart' : 'mousedown';
-	audioEle.setAttribute('src',opt.src);
+	audioEle.setAttribute('src', opt.src);
 	audioEle.loop = opt.loop;
-	if(opt.autoplay){
+	if (opt.autoplay) {
 		audioEle.autoplay = true;
 		audioEle.play();
-		if(audioEle.paused==true){
+		if (audioEle.paused == true) {
 			window.addEventListener(eventName, clickF, false)
 		}
-	}else{
+	} else {
 		audioEle.autoplay = false;
 	}
-	function clickF(){
+	function clickF() {
 		audioEle.play();
-		if(audioEle.btn && !audioEle.paused) {
+		if (audioEle.btn && !audioEle.paused) {
 			audioEle.btn.classList.remove('hide'); // audioEle.btn.className += ' show';
 			window.removeEventListener(eventName, clickF)
 		}
@@ -347,166 +309,173 @@ JSeasy.addMp3 = function(opt){
 };
 
 //设置mp4 背景音乐按钮	
-JSeasy.setMp3Btn = function(opt){
+JSeasy.setMp3Btn = function (opt) {
 	var audioBtn = opt.audioBtn,
 		audioEle = opt.audioEle,
 		autoplay = opt.autoplay;
-	
+
 	audioBtn.style.display = 'block';
 	audioEle.btn = audioBtn;
-	
-	if(autoplay){
+
+	if (autoplay) {
 		audioBtn.classList.remove('hide');
 		audioEle.play();
-	}else{
+	} else {
 		audioBtn.classList.add('hide');
 		audioEle.pause();
 	}
-	if(autoplay && audioEle.paused){
+	if (autoplay && audioEle.paused) {
 		audioBtn.classList.add('hide');
 	}
-	audioBtn.addEventListener('click',function(e){
-		if(audioEle.paused){
+	audioBtn.addEventListener('click', function (e) {
+		if (audioEle.paused) {
 			audioBtn.classList.remove('hide');
 			audioEle.play();
-		}else{
+		} else {
 			audioBtn.classList.add('hide');
 			audioEle.pause();
 		}
 	});
 };
 
-JSeasy.stopDefaultScroll = function(e){
+JSeasy.stopDefaultScroll = function (e) {
 	e.preventDefault();
 	e.stopPropagation();
 	//return false;
 }
 //是否开启 触摸滚动页面
-JSeasy.setScroll = function(isScroll){
-	if(isScroll){
-		document.removeEventListener('touchmove',JSeasy.stopDefaultScroll,false);
-	}else{
-		document.addEventListener('touchmove',JSeasy.stopDefaultScroll,{passive: false});
+JSeasy.setScroll = function (isScroll) {
+	if (isScroll) {
+		document.removeEventListener('touchmove', JSeasy.stopDefaultScroll, false);
+	} else {
+		document.addEventListener('touchmove', JSeasy.stopDefaultScroll, { passive: false });
 	}
 };
 
 JSeasy.pageAnimate = {
-	
-	inAnimate:'fade',
-	
-	'fadeInit':function(){
-		TweenMax.set(publicInfo.page,{
-			display:'none',
-			opacity:0
+
+	inAnimate: 'fade',
+
+	'fadeInit': function () {
+		TweenMax.set(publicInfo.page, {
+			display: 'none',
+			opacity: 0
 		});
 	},
-	'fade':function(opt){
-		
-		if(publicInfo.pageIndex>=0){
-			TweenMax.to(opt.oldPage,opt.time/1000,{opacity:0,onComplete:function(){
-				TweenMax.set(opt.oldPage,{display:'none'});
-				//callBack&&callBack()
-			}});
+	'fade': function (opt) {
+
+		if (publicInfo.pageIndex >= 0) {
+			TweenMax.to(opt.oldPage, opt.time / 1000, {
+				opacity: 0, onComplete: function () {
+					TweenMax.set(opt.oldPage, { display: 'none' });
+					//callBack&&callBack()
+				}
+			});
 		}
-		
+
 		//TweenMax.set(opt.newPage,{display:'block'});
-		TweenMax.to(opt.newPage,opt.time/1000,{opacity:1,onComplete:function(){
-			opt.endCallback()
-		}});
-	},
-	'translateInit':function(){
-		TweenMax.set(publicInfo.page,{
-			display:'none',
-			y:publicInfo.page.height(),
-			opacity:1,
-			'z-index':1
+		TweenMax.to(opt.newPage, opt.time / 1000, {
+			opacity: 1, onComplete: function () {
+				opt.endCallback()
+			}
 		});
 	},
-	'translate':function(opt){
-		TweenMax.set(opt.oldPage,{'z-index':2});
-		TweenMax.set(opt.newPage,{//display: 'block',
-			y:opt.oldPage.height()*opt.direction,'z-index':3});
-		TweenMax.to(opt.newPage,opt.time/1000,{y:0,opacity:1,onComplete:function(){
-				if(opt.oldPage>=0)TweenMax.set(opt.oldPage,{display: 'none','z-index':1});
-			opt.endCallback()
-		}});
+	'translateInit': function () {
+		TweenMax.set(publicInfo.page, {
+			display: 'none',
+			y: publicInfo.page.height(),
+			opacity: 1,
+			'z-index': 1
+		});
 	},
-	'threeDInit':function(){
-		
+	'translate': function (opt) {
+		TweenMax.set(opt.oldPage, { 'z-index': 2 });
+		TweenMax.set(opt.newPage, {//display: 'block',
+			y: opt.oldPage.height() * opt.direction, 'z-index': 3
+		});
+		TweenMax.to(opt.newPage, opt.time / 1000, {
+			y: 0, opacity: 1, onComplete: function () {
+				if (opt.oldPage >= 0) TweenMax.set(opt.oldPage, { display: 'none', 'z-index': 1 });
+				opt.endCallback()
+			}
+		});
+	},
+	'threeDInit': function () {
+
 		publicInfo.browserDetect = utils.browserDetect();
-		var z = publicInfo.browserDetect.isIOS? -window.innerHeight/2:0;
-		
+		var z = publicInfo.browserDetect.isIOS ? -window.innerHeight / 2 : 0;
+
 		$('#content').css({
-			overflow:'visible',
-			
-			'-webkit-transform-origin': 'center center -'+$('#content').height()/2+'px',
-			transformOrigin: 'center center -'+$('#content').height()/2+'px',
-			
-			'-weikit-transform': 'translate3d(0px, 0px, '+ z +'px) rotateX(0deg) rotateY(0deg)',
-			transform: 'translate3d(0px, 0px, '+ z +'px) rotateX(0deg) rotateY(0deg)',
-			
+			overflow: 'visible',
+
+			'-webkit-transform-origin': 'center center -' + $('#content').height() / 2 + 'px',
+			transformOrigin: 'center center -' + $('#content').height() / 2 + 'px',
+
+			'-weikit-transform': 'translate3d(0px, 0px, ' + z + 'px) rotateX(0deg) rotateY(0deg)',
+			transform: 'translate3d(0px, 0px, ' + z + 'px) rotateX(0deg) rotateY(0deg)',
+
 			'-webkit-transform-style': 'preserve-3d',
 			'transform-style': 'preserve-3d',
-			
+
 		});
 		$('.page').css({
 			display: 'none',
-			'z-index':1,
+			'z-index': 1,
 		});
-		
+
 	},
-	'threeD':function(opt){ 
-		
+	'threeD': function (opt) {
+
 		$('body').css({
 			'-webkit-perspective': '1200px',
 			'perspective': '1200px'
 		});
-		
-		var z = publicInfo.browserDetect.isIOS? -window.innerHeight/2:0;
-		
+
+		var z = publicInfo.browserDetect.isIOS ? -window.innerHeight / 2 : 0;
+
 		publicInfo.content.css({
-			transform: 'translate3d(0px, 0px, '+ z +'px) rotateX('+(-90*opt.direction)+'deg) rotateY(0deg)',
-			'-weikit-transform': 'translate3d(0px, 0px, '+ z +'px) rotateX('+(-90*opt.direction)+'deg) rotateY(0deg)',
+			transform: 'translate3d(0px, 0px, ' + z + 'px) rotateX(' + (-90 * opt.direction) + 'deg) rotateY(0deg)',
+			'-weikit-transform': 'translate3d(0px, 0px, ' + z + 'px) rotateX(' + (-90 * opt.direction) + 'deg) rotateY(0deg)',
 		});
-		
+
 		opt.oldPage.css({
-			'z-index':2,
-			transform: 'translate3d(0px, '+ (-window.innerHeight*opt.direction) +'px, 0px) rotateX('+(90*opt.direction)+'deg) rotateY(0deg)',
-			'-weikit-transform': 'translate3d(0px, '+ (-window.innerHeight*opt.direction) +'px, 0px) rotateX('+(90*opt.direction)+'deg) rotateY(0deg)',
-			
-			'-webkit-transform-origin': 'center '+(opt.direction==1?'bottom':'top'),
-			transformOrigin: 'center '+(opt.direction==1?'bottom':'top'),
+			'z-index': 2,
+			transform: 'translate3d(0px, ' + (-window.innerHeight * opt.direction) + 'px, 0px) rotateX(' + (90 * opt.direction) + 'deg) rotateY(0deg)',
+			'-weikit-transform': 'translate3d(0px, ' + (-window.innerHeight * opt.direction) + 'px, 0px) rotateX(' + (90 * opt.direction) + 'deg) rotateY(0deg)',
+
+			'-webkit-transform-origin': 'center ' + (opt.direction == 1 ? 'bottom' : 'top'),
+			transformOrigin: 'center ' + (opt.direction == 1 ? 'bottom' : 'top'),
 		});
-		
+
 		opt.newPage.css({
 			//display: 'block',
-			'z-index':3,
-			transform: 'translate3d(0px, 0px, 0px) rotateX('+(0)+'deg) rotateY(0deg)',
-			'-weikit-transform': 'translate3d(0px, 0px, 0px) rotateX('+(0)+'deg) rotateY(0deg)'
+			'z-index': 3,
+			transform: 'translate3d(0px, 0px, 0px) rotateX(' + (0) + 'deg) rotateY(0deg)',
+			'-weikit-transform': 'translate3d(0px, 0px, 0px) rotateX(' + (0) + 'deg) rotateY(0deg)'
 		});
-		var obj = {curImg: -90*opt.direction};
-		TweenMax.to(obj,opt.time/1000,{
-			curImg:0,
+		var obj = { curImg: -90 * opt.direction };
+		TweenMax.to(obj, opt.time / 1000, {
+			curImg: 0,
 			//roundProps: "curImg",  // 仅产生整数
 			ease: Power1.easeInOut,
 			ease: Power2.easeIn,
 			onUpdate: function () {
 				publicInfo.content.css({
-					transform: 'translate3d(0px, 0px, '+ z +'px) rotateX('+ obj.curImg +'deg) rotateY(0deg)',
-					'-weikit-transform': 'translate3d(0px, 0px, '+ z +'px) rotateX('+ obj.curImg +'deg) rotateY(0deg)'
+					transform: 'translate3d(0px, 0px, ' + z + 'px) rotateX(' + obj.curImg + 'deg) rotateY(0deg)',
+					'-weikit-transform': 'translate3d(0px, 0px, ' + z + 'px) rotateX(' + obj.curImg + 'deg) rotateY(0deg)'
 				});
 			},
-			onComplete:function(){
-				TweenMax.set(opt.oldPage,{'z-index':1});
+			onComplete: function () {
+				TweenMax.set(opt.oldPage, { 'z-index': 1 });
 				//if(publicInfo.pageIndex==window.publicInfo.page.index(newPage)){
-					//opt.oldPage.css({display: 'none'})
+				//opt.oldPage.css({display: 'none'})
 				//}
 				opt.endCallback()
 				$('body').css({
 					'-webkit-perspective': 'none',
 					'perspective': 'none'
 				});
-				
+
 			}
 		});
 	}
