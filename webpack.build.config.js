@@ -170,10 +170,12 @@ module.exports = function(env){
 										{ tag: 'section', attribute: 'data-src', type: 'src' }
 									],
 									urlFilter: (attribute, value, resourcePath) => {
+										if (value.indexOf('image') == -1) {
+											return false
+										}
 										if (/example\.pdf$/.test(value)) {
 											return false;
 										}
-										//console.log(attribute,value, resourcePath)
 										return true;
 									},
 								}
