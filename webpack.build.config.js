@@ -27,8 +27,7 @@ if (projectName && projectName === 'template') {
 
 console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');
 
-module.exports = function(env){
-
+module.exports = function(env, argv){
 	// const isDevMode = env.mode=='development' ? true : false;
 	return {
 		mode: 'production',
