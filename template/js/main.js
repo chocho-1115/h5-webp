@@ -4,82 +4,95 @@
 import '../css/reset.css';
 import '../css/main.css';
 import '../image/160.jpg';
-import J from './jsEasy.js';
+import A from './Activity.js';
+import Utils from './Utils.js';
+import {Request} from './Request.js';
 
-function setFX(opt){
-	var wx={
-		title:opt.title,
-		desc:opt.desc, 
-		imgUrl:opt.imgUrl,
-		link:opt.link,
-		success:opt.success||null
+var browserDetectInfo = Utils.browserDetect();
+
+var config = {
+	actName: 'test',// 埋点用或api活动名
+	isHotPage: location.search.indexOf('hotPage')==-1 ? false : true,
+	userInfo: {}, //登录信息
+	tstatisticsId: '20201015',// 统计id
+	actId: '',
+	// 分享信息
+	shareInfo: {
+		title: '分享标题',
+		desc: '分享副标题',
+		imgUrl: window.location.origin+'/activity/2022/项目名/image/160.jpg', // document.location.hostname 不带端口
+		link: '' // http://uat.h5.maijimeng.com/activity/2022/
 	}
-	jssdk.init({debug:false}).done(function(){
-		jssdk.share(wx);
-	})
-}
+};
+Object.assign(A.data, config);
+A.Init();
 
-$(window).load(function(e) {
+//跳到第二页  
+A.H5Init({
+	//pageAnimateTime: 600,
+	pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
+	pageSwipeB : {
+		'0':false,//
+		'1':false,
+		'2':false,
+		'3':false,
+		'4':false,
+		'5':false,
+		'6':false,
+	}
+});
 
-	// TITLE: '',// 页面标题
-    // SHARE_TITLE: '',// 分享标题
-    // SHARE_DESC: '',// 分享副标题
-    // SHARE_DESC: '',// 分享图标
+A.RemInit({
+	// 基础宽度 通常和设计稿宽度一致
+	baseWidth: 750,
+	// 在使用宽度适配时的 页面的最大宽度，此值只在按宽度适配时，才有效
+	maxWidth: browserDetectInfo.isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
+	// 视窗显示的最小高度范围 当按宽度适配会裁切掉viewportMinHeight所指定的高度范围内的内容时 此时将按高度来适配
+	// 所以按高度适配的临界值为 baseWidth / viewportMinHeight, 界面宽高比大于此值时 按高度适配
+	// 此值可以为空
+	viewportMinHeight: 1334,
+	// 是否横屏 默认false
+	isLandscape: false,
+	// 默认true 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层 只有在isLandscape为true时才有效
+	autoRotatingScreen: true, 
+});
 
-	/* setFX({
-		title:'',
-		desc:'',
-		imgUrl:''+fxpic,
-		link:'', 
-		success:null
-	}); */
+A.publicInfo.pageCallback = {
+	'2':function(){
+		
+	}
+};
 
-	//关闭页面下拉露出网页来源
-	J.setScroll(false)//
+// 组装A对象
+Object.assign(A, {
 
-	//跳到第二页  
-	J.H5Init({
-		//pageAnimateTime: 600,
-		pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
-		pageSwipeB : {
-			'0':false,//
-			'1':false,
-			'2':false,
-			'3':false,
-			'4':false,
-			'5':false,
-			'6':false,
-		}
-	});
+	event() {
+		
+	},
+	// 进入页面
+	entry() {
+		
+		console.log('entry');
 
-	var browserDetectInfo = J.browserDetect();
+		var page = Number(Utils.queryString('page'))||1;
+		this.GotoPage(page);
 
-	J.remInit({
-		// 基础宽度 通常和设计稿宽度一致
-		baseWidth: 750,
-		// 在使用宽度适配时的 页面的最大宽度，此值只在按宽度适配时，才有效
-		maxWidth: browserDetectInfo.isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
-		// 视窗显示的最小高度范围 当按宽度适配会裁切掉viewportMinHeight所指定的高度范围内的内容时 此时将按高度来适配
-        // 所以按高度适配的临界值为 baseWidth / viewportMinHeight, 界面宽高比大于此值时 按高度适配
-        // 此值可以为空
-        viewportMinHeight: 1334,
-		// 是否横屏 默认false
-		isLandscape: false,
-		// 默认true 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层 只有在isLandscape为true时才有效
-		autoRotatingScreen: true, 
-	});
+		this.event();
 
-	J.publicInfo.pageCallback = {
-		'2':function(){
-			
-		}
-	};
+		//关闭页面下拉露出网页来源
+		// this.SetScroll(false)//
+	},
 
+});
+
+Utils.whenDomReady(function(){
+
+	
 	/*+function(){
 		
 		var end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"
 		
-		J.countDown(end_time,{
+		Utils.countDown(end_time,{
 			framerate:100,
 			onUpdate:function(res){
 				console.log(res.second)
@@ -91,29 +104,24 @@ $(window).load(function(e) {
 	}();
 	*/
 	/*JSeasy.isTime("Dec 08, 2017 11:54:00",'活动将于12点开始',function(){
-		J.gotoPage(1,{time:0,endCallback:function(){console.log('翻页成功后的回调')}})//显示第indexPage页
+		A.GotoPage(1,{time:0,endCallback:function(){console.log('翻页成功后的回调')}})//显示第indexPage页
 	});*/
 	
-	console.log(J);
 
-	/////////////////////////////////////////////////////////
-
-	var page = Number(J.queryString('page'))||1;
-	//J.gotoPage(page,{time:0});
-	//懒加载   在有load页面的时候用
-	J.lazyLoad('.lazy_load',{
+	//在有load页面的时候用
+	Utils.lazyLoad('.lazy_load',{
 		fileload:function(item){},
 		complete:function(assets){
 			var $loadNum = $('#set_load_num');
-			J.gotoPage(0, {time: 0, endCallback: function(){
-				J.lazyLoad('.lazy',{
+			A.GotoPage(0, {time: 0, endCallback: function(){
+				Utils.lazyLoad('.lazy',{
 					fileload:function(item){
 						$loadNum.html(parseInt(item.progress*100)+'%');
 					},
 					complete:function(assets){
 						$loadNum.html(100+'%');
 						setTimeout(function(){
-							J.gotoPage(page);
+							A.entry();
 						},800);
 					},
 					minTime:0
@@ -124,35 +132,35 @@ $(window).load(function(e) {
 	});
 
 	//添加背景音乐
-	var audioEle = J.addMp3({
-		src:'media/bj.mp3',
-		autoplay:true,//音乐是否自动播放
-		loop:true//是否循环播放
-	});
-	//给背景音乐添加一个按钮
-	J.setMp3Btn({
-		audioBtn:document.getElementById('micBtn'),
-		audioEle:audioEle,
-		autoplay:true
-	});
-	//以下是为了兼容ios自动播放音乐
-	document.addEventListener("WeixinJSBridgeReady", function () {  
-		audioEle.play();
-		$('#micBtn').removeClass('hide');
-	}, false);  
-	document.addEventListener('YixinJSBridgeReady', function() {  
-		audioEle.play(); 
-		$('#micBtn').removeClass('hide');
-	}, false);
+	// var audioEle = A.AddMp3({
+	// 	src:'media/bj.mp3',
+	// 	autoplay:true,//音乐是否自动播放
+	// 	loop:true//是否循环播放
+	// });
+	// //给背景音乐添加一个按钮
+	// A.SetMp3Btn({
+	// 	audioBtn:document.getElementById('micBtn'),
+	// 	audioEle:audioEle,
+	// 	autoplay:true
+	// });
+	// //以下是为了兼容ios自动播放音乐
+	// document.addEventListener("WeixinJSBridgeReady", function () {  
+	// 	audioEle.play();
+	// 	$('#micBtn').removeClass('hide');
+	// }, false);  
+	// document.addEventListener('YixinJSBridgeReady', function() {  
+	// 	audioEle.play(); 
+	// 	$('#micBtn').removeClass('hide');
+	// }, false);
 	
 	//调用手机相册
-	// var fileEle = J.bindFileControl(document.documentElement,'image/*',{
+	// var fileEle = Utils.bindFileControl(document.documentElement,'image/*',{
 	// 	successCallback: function(reader){
 	// 		console.log(reader)
-	// 		// var exif_orientation = J.exifOrientation(reader.result)
+	// 		// var exif_orientation = Utils.exifOrientation(reader.result)
 	// 		//.substring(22)
 	// 		//type为jpeg webp的情况下 encoderOptions才起作用
-	// 		J.compressionPIC(reader.result, {
+	// 		Utils.compressionPIC(reader.result, {
 	// 			maxSize:750,
 	// 			// exif_orientation:exif_orientation,
 	// 			type:'image/jpeg',
@@ -191,28 +199,43 @@ $(window).load(function(e) {
 		var text1 = $('.info .text1').val().replace(/\s/g, ""),//获取input数据  并且去掉数据中的空格
 			text3 = $('.info .text3').val().replace(/\s/g, ""),
 			text2 = $('.info .text2').val().replace(/\s/g, "");
-		if(text1.length==0||text2.length==0||text3.length==0){J.tipsText('请完善好信息！');return false}	
-		if(!J.isMobile(text2)){J.tipsText('电话号码错误！');return false}
+		if(text1.length==0||text2.length==0||text3.length==0){
+			weui.toast('请完善好信息！', {
+				duration: 2000,
+				className: 'weui-toast-text penetrate',
+			});
+			return false
+		}	
+		if(!Utils.isMobile(text2)){
+			weui.toast('电话号码错误！', {
+				duration: 2000,
+				className: 'weui-toast-text penetrate',
+			});
+			return false
+		}
 	
 		$.post("", {openid:openid,name:text1,tele:text2,address:text3}, function(data){
 				var data=JSON.parse(data);
 				console.log(data);
 				if (data.code == 1) {
-					J.tipsText("提交成功！");
-					
+					weui.toast('提交成功！', {
+						duration: 2000,
+						className: 'penetrate',
+					});
 					$('.info .text1').val('')
 					$('.info .text2').val('')
 					$('.info .text3').val('')
 					
 					$('.info').fadeOut(300);
 				}else{
-					J.tipsText("您提交收获地址无需重复提交！");
+					weui.toast('您提交收获地址无需重复提交！', {
+						duration: 2000,
+						className: 'weui-toast-text penetrate',
+					});
 				}
 		});
 				
 	});
 	*/
-	
-
 });
 
