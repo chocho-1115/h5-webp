@@ -36,8 +36,6 @@ $("select").change(function () {
 	}
 });
 
-
-
 //var thisData = new Date();
 //thisData.format("yyyy/MM/dd")
 Date.prototype.format = function (format) {

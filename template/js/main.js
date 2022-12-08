@@ -11,11 +11,7 @@ import {Request} from './Request.js';
 var browserDetectInfo = Utils.browserDetect();
 
 var config = {
-	actName: 'test',// 埋点用或api活动名
-	isHotPage: location.search.indexOf('hotPage')==-1 ? false : true,
 	userInfo: {}, //登录信息
-	tstatisticsId: '20201015',// 统计id
-	actId: '',
 	// 分享信息
 	shareInfo: {
 		title: '分享标题',
@@ -57,7 +53,7 @@ A.RemInit({
 	autoRotatingScreen: true, 
 });
 
-A.publicInfo.pageCallback = {
+A.data.pageCallback = {
 	'2':function(){
 		
 	}
@@ -102,11 +98,7 @@ Utils.whenDomReady(function(){
 			}
 		});
 	}();
-	*/
-	/*JSeasy.isTime("Dec 08, 2017 11:54:00",'活动将于12点开始',function(){
-		A.GotoPage(1,{time:0,endCallback:function(){console.log('翻页成功后的回调')}})//显示第indexPage页
-	});*/
-	
+	*/	
 
 	//在有load页面的时候用
 	Utils.lazyLoad('.lazy_load',{
@@ -176,12 +168,6 @@ Utils.whenDomReady(function(){
 
 	// 	}
 	// });
-	
-	
-	
-	
-	
-	
 
 	//post 请求数据
 	/*$.post("http://www.cui2.com/h5/tongCheng20151210/index.php?act=chaxun", {openid:openid}, function(data){
@@ -190,9 +176,6 @@ Utils.whenDomReady(function(){
 				text2 = $('.text2').val().replace(/\s/g, "");
 			JSON.stringify(result)
 	});*/
-	
-	
-	
 	
 	/*
 	$('.sub').on("click",function(e){

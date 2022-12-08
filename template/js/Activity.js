@@ -67,8 +67,17 @@ function stopDefaultScroll (e) {
 
 //////////////////////////////////////////////
 var activity = {
-	data:{},
+	data:{
+		page: $('.page'),
+		pageIndex: -1,
+		pageStatus: -1,//页面切换状态
+		pageCutover: true,//页面切换开关 可以用来从外部限制页面是否可以滑动翻页
+		pageLen: 0,//总共多少页
+		pageSwipeB: [],
+		pageCallback: {}
+	},
 	Init(){
+		this.data.pageLen = this.data.page.length;
 		Utils.isWechat() ? this.InitWxFX() : this.SetFX();
 	},
     // 微信初始化分享
@@ -127,50 +136,48 @@ var activity = {
 		
 	},
 	H5Init (opt) {
+		var info = this.data;
+		var content = document.querySelector('#content');
+		info.pageSwipeB = opt.pageSwipeB;
 
-		publicInfo.pageSwipeB = opt.pageSwipeB;
-		publicInfo.scale = opt.scale || 1;
-		publicInfo.pageAnimateType = opt.pageAnimateType || 'fade';
-		publicInfo.pageAnimateTime = opt.pageAnimateTime === undefined ? 600 : opt.pageAnimateTime;
-		publicInfo.isRem = opt.isRem || false;
-
-
-		activity.pageAnimate[publicInfo.pageAnimateType + 'Init']();
+		TweenMax.set(info.page, {
+			display: 'none',
+			opacity: 0
+		});
 
 		//设置翻页事件
-		if (window.Hammer && publicInfo.page.length > 0) {
+		if (window.Hammer && info.page.length > 0) {
 
-			var mc = new Hammer(publicInfo.content[0], { touchAction: 'pan-x pan-y' });
+			var mc = new Hammer(content, { touchAction: 'pan-x pan-y' });
 			mc.get('swipe').set({ velocity: 0, threshold: 30, direction: 30 });//修改滑动的速度与方向
 
 			//下一页
-			mc.on("swipeup", function () {
-				if (!publicInfo.pageStatus) return false;
-				if (!publicInfo.pageCutover) return false;
-				if (publicInfo.pageSwipeB[publicInfo.pageIndex] === false || publicInfo.pageSwipeB[publicInfo.pageIndex] < 0) return false;
-				var nextPage = publicInfo.page.eq(publicInfo.pageIndex).attr('next-page')
+			mc.on("swipeup", () => {
+				if (!info.pageStatus) return false;
+				if (!info.pageCutover) return false;
+				if (info.pageSwipeB[info.pageIndex] === false || info.pageSwipeB[info.pageIndex] < 0) return false;
+				var nextPage = info.page.eq(info.pageIndex).attr('next-page')
 				if (nextPage) {
-					J.GotoPage(Number(nextPage));
+					this.GotoPage(Number(nextPage));
 				} else {
-					J.GotoPage(publicInfo.pageIndex + 1);
+					this.GotoPage(info.pageIndex + 1);
 				}
 			});
 			//上一页
-			mc.on("swipedown", function () {
-				if (!publicInfo.pageStatus) return false;
-				if (!publicInfo.pageCutover) return false;
-				if (publicInfo.pageSwipeB[publicInfo.pageIndex] === false || publicInfo.pageSwipeB[publicInfo.pageIndex] > 0) return false;
+			mc.on("swipedown", () => {
+				if (!info.pageStatus) return false;
+				if (!info.pageCutover) return false;
+				if (info.pageSwipeB[info.pageIndex] === false || info.pageSwipeB[info.pageIndex] > 0) return false;
 
-				var nextPage = publicInfo.page.eq(publicInfo.pageIndex).attr('previous-page')
+				var nextPage = info.page.eq(info.pageIndex).attr('previous-page')
 				if (nextPage) {
-					J.GotoPage(Number(nextPage));
+					this.GotoPage(Number(nextPage));
 				} else {
-					J.GotoPage(publicInfo.pageIndex - 1);
+					this.GotoPage(info.pageIndex - 1);
 				}
 			});
 		}
 	},
-
 	//rem适配   DOMContentLoaded
 	RemInit (config) {
 		var docEl = document.documentElement,
@@ -258,7 +265,6 @@ var activity = {
 			}
 		};
 	},
-
 	setUpJt (B) {
 		if (B) {
 			$('#upJt').show();
@@ -266,58 +272,62 @@ var activity = {
 			$('#upJt').hide();
 		}
 	},
-
 	GotoPage (num, opt) {
-
+		var info = this.data;
 		var opt = opt || {},
 			direction = 1,
-			oldPage = publicInfo.page.eq(publicInfo.pageIndex),
-			newPage = publicInfo.page.eq(num),
+			oldPage = info.page.eq(info.pageIndex),
+			newPage = info.page.eq(num),
 			self = this,
-			time = opt.time === undefined ? publicInfo.pageAnimateTime : opt.time;
+			time = opt.time === undefined ? 300 : opt.time;
 
-		if (publicInfo.pageIndex == num || num >= publicInfo.pageLen) {
+		if (info.pageIndex == num || num >= info.pageLen) {
 			if (opt && opt.startCallback) opt.startCallback();
 			if (opt && opt.endCallback) opt.endCallback();
 			return false;
 		}
-		publicInfo.pageStatus = 0;
+		info.pageStatus = 0;
 
-		if (publicInfo.pageIndex > num) direction = -1;
+		if (info.pageIndex > num) direction = -1;
 		self.setUpJt(false);
-
 
 		//TweenMax.set(opt.newPage,{display:'block'});
 		newPage.css({ display: 'block' })
 		if (opt.startCallback) opt.startCallback();
-		if (publicInfo.pageCallback && publicInfo.pageCallback[num]) publicInfo.pageCallback[num]();
+		if (info.pageCallback && info.pageCallback[num]) info.pageCallback[num]();
 
-		activity.pageAnimate[publicInfo.pageAnimateType]({
-			newPage: newPage,
-			oldPage: oldPage,
-			direction: direction,
-			time: time,
-			endCallback: function () {
+		if (info.pageIndex >= 0) {
+			TweenMax.to(oldPage, time / 1000, {
+				opacity: 0, onComplete: function () {
+					TweenMax.set(oldPage, { display: 'none' });
+					//callBack&&callBack()
+				}
+			});
+		}
+
+		//TweenMax.set(opt.newPage,{display:'block'});
+		TweenMax.to(newPage, time / 1000, {
+			opacity: 1, onComplete: function () {
 				oldPage.removeClass('show');
 				newPage.addClass('show');
 
-				publicInfo.pageIndex = num;
+				info.pageIndex = num;
 
-				if (publicInfo.callback && publicInfo.callback[num]) publicInfo.callback[num]();
+				if (info.callback && info.callback[num]) info.callback[num]();
 				if (opt.endCallback) opt.endCallback();
 
-				var d = publicInfo.pageSwipeB[num]
+				var d = info.pageSwipeB[num]
 				if (opt.upJtB === undefined && (d === 0 || d === 1)) {
 					self.setUpJt(true);
 				} else {
 					self.setUpJt(opt.upJtB);
 				}
 
-				publicInfo.pageStatus = 1;
+				info.pageStatus = 1;
 			}
 		});
+		
 	},
-
 	AddMp3 (opt) {
 		var audioEle = document.createElement('audio');
 		var eventName = 'ontouchstart' in window ? 'touchstart' : 'mousedown';
@@ -341,7 +351,6 @@ var activity = {
 		}
 		return audioEle;
 	},
-
 	//设置mp4 背景音乐按钮	
 	SetMp3Btn (opt) {
 		var audioBtn = opt.audioBtn,
@@ -378,160 +387,6 @@ var activity = {
 		} else {
 			document.addEventListener('touchmove', stopDefaultScroll, { passive: false });
 		}
-	},
-};
-
-var J = activity;
-
-var publicInfo = {
-	content: $('#content'),
-	page: $('.page'),
-	pageIndex: -1,
-	pageStatus: -1,//页面切换状态
-	pageCutover: true,//页面切换开关 可以用来从外部限制页面是否可以滑动翻页
-	pageLen: 0,//总共多少页
-
-	scale: 1,
-	htmlFontSize: -1,
-
-	pageSwipeB: [],
-
-	pageAnimateTime: 0,
-	pageAnimateType: 'fade',//fade translate threeD
-	isRem: false, //是否为rem适配
-
-	pageCallback: {}
-};
-
-publicInfo.pageLen = publicInfo.page.length;
-activity.publicInfo = publicInfo;
-
-activity.pageAnimate = {
-
-	inAnimate: 'fade',
-
-	'fadeInit': function () {
-		TweenMax.set(publicInfo.page, {
-			display: 'none',
-			opacity: 0
-		});
-	},
-	'fade': function (opt) {
-
-		if (publicInfo.pageIndex >= 0) {
-			TweenMax.to(opt.oldPage, opt.time / 1000, {
-				opacity: 0, onComplete: function () {
-					TweenMax.set(opt.oldPage, { display: 'none' });
-					//callBack&&callBack()
-				}
-			});
-		}
-
-		//TweenMax.set(opt.newPage,{display:'block'});
-		TweenMax.to(opt.newPage, opt.time / 1000, {
-			opacity: 1, onComplete: function () {
-				opt.endCallback()
-			}
-		});
-	},
-	'translateInit': function () {
-		TweenMax.set(publicInfo.page, {
-			display: 'none',
-			y: publicInfo.page.height(),
-			opacity: 1,
-			'z-index': 1
-		});
-	},
-	'translate': function (opt) {
-		TweenMax.set(opt.oldPage, { 'z-index': 2 });
-		TweenMax.set(opt.newPage, {//display: 'block',
-			y: opt.oldPage.height() * opt.direction, 'z-index': 3
-		});
-		TweenMax.to(opt.newPage, opt.time / 1000, {
-			y: 0, opacity: 1, onComplete: function () {
-				if (opt.oldPage >= 0) TweenMax.set(opt.oldPage, { display: 'none', 'z-index': 1 });
-				opt.endCallback()
-			}
-		});
-	},
-	'threeDInit': function () {
-
-		publicInfo.browserDetect = Utils.browserDetect();
-		var z = publicInfo.browserDetect.isIOS ? -window.innerHeight / 2 : 0;
-
-		$('#content').css({
-			overflow: 'visible',
-
-			'-webkit-transform-origin': 'center center -' + $('#content').height() / 2 + 'px',
-			transformOrigin: 'center center -' + $('#content').height() / 2 + 'px',
-
-			'-weikit-transform': 'translate3d(0px, 0px, ' + z + 'px) rotateX(0deg) rotateY(0deg)',
-			transform: 'translate3d(0px, 0px, ' + z + 'px) rotateX(0deg) rotateY(0deg)',
-
-			'-webkit-transform-style': 'preserve-3d',
-			'transform-style': 'preserve-3d',
-
-		});
-		$('.page').css({
-			display: 'none',
-			'z-index': 1,
-		});
-
-	},
-	'threeD': function (opt) {
-
-		$('body').css({
-			'-webkit-perspective': '1200px',
-			'perspective': '1200px'
-		});
-
-		var z = publicInfo.browserDetect.isIOS ? -window.innerHeight / 2 : 0;
-
-		publicInfo.content.css({
-			transform: 'translate3d(0px, 0px, ' + z + 'px) rotateX(' + (-90 * opt.direction) + 'deg) rotateY(0deg)',
-			'-weikit-transform': 'translate3d(0px, 0px, ' + z + 'px) rotateX(' + (-90 * opt.direction) + 'deg) rotateY(0deg)',
-		});
-
-		opt.oldPage.css({
-			'z-index': 2,
-			transform: 'translate3d(0px, ' + (-window.innerHeight * opt.direction) + 'px, 0px) rotateX(' + (90 * opt.direction) + 'deg) rotateY(0deg)',
-			'-weikit-transform': 'translate3d(0px, ' + (-window.innerHeight * opt.direction) + 'px, 0px) rotateX(' + (90 * opt.direction) + 'deg) rotateY(0deg)',
-
-			'-webkit-transform-origin': 'center ' + (opt.direction == 1 ? 'bottom' : 'top'),
-			transformOrigin: 'center ' + (opt.direction == 1 ? 'bottom' : 'top'),
-		});
-
-		opt.newPage.css({
-			//display: 'block',
-			'z-index': 3,
-			transform: 'translate3d(0px, 0px, 0px) rotateX(' + (0) + 'deg) rotateY(0deg)',
-			'-weikit-transform': 'translate3d(0px, 0px, 0px) rotateX(' + (0) + 'deg) rotateY(0deg)'
-		});
-		var obj = { curImg: -90 * opt.direction };
-		TweenMax.to(obj, opt.time / 1000, {
-			curImg: 0,
-			//roundProps: "curImg",  // 仅产生整数
-			ease: Power1.easeInOut,
-			ease: Power2.easeIn,
-			onUpdate: function () {
-				publicInfo.content.css({
-					transform: 'translate3d(0px, 0px, ' + z + 'px) rotateX(' + obj.curImg + 'deg) rotateY(0deg)',
-					'-weikit-transform': 'translate3d(0px, 0px, ' + z + 'px) rotateX(' + obj.curImg + 'deg) rotateY(0deg)'
-				});
-			},
-			onComplete: function () {
-				TweenMax.set(opt.oldPage, { 'z-index': 1 });
-				//if(publicInfo.pageIndex==window.publicInfo.page.index(newPage)){
-				//opt.oldPage.css({display: 'none'})
-				//}
-				opt.endCallback()
-				$('body').css({
-					'-webkit-perspective': 'none',
-					'perspective': 'none'
-				});
-
-			}
-		});
 	}
 };
 
