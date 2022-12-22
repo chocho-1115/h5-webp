@@ -103,7 +103,7 @@ module.exports = function(env, argv){
                     type: 'asset',
                     parser: {
                         dataUrlCondition: {
-                            maxSize: 0, //2 * 1024 // 小于 ？kb 转 base64
+                            maxSize: 2 * 1024 // 小于 ？kb 转 base64
                         }
                     },
                     generator: {
@@ -182,12 +182,11 @@ module.exports = function(env, argv){
 		                }
 		            ]
 		        },
-				
 				{
                     test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
                     type: 'asset',
                     generator: {
-                        filename: 'font/[name][ext]'
+                        filename: 'static/[name][ext]'
                     },
                     parser: {
                         dataUrlCondition: {
