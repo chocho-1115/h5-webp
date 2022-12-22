@@ -8,7 +8,17 @@ import A from './Activity.js';
 import Utils from './Utils.js';
 import {Request} from './Request.js';
 
+
 var browserDetectInfo = Utils.browserDetect();
+
+var doc = document;
+function qs(selector, parentNode){
+    return parentNode ? parentNode.querySelector(selector) : doc.querySelector(selector)
+}
+
+function qsa(selector, parentNode){
+    return parentNode ? parentNode.querySelectorAll(selector) : doc.querySelectorAll(selector)
+}
 
 var config = {
 	userInfo: {}, //登录信息
@@ -16,8 +26,8 @@ var config = {
 	shareInfo: {
 		title: '分享标题',
 		desc: '分享副标题',
-		imgUrl: window.location.origin+'/activity/2022/项目名/image/160.jpg', // document.location.hostname 不带端口
-		link: '' // http://uat.h5.maijimeng.com/activity/2022/
+		imgUrl: 'https://www.seth5.com/2022/ltYearEndReview/image/160.jpg', // document.location.hostname 不带端口
+		link: 'https://www.seth5.com/2022/ltYearEndReview/' // http://uat.h5.maijimeng.com/activity/2022/
 	}
 };
 Object.assign(A.data, config);

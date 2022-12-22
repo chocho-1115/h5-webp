@@ -95,7 +95,7 @@ var activity = {
         // }).catch((res)=>{ 
         //     console.log('jssdk出错了', res);
         // });
-		jssdk.init({debug:false}).done(function(){
+		window.jssdk && window.jssdk.init({debug:false}).done(function(){
 			self.SetFX();
 		})
     },
