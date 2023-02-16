@@ -114,14 +114,14 @@ Utils.whenDomReady(function(){
 	Utils.lazyLoad('.lazy_load',{
 		fileload:function(item){},
 		complete:function(assets){
-			var $loadNum = $('#set_load_num');
+			var $loadNum = qs('#set_load_num');
 			A.GotoPage(0, {time: 0, endCallback: function(){
 				Utils.lazyLoad('.lazy',{
 					fileload:function(item){
 						$loadNum.html(parseInt(item.progress*100)+'%');
 					},
 					complete:function(assets){
-						$loadNum.html(100+'%');
+						$loadNum.innerHTML = 100+'%';
 						setTimeout(function(){
 							A.entry();
 						},800);

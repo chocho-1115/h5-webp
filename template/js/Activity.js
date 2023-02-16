@@ -2,39 +2,43 @@
 
 import Utils from './Utils.js';
 
-$('img').on('click', function (e) {
-	if (e.target.parentNode.nodeName == 'A') return;
-	e.preventDefault();
-})
+// $('img').on('click', function (e) {
+// 	if (e.target.parentNode.nodeName == 'A') return;
+// 	e.preventDefault();
+// })
 
 document.body.ondragstart = function (e) {
 	e.preventDefault();
 }
 
-if (document.querySelector('#fx')) {
-	$('.fxBtn').on('click', function () { $('#fx').fadeIn(500); });
-	$('#fx').on('click', function () { $(this).fadeOut(500); });
+if(document.querySelector('#fx')){
+	document.querySelector('#fx').onclick = function(){
+		this.style.display = "none";
+	};
 }
 
-$('.close').on('click', function (e) {
-	$(this.parentNode).css('display', 'none');
-});
+// $("input,select,textarea").not('.no-blur').blur(function () {
+// 	// 延迟0秒 解决在聚焦时 点击页面提交按钮无法触发提交事件的问题
+// 	setTimeout(function () {
+// 		$(window).scrollTop(0);
+// 	}, 0);
+// });
 
-$("input,select,textarea").not('.no-blur').blur(function () {
-	// 延迟0秒 解决在聚焦时 点击页面提交按钮无法触发提交事件的问题
-	setTimeout(function () {
-		$(window).scrollTop(0);
-	}, 0);
-});
-
-$("select").change(function () {
-	var v = $(this).val();
-	if (v == '') {
-		$(this).addClass('select-placeholder');
-	} else {
-		$(this).removeClass('select-placeholder');
++function(){
+	var selectAll = document.getElementsByTagName('select');
+	function handler(){
+		var v = this.value;
+		if(v==''){
+			this.classList.add('select-placeholder');
+		}else{
+			this.classList.remove('select-placeholder');
+		}
 	}
-});
+	Array.prototype.forEach.call(selectAll, ele => {
+		handler.call(ele);
+		ele.addEventListener('change', handler);
+	});
+}();
 
 
 
@@ -68,7 +72,8 @@ function stopDefaultScroll (e) {
 //////////////////////////////////////////////
 var activity = {
 	data:{
-		page: $('.page'),
+		// content : document.querySelector('#content'),
+		page : document.querySelectorAll('.page'),
 		pageIndex: -1,
 		pageStatus: -1,//页面切换状态
 		pageCutover: true,//页面切换开关 可以用来从外部限制页面是否可以滑动翻页
@@ -217,7 +222,7 @@ var activity = {
 			if (window.orientation === 180 || window.orientation === 0) {//竖着的
 				// console.log('===竖着的==='+window.orientation)
 				docEl.classList.add('rotateWin');
-				if (!autoRotatingScreen) $('.rotateWindows_tips').css('display', 'none');
+				if (!autoRotatingScreen) document.querySelector('.rotateWindows_tips').style.display = 'none';
 				recalc({
 					viewportMinHeight: config.baseWidth,
 					baseWidth: config.viewportMinHeight,
@@ -226,7 +231,7 @@ var activity = {
 			} else if (window.orientation == 90 || window.orientation == -90) {
 				// console.log('===横着的==='+window.orientation)
 				docEl.classList.remove('rotateWin');
-				if (!autoRotatingScreen) $('.rotateWindows_tips').css('display', 'block');
+				if (!autoRotatingScreen) document.querySelector('.rotateWindows_tips').style.display = 'block';
 				recalc({
 					viewportMinHeight: config.viewportMinHeight,
 					baseWidth: config.baseWidth,
@@ -259,25 +264,51 @@ var activity = {
 			docEl.setAttribute('data', v);
 
 			// 解决部分 Android 手机(例如华为) 通过 rem 计算的宽度和手机上实际显示的宽度不一致
-			var realFs = parseFloat(window.getComputedStyle(docEl)["font-size"]);
-			if (Math.abs(realFs - v) >= 1) {
-				docEl.style.fontSize = (v / (realFs / v)) + "px";
-			}
+			// 方法一
+			// var realFs = parseFloat(window.getComputedStyle(docEl)["font-size"]);
+			// if (Math.abs(realFs - v) >= 1) {
+			// 	docEl.style.fontSize = (v / (realFs / v)) + "px";
+			// }
+
+			// 方法二
+			// var settedFs = v
+			// var settingFs = v;
+			// var whileCount = 0;
+			// while (true) {
+			// 	var realFs = parseInt(window.getComputedStyle(docEl).fontSize);
+			// 	var delta = realFs - settedFs;
+			// 	//不相等
+			// 	if (Math.abs(delta) >= 1) {
+			// 		if (delta > 0)
+			// 			settingFs--;
+			// 		else
+			// 			settingFs++;
+			// 		// html.setAttribute('style', 'font-size:' + settingFs + 'px!important');
+			// 		docEl.style.fontSize = settingFs + 'px';
+			// 		docEl.setAttribute('data', settingFs);
+			// 	} else
+			// 		break;
+			// 	if (whileCount++ > 100)
+			// 		break
+			// }
+			
 		};
 	},
 	setUpJt (B) {
-		if (B) {
-			$('#upJt').show();
-		} else {
-			$('#upJt').hide();
+		var ele = document.getElementById('upJt');
+		if(!ele) return;
+		if(B){
+			ele.style.display = 'block';
+		}else{
+			ele.style.display = 'none';
 		}
 	},
 	GotoPage (num, opt) {
 		var info = this.data;
 		var opt = opt || {},
 			direction = 1,
-			oldPage = info.page.eq(info.pageIndex),
-			newPage = info.page.eq(num),
+			oldPage = info.page[info.pageIndex],
+			newPage = info.page[num],
 			self = this,
 			time = opt.time === undefined ? 300 : opt.time;
 
@@ -292,7 +323,7 @@ var activity = {
 		self.setUpJt(false);
 
 		//TweenMax.set(opt.newPage,{display:'block'});
-		newPage.css({ display: 'block' })
+		newPage.style.display = 'block';
 		if (opt.startCallback) opt.startCallback();
 		if (info.pageCallback && info.pageCallback[num]) info.pageCallback[num]();
 
@@ -308,8 +339,8 @@ var activity = {
 		//TweenMax.set(opt.newPage,{display:'block'});
 		TweenMax.to(newPage, time / 1000, {
 			opacity: 1, onComplete: function () {
-				oldPage.removeClass('show');
-				newPage.addClass('show');
+				if(oldPage) oldPage.classList.remove('show');
+				newPage.classList.add('show');
 
 				info.pageIndex = num;
 
