@@ -161,7 +161,7 @@ var activity = {
 				if (!info.pageStatus) return false;
 				if (!info.pageCutover) return false;
 				if (info.pageSwipeB[info.pageIndex] === false || info.pageSwipeB[info.pageIndex] < 0) return false;
-				var nextPage = info.page.eq(info.pageIndex).attr('next-page')
+				var nextPage = info.page[info.pageIndex].getAttribute('next-page')
 				if (nextPage) {
 					this.GotoPage(Number(nextPage));
 				} else {
@@ -174,7 +174,7 @@ var activity = {
 				if (!info.pageCutover) return false;
 				if (info.pageSwipeB[info.pageIndex] === false || info.pageSwipeB[info.pageIndex] > 0) return false;
 
-				var nextPage = info.page.eq(info.pageIndex).attr('previous-page')
+				var nextPage = info.page[info.pageIndex].getAttribute('previous-page')
 				if (nextPage) {
 					this.GotoPage(Number(nextPage));
 				} else {
