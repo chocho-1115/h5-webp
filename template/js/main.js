@@ -118,7 +118,7 @@ Utils.whenDomReady(function(){
 			A.GotoPage(0, {time: 0, endCallback: function(){
 				Utils.lazyLoad('.lazy',{
 					fileload:function(item){
-						$loadNum.html(parseInt(item.progress*100)+'%');
+						$loadNum.innerHTML = parseInt(item.progress*100)+'%';
 					},
 					complete:function(assets){
 						$loadNum.innerHTML = 100+'%';

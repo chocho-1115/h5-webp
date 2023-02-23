@@ -418,7 +418,28 @@ var activity = {
 		} else {
 			document.addEventListener('touchmove', stopDefaultScroll, { passive: false });
 		}
-	}
+	},
+	// 设置省市区联动
+	InitChinaAreaPicker: function(prov, city, area, district){
+        if(!ChinaAreaData){
+            return;
+        }
+        district.onclick = function () {
+            weui.picker(ChinaAreaData, {
+                container: "body",
+                // defaultValue: [prov.value||'湖南省', city.value||'长沙市', area.value||'市辖区'],
+                defaultValue: [prov.value||'430000', city.value||'430100', area.value||'430101'],
+                onConfirm: function (result) {
+                    prov.value = result[0]?result[0].value:'';
+                    city.value = result[1]?result[1].value:'';
+                    area.value = result[2]?result[2].value:'';
+                    district.value = (result[0]?result[0].label:'') + " " + (result[1]?result[1].label:'') + " " + (result[2]?result[2].label:'');
+                    district.parentNode.classList.remove("prompt");
+                },
+                id: "AddressPicker" //缓存id
+            });
+        };
+    },
 };
 
 export default activity;
