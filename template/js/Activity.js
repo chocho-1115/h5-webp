@@ -153,7 +153,9 @@ var activity = {
 		//设置翻页事件
 		if (window.Hammer && info.page.length > 0) {
 
-			var mc = new Hammer(content, { touchAction: 'pan-x pan-y' });
+			var mc = new Hammer(content, { 
+				// touchAction: 'pan-x pan-y'  // 谷歌浏览器手机调试模式需要去掉这句 滑动才能有效。奇怪的是changlongWSJ项目中并不是这样的。。。
+			});
 			mc.get('swipe').set({ velocity: 0, threshold: 30, direction: 30 });//修改滑动的速度与方向
 
 			//下一页
