@@ -148,11 +148,11 @@ Utils.whenDomReady(function(){
 	// //以下是为了兼容ios自动播放音乐
 	// document.addEventListener("WeixinJSBridgeReady", function () {  
 	// 	audioEle.play();
-	// 	$('#micBtn').removeClass('hide');
+	// qs('#micBtn').classList.remove('hide');
 	// }, false);  
 	// document.addEventListener('YixinJSBridgeReady', function() {  
 	// 	audioEle.play(); 
-	// 	$('#micBtn').removeClass('hide');
+	// qs('#micBtn').classList.remove('hide');
 	// }, false);
 	
 	//调用手机相册
