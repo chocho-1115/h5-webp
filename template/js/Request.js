@@ -1,4 +1,4 @@
-var baseHeader = {};
+var baseHeaders = {};
 
 var RequestPost = async (url, data, options) => {
 	options = options || {};
@@ -18,21 +18,21 @@ var Request = async (url, data, options) => {
 }
 var AddRequestHeader = function (key, value) {
 	if (!key) return;
-	baseHeader[key] = value ?? '';
+	baseHeaders[key] = value ?? '';
 }
 var RemoveRequestHeader = function (key) {
 	if (!key) return;
-	if (baseHeader[key] === undefined) return;
+	if (baseHeaders[key] === undefined) return;
 	if (Reflect?.deleteProperty) {
-		Reflect.deleteProperty(baseHeader, key)
+		Reflect.deleteProperty(baseHeaders, key)
 	} else {
-		delete baseHeader[key]
+		delete baseHeaders[key]
 	}
 }
 function baseRequest(url, data, options) {
 	data = data || {};
 	options = options || {};
-	options.header = options.header || {};
+	options.headers = options.headers || {};
 	options.root = options.root || '';
 	options.async = options.async === undefined ? true : !!options.async;
 	options.method = (options.method || 'POST').toUpperCase();
@@ -47,7 +47,7 @@ function baseRequest(url, data, options) {
 			}
 		};
 		var client = new XMLHttpRequest();
-		var header = Object.assign({}, baseHeader, options.header);
+		var headers = Object.assign({}, baseHeaders, options.headers);
 		if (options.method == 'GET') {
 			url += (function (obj) {
 				var str = "";
@@ -66,8 +66,8 @@ function baseRequest(url, data, options) {
 		client.setRequestHeader("content-type", "application/json");
 		// HTTP的If-Modified-Since头标签与客户端缓存相互配合，可节约网络流量。
 		// client.setRequestHeader("If-Modified-Since", "0");
-		for (name in header) {
-			client.setRequestHeader(name, header[name]);
+		for (name in headers) {
+			client.setRequestHeader(name, headers[name]);
 		}
 		if (options.method == 'GET') {
 			client.send(null);
