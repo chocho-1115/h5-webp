@@ -178,7 +178,9 @@ display:-webkit-flex;}
 
 
 /* 音乐按钮 */
-.micBtn{display:none;border-radius:1000px;border:.02rem solid #fff;right:.3rem;top:.2rem;width:.45rem;height:.45rem;background:rgba(0,0,0,.3) url(../image/mc.gif) no-repeat center top;cursor:pointer;background-size:.23rem auto;}
+.micBtn{
+	-webkit-tap-highlight-color: transparent;
+	display:none;border-radius:1000px;border:.02rem solid #fff;right:.3rem;top:.2rem;width:.45rem;height:.45rem;background:rgba(0,0,0,.3) url(../image/mc.gif) no-repeat center top;cursor:pointer;background-size:.23rem auto;}
 .micBtn.hide{background-position:center -1rem;}
 /* .micBtn.show{background-position:center 0;} */
 /* 横屏音乐按钮 */
