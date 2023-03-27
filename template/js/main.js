@@ -60,7 +60,7 @@ A.RemInit({
 	// 是否横屏 默认false
 	isLandscape: false,
 	// 默认true 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层 只有在isLandscape为true时才有效
-	autoRotatingScreen: true, 
+	// autoRotatingScreen: true, // 已废弃 rotateWindows_tips的显示与隐藏 不应该写在适配方法内
 });
 
 A.data.pageCallback = {

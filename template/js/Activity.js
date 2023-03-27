@@ -193,7 +193,6 @@ var activity = {
 
 		// 可配置参数
 		var isLandscape = config.isLandscape ? true : false; // 是否横屏 这里是只页面是否要横屏展示 并不代表当前的设备状态
-		var autoRotatingScreen = config.autoRotatingScreen === false ? false : true; // 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层
 
 		// 添加横屏标识
 		if (isLandscape) docEl.classList.add('landscape');
@@ -224,7 +223,6 @@ var activity = {
 			if (window.orientation === 180 || window.orientation === 0) {//竖着的
 				// console.log('===竖着的==='+window.orientation)
 				docEl.classList.add('rotateWin');
-				if (!autoRotatingScreen) document.querySelector('.rotateWindows_tips').style.display = 'none';
 				recalc({
 					viewportMinHeight: config.baseWidth,
 					baseWidth: config.viewportMinHeight,
@@ -233,7 +231,6 @@ var activity = {
 			} else if (window.orientation == 90 || window.orientation == -90) {
 				// console.log('===横着的==='+window.orientation)
 				docEl.classList.remove('rotateWin');
-				if (!autoRotatingScreen) document.querySelector('.rotateWindows_tips').style.display = 'block';
 				recalc({
 					viewportMinHeight: config.viewportMinHeight,
 					baseWidth: config.baseWidth,
