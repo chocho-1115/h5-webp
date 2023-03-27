@@ -14,7 +14,7 @@
             var clientWidth = docEl.clientWidth;
             var clientHeight = docEl.clientHeight;
             var zoomOutByHeight = false;
-            if (viewportMinHeight && docEl.clientWidth / docEl.clientHeight > (zoomOutCriticalValue || baseWidth / viewportMinHeight)) {
+            if (viewportMinHeight && docEl.clientWidth / clientHeight > (zoomOutCriticalValue || baseWidth / viewportMinHeight)) {
                 zoomOutByHeight = true;
             }
             if (zoomOutByHeight) {
