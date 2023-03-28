@@ -250,8 +250,6 @@ var activity = {
 			if (viewportMinHeight && docEl.clientWidth / docEl.clientHeight > (zoomOutCriticalValue || baseWidth / viewportMinHeight)) {
 				zoomOutByHeight = true;
 			}
-			console.log('zoomOutByHeight:' + zoomOutByHeight)
-			//
 			var clientWidth = docEl.clientWidth;
 			var clientHeight = docEl.clientHeight;
 			if (zoomOutByHeight) {
