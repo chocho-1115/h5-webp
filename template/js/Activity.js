@@ -100,8 +100,8 @@ var activity = {
         // }).catch((res)=>{ 
         //     console.log('jssdk出错了', res);
         // });
-		window.jssdk && window.jssdk.init({debug:false}).done(function(){
-			self.SetFX();
+		window.jssdk && window.jssdk.init({debug:false}).then(function(){
+			// self.SetFX();
 		})
     },
 	SetFX(options, callback){
@@ -136,7 +136,9 @@ var activity = {
         }
         // 设置默认分享文案
 		if(Utils.isWechat()){
-			jssdk.share(fxData);
+			jWeixin.ready(function () {
+				jssdk.share(fxData);
+			});
 		}
 		
 	},
