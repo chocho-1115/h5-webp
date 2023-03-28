@@ -193,7 +193,7 @@ var activity = {
 
 		// 可配置参数
 		var isLandscape = config.isLandscape ? true : false; // 是否横屏 这里是只页面是否要横屏展示 并不代表当前的设备状态
-
+		var zoomOutCriticalValue = config.zoomOutCriticalValue;
 		// 添加横屏标识
 		if (isLandscape) docEl.classList.add('landscape');
 
@@ -247,7 +247,7 @@ var activity = {
 
 			var zoomOutByHeight = false;
 
-			if (viewportMinHeight && docEl.clientWidth / docEl.clientHeight > baseWidth / viewportMinHeight) {
+			if (viewportMinHeight && docEl.clientWidth / docEl.clientHeight > (zoomOutCriticalValue || baseWidth / viewportMinHeight)) {
 				zoomOutByHeight = true;
 			}
 			console.log('zoomOutByHeight:' + zoomOutByHeight)

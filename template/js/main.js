@@ -61,6 +61,12 @@ A.RemInit({
 	isLandscape: false,
 	// 默认true 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层 只有在isLandscape为true时才有效
 	// autoRotatingScreen: true, // 已废弃 rotateWindows_tips的显示与隐藏 不应该写在适配方法内
+	
+	// 按高度适配时的临界值，会覆盖设置viewportMinHeight后默认的临界值（baseWidth / viewportMinHeight）
+	// viewportMinHeight未设置时 此值无效
+	// 使用场景：在横屏下才使用高度适配 就可以把zoomOutCriticalValue设置为 1/1
+	// zoomOutCriticalValue: !browserDetectInfo.isPc ? 1 / 1 : null,
+	// zoomOutCriticalValue: 1334/(750-400),
 });
 
 A.data.pageCallback = {
