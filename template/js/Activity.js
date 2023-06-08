@@ -83,7 +83,9 @@ var activity = {
 	},
 	Init(){
 		this.data.pageLen = this.data.page.length;
-		Utils.isWechat() ? this.InitWxFX() : this.SetFX();
+		
+		if(Utils.isWechat()) this.InitWxFX()
+		this.SetFX();
 	},
     // 微信初始化分享
     InitWxFX: function(){
@@ -420,11 +422,11 @@ var activity = {
 	},
 	// 设置省市区联动
 	InitChinaAreaPicker: function(prov, city, area, district){
-        if(!ChinaAreaData){
+        if(!window.ChinaAreaData){
             return;
         }
         district.onclick = function () {
-            weui.picker(ChinaAreaData, {
+            weui.picker(window.ChinaAreaData, {
                 container: "body",
                 // defaultValue: [prov.value||'湖南省', city.value||'长沙市', area.value||'市辖区'],
                 defaultValue: [prov.value||'430000', city.value||'430100', area.value||'430101'],
@@ -433,7 +435,6 @@ var activity = {
                     city.value = result[1]?result[1].value:'';
                     area.value = result[2]?result[2].value:'';
                     district.value = (result[0]?result[0].label:'') + " " + (result[1]?result[1].label:'') + " " + (result[2]?result[2].label:'');
-                    district.parentNode.classList.remove("prompt");
                 },
                 id: "AddressPicker" //缓存id
             });
