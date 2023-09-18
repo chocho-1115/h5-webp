@@ -77,7 +77,28 @@ A.data.pageCallback = {
 
 // 组装A对象
 Object.assign(A, {
-
+	render(options){
+		if(!options.data){
+			if(options.blockDom) options.blockDom.style.display = 'none';
+			return;
+		}
+		const fragment = document.createDocumentFragment();
+		var len = options.data.length;
+		for(var i=0;i<len;i++){
+			var item = options.factory(options.data[i], i);
+			if(!item) continue;
+			if(Object.prototype.toString.call(item) === '[object Array]'){
+				for(var k=0; k<item.length; k++ ){
+					fragment.appendChild(item[k]);
+				}
+			}else{
+				fragment.appendChild(item);
+			}
+		}
+		if(options.clean) options.renderDom.innerHTML = '';
+		options.renderDom && options.renderDom.appendChild(fragment);
+		options.renderCallback && options.renderCallback();
+	},
 	event() {
 		
 	},
