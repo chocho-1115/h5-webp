@@ -421,20 +421,29 @@ var activity = {
 		}
 	},
 	// 设置省市区联动
-	InitChinaAreaPicker: function(prov, city, area, district){
+	InitChinaAreaPicker: function(province, city, area, district, callback){
         if(!window.ChinaAreaData){
             return;
         }
         district.onclick = function () {
             weui.picker(window.ChinaAreaData, {
                 container: "body",
-                // defaultValue: [prov.value||'湖南省', city.value||'长沙市', area.value||'市辖区'],
-                defaultValue: [prov.value||'430000', city.value||'430100', area.value||'430101'],
+                // defaultValue: [province.value||'湖南省', city.value||'长沙市', area.value||'市辖区'],
+                defaultValue: [province.value||'430000', city.value||'430100', area.value||'430101'],
                 onConfirm: function (result) {
-                    prov.value = result[0]?result[0].value:'';
-                    city.value = result[1]?result[1].value:'';
-                    area.value = result[2]?result[2].value:'';
-                    district.value = (result[0]?result[0].label:'') + " " + (result[1]?result[1].label:'') + " " + (result[2]?result[2].label:'');
+					var res = {
+						province: result[0]?result[0].label:'',
+						city: result[1]?result[1].label:'',
+						area: result[2]?result[2].label:'',
+						provinceCode: result[0]?result[0].value:'',
+                    	cityCode: result[1]?result[1].value:'',
+                    	areaCode: result[2]?result[2].value:''
+					}
+                    province.value = res.provinceCode;
+                    city.value = res.cityCode;
+                    area.value = res.areaCode;
+                    district.value = res.province + " " + res.city + " " + res.area;
+					callback && callback(res)
                 },
                 id: "AddressPicker" //缓存id
             });
