@@ -118,11 +118,11 @@ module.exports = function(env, argv){
                                 // jpeg / jpg
                                 mozjpeg: {
                                     progressive: true,
-                                    quality: 85
+                                    quality: 70
                                 },
                                 // png
                                 pngquant: {
-                                    quality: [0.8, 0.90],
+                                    quality: [0.7, 0.80],
                                     speed: 4
                                 },
                                 // webp
