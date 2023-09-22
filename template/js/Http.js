@@ -1,5 +1,5 @@
 // 默认配置
-let defaultConfig = {
+let defaultsConfig = {
 	root: '',
 	async: true,
 	method: 'get',
@@ -11,13 +11,34 @@ let defaultConfig = {
 	}
 }
 
+// 拦截器构造函数
+function InterceptorManager() {
+	this.handlers = [];
+}
+InterceptorManager.prototype.use = function use(fulfilled, rejected, options) {
+	this.handlers.push({
+		fulfilled: fulfilled,
+		rejected: rejected,
+		synchronous: options ? options.synchronous : false,
+		runWhen: options ? options.runWhen : null
+	});
+	return this.handlers.length - 1;
+};
+
+// 直接设置为null即可 无需剪切数组 这样每一项ID保持为项的数组索引不变，也避免了重新剪切拼接数组的性能损失。
+InterceptorManager.prototype.eject = function eject(id) {
+	if (this.handlers[id]) {
+		this.handlers[id] = null;
+	}
+};
+
 function Http(config = {}){
 	//强制使用new
 	if(!(this instanceof Http)){
 		return new Http(config);
 	}
 	// 配置
-	this.default = config
+	this.defaults = config
 	// 拦截器
 	this.interceptors = {
 		request: new InterceptorManager(),
@@ -28,7 +49,7 @@ function Http(config = {}){
 Http.prototype.request = function(url, data, config = {}){
 
 	// 合并默认配置和传入的配置
-	config = mergeConfig(this.default, config);
+	config = mergeConfig(this.defaults, config);
 	const headers = config.headers;
 
 	config.method = config.method ? config.method.toUpperCase() : 'GET';
@@ -97,18 +118,18 @@ function createInstance(config) {
 	let context = new Http(config);// context.get（） context.post(), 但是不能当作函数使用 context() X
 	//创建请求函数
 	let instance = Http.prototype.request.bind(context);// 等价 context.request(), 但是不能当作对象使用 属性和方法
-	// 把Http.prototype对象的方法添加到instance 函数对象中，但是没有构造函数中的属性 default
+	// 把Http.prototype对象的方法添加到instance 函数对象中，但是没有构造函数中的属性 defaults
 	Object.keys(Http.prototype).forEach(key => {
 		instance[key] = Http.prototype[key].bind(context);
 	})
-	//给instance 添加 default
+	//给instance 添加 defaults
 	Object.keys(context).forEach(key => {
 		instance[key] = context[key];
 	})
 	return instance;
 }
 
-let http = createInstance(defaultConfig)
+let http = createInstance(defaultsConfig)
 
 // 构建新实例 这里只需要绑定在导出的http上 不需要绑定在用户创建的每个实例上
 http.create = function(config = {}){
