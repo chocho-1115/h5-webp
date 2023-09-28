@@ -114,7 +114,7 @@ function Http(config = {}){
 }
 Http.prototype.request = function(config = {}){
 	// 拦截器和请求组装队列
-	let chain = [dispatchRequest.bind(this), undefined] // 成对出现的
+	let chain = [dispatchRequest.bind(this), undefined] // 必须成对出现的
 
 	// 请求拦截
 	this.interceptors.request.handlers.forEach(interceptor => {
@@ -126,14 +126,13 @@ Http.prototype.request = function(config = {}){
 		chain.push(interceptor.fulfilled, interceptor.rejected)
 	})
 
-	// 执行队列，每次执行一对，并给promise赋最新的值
 	let promise = Promise.resolve(config);
 	while(chain.length > 0) {
 		promise = promise.then(chain.shift(), chain.shift())
 	}
 	return promise;
 }
-// 新增请求方法
+// 添加请求方法
 Array.prototype.forEach.call([
 	'delete', 'get', 'head', 'options'
 ], ele => {
@@ -144,7 +143,7 @@ Array.prototype.forEach.call([
 		}));
 	};
 });
-
+// 添加请求方法
 Array.prototype.forEach.call([
 	'post', 'put', 'patch'
 ], ele => {
@@ -157,17 +156,17 @@ Array.prototype.forEach.call([
 	};
 });
 
-///////// 核心方法 生成Http对象： 当对象使用，也可以当方法使用
+///////// 生成导出对象
 function createInstance(config) {
-	//实例化一个对象
-	let context = new Http(config);// context.get（） context.post(), 但是不能当作函数使用 context() X
-	//创建请求函数
+	// 实例化一个对象
+	let context = new Http(config); // context.get（） context.post(), 但是不能当作函数使用 context() X
+	// 创建请求函数
 	let instance = Http.prototype.request.bind(context);// 等价 context.request(), 但是不能当作对象使用 属性和方法
-	// 把Http.prototype对象的方法添加到instance 函数对象中，但是没有构造函数中的属性 defaults
+	// 把Http.prototype对象的方法添加到instance函数对象上
 	Object.keys(Http.prototype).forEach(key => {
 		instance[key] = Http.prototype[key].bind(context);
 	})
-	//给instance 添加 defaults
+	// 把Http实例属性添加到instance函数对象上
 	Object.keys(context).forEach(key => {
 		instance[key] = context[key];
 	})
