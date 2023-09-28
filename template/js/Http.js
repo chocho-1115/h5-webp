@@ -46,11 +46,13 @@ function Http(config = {}){
 	};
 }
 
-Http.prototype.request = function(url, data, config = {}){
+Http.prototype.request = function(config = {}){
 
 	// 合并默认配置和传入的配置
 	config = mergeConfig(this.defaults, config);
 	const headers = config.headers;
+	let params = config.params;
+	let url = config.url;
 
 	config.method = config.method ? config.method.toUpperCase() : 'GET';
 
@@ -64,17 +66,31 @@ Http.prototype.request = function(url, data, config = {}){
 			}
 		};
 		const client = new XMLHttpRequest();
-		if (config.method == 'GET') {
-			url += (function (obj) {
-				let str = "";
-				for (let prop in obj) {
-					str += prop + "=" + obj[prop] + "&"
-				}
-				return str.length > 0 ? '?' + str.substring(0, str.length - 1) : '';
-			})(data);
+		// 所有请求都可以通过url传递数据；只有post、put和patch请求可以发送body
+		if (params) {
+
+			let info = url.split('?');
+			url = info[0];
+
+			let urlParams = {};
+			info[1] && info[1].replace(/([^=]+)=(\w+)/g, function(_, key, value) {
+				urlParams[key] = value;
+			});
+
+			params = Object.assign(urlParams, params)
+
+			let str = "";
+			for (let name in params) {
+				str += name + "=" + params[name] + "&"
+			}
+			if(str.length > 0) str = str.substring(0, str.length - 1);
+			url += url.indexOf('?')>-1 ? str : '?' + str
 		}
 
 		client.addEventListener('readystatechange', handler);
+		// load —— 当请求完成（即使 HTTP 状态为 400 或 500 等），并且响应已完全下载。
+		// error —— 当无法发出请求，例如网络中断或者无效的 URL。
+		// progress —— 在下载响应期间定期触发，报告已经下载了多少。
 		if (config.loadCallback) client.addEventListener('load', config.loadCallback);
 		client.open(config.method, url.substring(0,4) == 'http' ? url : config.root + url, config.async);
 		client.responseType = config.responseType;
@@ -82,24 +98,32 @@ Http.prototype.request = function(url, data, config = {}){
 		for (name in headers) {
 			client.setRequestHeader(name, headers[name]);
 		}
-		if (config.method == 'GET') {
-			client.send(null);
-		} else {
-			//if(config.method=='POST'){
-			client.send(data ? JSON.stringify(data) : '');
-			//}else 
-		}
+
+		client.send(config.data ? JSON.stringify(config.data) : null);
+		
 	});
 	return promise;
 }
 // 新增请求方法
 Array.prototype.forEach.call([
-	'delete', 'get', 'head', 'options', 
+	'delete', 'get', 'head', 'options'
+], ele => {
+	Http.prototype[ele] = function(url, config) {
+		return this.request(Object.assign(config || {}, {
+			method: ele,
+			url,
+		}));
+	};
+});
+
+Array.prototype.forEach.call([
 	'post', 'put', 'patch'
 ], ele => {
-	Http.prototype[ele] = function(url, data, config = {}) {
-		return this.request(url, data, Object.assign(config, {
-			method: ele
+	Http.prototype[ele] = function(url, data, config) {
+		return this.request(Object.assign(config || {}, {
+			method: ele,
+			url,
+			data
 		}));
 	};
 });
