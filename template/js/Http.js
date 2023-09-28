@@ -11,6 +11,71 @@ let defaultsConfig = {
 	}
 }
 
+// 配置合并
+function mergeConfig(config1 = {}, config2 = {}){
+	const headers = Object.assign({}, config1.headers, config2.headers)
+	var config = Object.assign({}, config1, config2)
+	config.headers = headers
+	return config
+}
+
+function dispatchRequest(config){
+	// 合并默认配置和传入的配置
+	config = mergeConfig(this.defaults, config);
+	const headers = config.headers;
+	let params = config.params;
+	let url = config.url;
+
+	config.method = config.method ? config.method.toUpperCase() : 'GET';
+
+	const promise = new Promise(function (resolve, reject) {
+		const handler = function () {
+			if (this.readyState !== 4) return;
+			if (this.status >= 200 && this.status < 300) {
+				resolve(this.response);
+			} else {
+				reject(this.response);
+			}
+		};
+		const client = new XMLHttpRequest();
+		// 所有请求都可以通过url传递数据；只有post、put和patch请求可以发送body
+		if (params) {
+			let info = url.split('?');
+			url = info[0];
+
+			let urlParams = {};
+			info[1] && info[1].replace(/([^=]+)=(\w+)/g, function(_, key, value) {
+				urlParams[key] = value;
+			});
+
+			params = Object.assign(urlParams, params)
+
+			let str = "";
+			for (let name in params) {
+				str += name + "=" + params[name] + "&"
+			}
+			if(str.length > 0) str = str.substring(0, str.length - 1);
+			url += url.indexOf('?')>-1 ? str : '?' + str
+		}
+
+		client.addEventListener('readystatechange', handler);
+		// load —— 当请求完成（即使 HTTP 状态为 400 或 500 等），并且响应已完全下载。
+		// error —— 当无法发出请求，例如网络中断或者无效的 URL。
+		// progress —— 在下载响应期间定期触发，报告已经下载了多少。
+		if (config.loadCallback) client.addEventListener('load', config.loadCallback);
+		client.open(config.method, url.substring(0,4) == 'http' ? url : config.root + url, config.async);
+		client.responseType = config.responseType;
+		
+		for (name in headers) {
+			client.setRequestHeader(name, headers[name]);
+		}
+
+		client.send(config.data ? JSON.stringify(config.data) : null);
+
+	});
+	return promise;
+}
+
 // 拦截器构造函数
 function InterceptorManager() {
 	this.handlers = [];
@@ -45,63 +110,25 @@ function Http(config = {}){
 		response: new InterceptorManager()
 	};
 }
-
 Http.prototype.request = function(config = {}){
+	// 拦截器和请求组装队列
+	let chain = [dispatchRequest.bind(this), undefined] // 成对出现的
 
-	// 合并默认配置和传入的配置
-	config = mergeConfig(this.defaults, config);
-	const headers = config.headers;
-	let params = config.params;
-	let url = config.url;
+	// 请求拦截
+	this.interceptors.request.handlers.forEach(interceptor => {
+		chain.unshift(interceptor.fullfield, interceptor.rejected)
+	})
 
-	config.method = config.method ? config.method.toUpperCase() : 'GET';
+	// 响应拦截
+	this.interceptors.response.handlers.forEach(interceptor => {
+		chain.push(interceptor.fullfield, interceptor.rejected)
+	})
 
-	const promise = new Promise(function (resolve, reject) {
-		const handler = function () {
-			if (this.readyState !== 4) return;
-			if (this.status >= 200 && this.status < 300) {
-				resolve(this.response);
-			} else {
-				reject(this.response);
-			}
-		};
-		const client = new XMLHttpRequest();
-		// 所有请求都可以通过url传递数据；只有post、put和patch请求可以发送body
-		if (params) {
-
-			let info = url.split('?');
-			url = info[0];
-
-			let urlParams = {};
-			info[1] && info[1].replace(/([^=]+)=(\w+)/g, function(_, key, value) {
-				urlParams[key] = value;
-			});
-
-			params = Object.assign(urlParams, params)
-
-			let str = "";
-			for (let name in params) {
-				str += name + "=" + params[name] + "&"
-			}
-			if(str.length > 0) str = str.substring(0, str.length - 1);
-			url += url.indexOf('?')>-1 ? str : '?' + str
-		}
-
-		client.addEventListener('readystatechange', handler);
-		// load —— 当请求完成（即使 HTTP 状态为 400 或 500 等），并且响应已完全下载。
-		// error —— 当无法发出请求，例如网络中断或者无效的 URL。
-		// progress —— 在下载响应期间定期触发，报告已经下载了多少。
-		if (config.loadCallback) client.addEventListener('load', config.loadCallback);
-		client.open(config.method, url.substring(0,4) == 'http' ? url : config.root + url, config.async);
-		client.responseType = config.responseType;
-		
-		for (name in headers) {
-			client.setRequestHeader(name, headers[name]);
-		}
-
-		client.send(config.data ? JSON.stringify(config.data) : null);
-		
-	});
+	// 执行队列，每次执行一对，并给promise赋最新的值
+	let promise = Promise.resolve(config);
+	while(chain.length > 0) {
+		promise = promise.then(chain.shift(), chain.shift())
+	}
 	return promise;
 }
 // 新增请求方法
@@ -127,14 +154,6 @@ Array.prototype.forEach.call([
 		}));
 	};
 });
-
-// 配置合并
-function mergeConfig(config1 = {}, config2 = {}){
-	const headers = Object.assign({}, config1.headers, config2.headers)
-	var config = Object.assign({}, config1, config2)
-	config.headers = headers
-	return config
-}
 
 ///////// 核心方法 生成Http对象： 当对象使用，也可以当方法使用
 function createInstance(config) {
