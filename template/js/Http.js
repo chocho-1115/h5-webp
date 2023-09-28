@@ -12,7 +12,9 @@ let defaultsConfig = {
 }
 
 // 配置合并
-function mergeConfig(config1 = {}, config2 = {}){
+function mergeConfig(config1, config2){
+	config1 = config1 || {}
+	config2 = config2 || {}
 	const headers = Object.assign({}, config1.headers, config2.headers)
 	var config = Object.assign({}, config1, config2)
 	config.headers = headers
@@ -116,12 +118,12 @@ Http.prototype.request = function(config = {}){
 
 	// 请求拦截
 	this.interceptors.request.handlers.forEach(interceptor => {
-		chain.unshift(interceptor.fullfield, interceptor.rejected)
+		chain.unshift(interceptor.fulfilled, interceptor.rejected)
 	})
 
 	// 响应拦截
 	this.interceptors.response.handlers.forEach(interceptor => {
-		chain.push(interceptor.fullfield, interceptor.rejected)
+		chain.push(interceptor.fulfilled, interceptor.rejected)
 	})
 
 	// 执行队列，每次执行一对，并给promise赋最新的值
@@ -176,7 +178,7 @@ let http = createInstance(defaultsConfig)
 
 // 构建新实例 这里只需要绑定在导出的http上 不需要绑定在用户创建的每个实例上
 http.create = function(config = {}){
-	return createInstance(mergeConfig(http.defaults, config));
+	return createInstance(mergeConfig(http.defaults, config)); // http.defaults 是全局的默认配置
 }
 
 export default http
