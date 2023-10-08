@@ -2,7 +2,7 @@
 let defaultsConfig = {
 	data: null,
 	params: null,
-	root: '',
+	baseURL: '',
 	async: true,
 	method: 'get',
 	responseType: 'json',
@@ -76,7 +76,7 @@ function dispatchRequest(config){
 			client.addEventListener('readystatechange', handler);
 		};
 		
-		client.open(config.method, url.substring(0,4) == 'http' ? url : config.root + url, config.async);
+		client.open(config.method, url.substring(0,4) == 'http' ? url : config.baseURL + url, config.async);
 		client.responseType = config.responseType;
 		
 		for (name in headers) {
