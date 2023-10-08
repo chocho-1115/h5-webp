@@ -9,6 +9,9 @@ h5-webpack
 
 ### 基本使用
 
+### Http.js
+一个前端HTTP库，api参考axios，支持全局配置，实例化，请求拦截，响应拦截。
+
 ##### 新建项目
 `
 npm run create projectName
