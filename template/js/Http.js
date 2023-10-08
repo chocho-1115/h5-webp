@@ -1,5 +1,7 @@
 // 默认配置
 let defaultsConfig = {
+	data: null,
+	params: null,
 	root: '',
 	async: true,
 	method: 'get',
@@ -34,11 +36,21 @@ function dispatchRequest(config){
 		const handler = function () {
 			if (this.readyState !== 4) return;
 			if (this.status >= 200 && this.status < 300) {
-				resolve(this.response);
+				// console.log(this.responseText)
+				// console.log(this.response)
+				resolve({
+					data: this.response, // this.responseText
+					status: this.status,
+					statusText: this.statusText,
+					// headers: responseHeaders,
+					config: config,
+					request: this
+				});
 			} else {
 				reject(this.response);
 			}
 		};
+		
 		const client = new XMLHttpRequest();
 		// 所有请求都可以通过url传递数据；只有post、put和patch请求可以发送body
 		if (params) {
