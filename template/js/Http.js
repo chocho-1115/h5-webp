@@ -36,13 +36,11 @@ function dispatchRequest(config){
 		const handler = function () {
 			if (this.readyState !== 4) return;
 			if (this.status >= 200 && this.status < 300) {
-				// console.log(this.responseText)
-				// console.log(this.response)
 				resolve({
 					data: this.response, // this.responseText
 					status: this.status,
 					statusText: this.statusText,
-					// headers: responseHeaders,
+					// headers: ,
 					config: config,
 					request: this
 				});
@@ -71,12 +69,13 @@ function dispatchRequest(config){
 			if(str.length > 0) str = str.substring(0, str.length - 1);
 			url += url.indexOf('?')>-1 ? str : '?' + str
 		}
-
-		client.addEventListener('readystatechange', handler);
-		// load —— 当请求完成（即使 HTTP 状态为 400 或 500 等），并且响应已完全下载。
-		// error —— 当无法发出请求，例如网络中断或者无效的 URL。
-		// progress —— 在下载响应期间定期触发，报告已经下载了多少。
-		if (config.loadCallback) client.addEventListener('load', config.loadCallback);
+		// readystatechange会触发多次，优先使用loadend
+		if ('onloadend' in client) {
+			client.addEventListener('loadend', handler);
+		} else {
+			client.addEventListener('readystatechange', handler);
+		};
+		
 		client.open(config.method, url.substring(0,4) == 'http' ? url : config.root + url, config.async);
 		client.responseType = config.responseType;
 		
