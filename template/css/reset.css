@@ -104,7 +104,21 @@ display:-webkit-flex;}
 ::-moz-selection {background-color: rgba(230,224,203,0.3);color: #fff8e1;}
 ::selection {background-color: rgba(230,224,203,0.3);color: #fff8e1;}
 
-.scrollBox{min-height:2.5rem;overflow-y:auto !important;-webkit-overflow-scrolling: touch;}
+/* ################# */
+/* 滚动相关的文章 https://zhuanlan.zhihu.com/p/477594628?utm_id=0 */
+/* Scroll Snap
+scroll-behavior
+overscroll-behavior
+overflow-anchor
+scrollbar-width
+scrollbar-color
+scrollbar-gutter
+-webkit-overflow-scrolling */
+/* ################# */
+.scrollBox{min-height:2.5rem;overflow-y:auto !important;
+	/* iOS13以后就无效了 */
+	-webkit-overflow-scrolling: touch;
+}
 .scrollBox::-webkit-scrollbar {width:.06rem;}
 .scrollBox::-webkit-scrollbar-thumb{background:#333;border-radius:.04rem;}
 .scrollBox::-webkit-scrollbar-resizer  {background:#333;}

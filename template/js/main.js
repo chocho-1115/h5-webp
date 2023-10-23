@@ -21,6 +21,7 @@ function qsa(selector, parentNode){
 }
 
 var config = {
+	debug: !!Utils.queryString('debug'),
 	userInfo: {}, //登录信息
 	// 分享信息
 	shareInfo: {
