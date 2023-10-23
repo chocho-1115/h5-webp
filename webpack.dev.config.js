@@ -27,14 +27,20 @@ module.exports = function (env) {
 		watch: false, // webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。
 		watchOptions: {
 			aggregateTimeout: 300,
-			poll: 1000
+			poll: 1000,
+			// less文件在编辑器下自动转为了css，这里不监听less的变化，不然less变化导致提前触发编译，页面样式没更新
+			ignored: ['**/*.less'],
 		},
 		devServer: {
+			headers: {},
 			static: projectConfig.srcPath,
 			port: getFreePort(),
 			client: {
                 logging: 'error',
             },
+			compress: true, // 是否启动压缩 gzip
+            open: false, // 是否自动打开浏览器
+            hot: true // 热更新
 		},
 		// devtool: 'inline-source-map',
         devtool: 'eval-cheap-module-source-map', // 定位到错误所在行信息，不需要定位列信息，速度较快
@@ -43,6 +49,13 @@ module.exports = function (env) {
 			filename: 'js/[name]-[chunkhash].js',
 			path: path.resolve(__dirname, projectConfig.distPath)
 		},
+        resolve: {
+            // extensions: ['js', '.css', '...'], // 注意：1.高频文件后缀名放前面 2.手动配置后，默认配置会被覆盖，如果想保留默认配置，可以用 ... 扩展运算符代表默认配置
+            alias: {
+                '@': path.resolve(projectConfig.srcPath)
+            },
+            symlinks: false // 减少解析工作量
+        },
 		module: {
 			rules: [
 				/*{
