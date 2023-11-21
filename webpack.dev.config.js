@@ -24,7 +24,7 @@ module.exports = function (env) {
 		mode: 'development',
 		performance: false, // 不显示大文件警告
 		stats: 'errors-only', // 只输出错误信息
-		watch: false, // webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。
+		// watch: false, // webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。
 		watchOptions: {
 			aggregateTimeout: 300,
 			poll: 1000,

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const chalk = require('chalk')
 const path = require('path');
 const webpack = require('webpack');
 const readline = require('readline');
@@ -214,7 +215,7 @@ module.exports = function(env, argv){
 					readline.clearLine(process.stdout, 0);
 					readline.cursorTo(process.stdout, 0);
 					var str = (percentage * 100).toFixed(0) + '% '
-					process.stdout.write(str);
+					process.stdout.write(chalk.green.bold(str));
 					if (percentage == 1) {
 						console.log('\r\r========= 完成打包：' + projectConfig.name + ' =========');
 					}
