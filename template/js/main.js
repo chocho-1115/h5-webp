@@ -113,6 +113,10 @@ Object.assign(A, {
 
 		this.event();
 
+		weui.toast('兑换成功', {
+			duration: 2000,
+			className: 'weui-toast-text penetrate',
+		});
 		//关闭页面下拉露出网页来源
 		// this.SetScroll(false)//
 	},
