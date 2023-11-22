@@ -27,9 +27,8 @@ module.exports = function (env) {
 		// watch: false, // webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。
 		watchOptions: {
 			aggregateTimeout: 300,
-			poll: 1000,
 			// less文件在编辑器下自动转为了css，这里不监听less的变化，不然less变化导致提前触发编译，页面样式没更新
-			ignored: ['**/*.less'],
+            ignored: ['**/*.less', '**/node_modules'] // 排除文件夹
 		},
 		devServer: {
 			headers: {},
