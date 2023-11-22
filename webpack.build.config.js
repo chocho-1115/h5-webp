@@ -26,7 +26,7 @@ if (projectName && projectName === 'template') {
 	projectConfig.distPath = './dist/' + projectName + '/';
 }
 
-console.log('========= 老版开始帮你打包：' + projectConfig.name + ' =========');
+process.stdout.write(chalk.blue.bold(`\n [ ${projectConfig.name} ] \n\n`));
 
 module.exports = function(env, argv){
 	// const isDevMode = env.mode=='development' ? true : false;
@@ -37,10 +37,9 @@ module.exports = function(env, argv){
 
 		// webpack-dev-server 和 webpack-dev-middleware 里 Watch 模式默认开启。
 		watch: true,
-		// watchOptions: {
-		// 	aggregateTimeout: 300,
-		// 	poll: 1000
-		// },
+		watchOptions: {
+			aggregateTimeout: 300,
+		},
 
 		entry: {
 			main: projectConfig.srcPath + 'js/main.js',
@@ -216,14 +215,16 @@ module.exports = function(env, argv){
 			new ProgressPlugin({
 				handler(percentage, message, ...args) {
 					readline.clearLine(process.stdout, 0);
-					readline.cursorTo(process.stdout, 0);
-					var str = (percentage * 100).toFixed(0) + '% '
-					process.stdout.write(chalk.green.bold(str));
+					readline.cursorTo(process.stdout, 0); 
 					if (percentage == 1) {
-						console.log('\r\r========= 完成打包：' + projectConfig.name + ' =========');
+						process.stdout.write(chalk.green.bold(` ${message} Build completed \n\n`));
+					}else{
+						let proV = (percentage * 100).toFixed(0) + '% '
+						process.stdout.write(chalk.yellow.bold(` Build progress ${proV}`));
 					}
 				},
 			}),
+			
 			// https://webpack.js.org/plugins/html-webpack-plugin/
 			new HtmlWebpackPlugin({
 				template: projectConfig.srcPath + 'index.html',
