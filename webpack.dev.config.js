@@ -49,6 +49,7 @@ module.exports = function (env) {
 			filename: 'js/[name]-[chunkhash].js',
 			path: path.resolve(__dirname, projectConfig.distPath)
 		},
+		cache: true,
         resolve: {
             // extensions: ['js', '.css', '...'], // 注意：1.高频文件后缀名放前面 2.手动配置后，默认配置会被覆盖，如果想保留默认配置，可以用 ... 扩展运算符代表默认配置
             alias: {
@@ -71,19 +72,6 @@ module.exports = function (env) {
 						}
 					]
 				},*/
-				// 图片
-				// {
-				// 	test: /\.(png|jpe?g|gif|svg)$/,
-				// 	use: [
-				// 		{
-				// 			loader: 'url-loader', // url-loader是file-loader的加强版
-				// 			options: {
-				// 				limit: 1000,//小于1000字节就转base64
-				// 				name: 'image/[name].[ext]'
-				// 			}
-				// 		}
-				// 	]
-				// },
 				{
                     test: /\.(jpe?g|png|gif|svg)$/i,
                     type: 'asset',

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const chalk = require('chalk')
 const path = require('path');
-const webpack = require('webpack');
+const {ProgressPlugin} = require('webpack');
 const readline = require('readline');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -51,7 +51,10 @@ module.exports = function(env, argv){
 			path: path.resolve(projectConfig.distPath),
 			clean: true, // 每次构建清除dist包
 		},
-
+		cache: {
+            type: 'filesystem', // 使用文件缓存。通过 cache: filesystem 可以将构建过程的 webpack 模板进行缓存，大幅提升二次构建速度、打包速度，当构建突然中断，二次进行构建时，可以直接从缓存中拉取，可提速 80% 左右。
+            maxAge: 4 * 60 * 60 * 1000 // 允许未使用的缓存留在文件系统缓存中，保留4小时
+        },
 	    module: {
 		    rules: [
 				{
@@ -210,7 +213,7 @@ module.exports = function(env, argv){
 		},
 		plugins: [
 			// 打包完成监控
-			new webpack.ProgressPlugin({
+			new ProgressPlugin({
 				handler(percentage, message, ...args) {
 					readline.clearLine(process.stdout, 0);
 					readline.cursorTo(process.stdout, 0);
