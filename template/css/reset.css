@@ -144,8 +144,6 @@ scrollbar-gutter
 	        transition:all .8s cubic-bezier(.58,2,.68,.58);
 }
 
-.rotateWindows_tips{z-index:100;background:rgba(0,0,0,.8) url(../image/rotateWindows_tips.png) no-repeat center center;position:fixed;left:0;top:0;width:100%;height:100%;display:none;}
-
 /* ///////////////////////// */
 
 /* 不要系统默认滚动条 */
