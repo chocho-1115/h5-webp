@@ -6,8 +6,7 @@ import '../css/main.css';
 import '../image/160.jpg';
 import A from './Activity.js';
 import Utils from './Utils.js';
-import {Request} from './Request.js';
-
+import Http from './Http.js';
 
 var browserDetectInfo = Utils.browserDetect();
 
