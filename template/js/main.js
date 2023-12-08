@@ -4,11 +4,11 @@
 import '../css/reset.css';
 import '../css/main.css';
 import '../image/160.jpg';
-import A from './Activity.js';
-import Utils from './Utils.js';
-import Http from './Http.js';
+import A from './activity.js';
+import utils from './utils.js';
+import http from './http.js';
 
-var browserDetectInfo = Utils.browserDetect();
+var browserDetectInfo = utils.browserDetect();
 
 var doc = document;
 function qs(selector, parentNode){
@@ -20,7 +20,7 @@ function qsa(selector, parentNode){
 }
 
 var config = {
-	debug: !!Utils.queryString('debug'),
+	debug: !!utils.queryString('debug'),
 	userInfo: {}, //登录信息
 	// 分享信息
 	shareInfo: {
@@ -31,10 +31,10 @@ var config = {
 	}
 };
 Object.assign(A.data, config);
-A.Init();
+A.init();
 
 //跳到第二页  
-A.H5Init({
+A.h5Init({
 	//pageAnimateTime: 600,
 	pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
 	pageSwipeB : {
@@ -48,7 +48,7 @@ A.H5Init({
 	}
 });
 
-A.RemInit({
+A.remInit({
 	// 基础宽度 通常和设计稿宽度一致
 	baseWidth: 750,
 	// 在使用宽度适配时的 页面的最大宽度，此值只在按宽度适配时，才有效
@@ -107,8 +107,8 @@ Object.assign(A, {
 		
 		console.log('entry');
 
-		var page = Number(Utils.queryString('page'))||1;
-		this.GotoPage(page);
+		var page = Number(utils.queryString('page'))||1;
+		this.gotoPage(page);
 
 		this.event();
 
@@ -122,13 +122,13 @@ Object.assign(A, {
 
 });
 
-Utils.whenDomReady(function(){
+utils.whenDomReady(function(){
 	
 	/*+function(){
 		
 		var end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"
 		
-		Utils.countDown(end_time,{
+		utils.countDown(end_time,{
 			framerate:100,
 			onUpdate:function(res){
 				console.log(res.second)
@@ -141,12 +141,12 @@ Utils.whenDomReady(function(){
 	*/	
 
 	//在有load页面的时候用
-	Utils.lazyLoad('.lazy_load',{
+	utils.lazyLoad('.lazy_load',{
 		fileload:function(item){},
 		complete:function(assets){
 			var $loadNum = qs('#set_load_num');
-			A.GotoPage(0, {time: 0, endCallback: function(){
-				Utils.lazyLoad('.lazy',{
+			A.gotoPage(0, {time: 0, endCallback: function(){
+				utils.lazyLoad('.lazy',{
 					fileload:function(item){
 						$loadNum.innerHTML = parseInt(item.progress*100)+'%';
 					},
@@ -164,13 +164,13 @@ Utils.whenDomReady(function(){
 	});
 
 	//添加背景音乐
-	// var audioEle = A.AddMp3({
+	// var audioEle = A.addMp3({
 	// 	src:'media/bj.mp3',
 	// 	autoplay:true,//音乐是否自动播放
 	// 	loop:true//是否循环播放
 	// });
 	// //给背景音乐添加一个按钮
-	// A.SetMp3Btn({
+	// A.setMp3Btn({
 	// 	audioBtn:document.getElementById('micBtn'),
 	// 	audioEle:audioEle,
 	// 	autoplay:true
@@ -186,13 +186,13 @@ Utils.whenDomReady(function(){
 	// }, false);
 	
 	//调用手机相册
-	// var fileEle = Utils.bindFileControl(document.documentElement,'image/*',{
+	// var fileEle = utils.bindFileControl(document.documentElement,'image/*',{
 	// 	successCallback: function(reader){
 	// 		console.log(reader)
-	// 		// var exif_orientation = Utils.exifOrientation(reader.result)
+	// 		// var exif_orientation = utils.exifOrientation(reader.result)
 	// 		//.substring(22)
 	// 		//type为jpeg webp的情况下 encoderOptions才起作用
-	// 		Utils.compressionPIC(reader.result, {
+	// 		utils.compressionPIC(reader.result, {
 	// 			maxSize:750,
 	// 			// exif_orientation:exif_orientation,
 	// 			type:'image/jpeg',
@@ -229,7 +229,7 @@ Utils.whenDomReady(function(){
 			});
 			return false
 		}	
-		if(!Utils.isMobile(text2)){
+		if(!utils.isMobile(text2)){
 			weui.toast('电话号码错误！', {
 				duration: 2000,
 				className: 'weui-toast-text penetrate',
