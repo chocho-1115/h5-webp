@@ -3,14 +3,11 @@ h5-webpack
 
 ### 业务场景
 
-经常会有一些相互独立的活动类H5开发，当量多的时候，我们就需要一套工程化管理模式来解放我们的双手。
+活动类H5开发，当量多的时候，我们就需要一套工程化管理模式来统一管理多个项目。
 
-因为每一个独立的活动H5体量都不大，所以不太可能一个项目对应一套工程。所以我们需要的是一套能管理多个类似项目的模式，实现了一个工程管理多个项目。
+因为每一个独立的活动H5体量都不大，所以不太可能一个项目对应一套构建工程。所以我们需要的是一套能管理多个类似项目的模式，实现了一个工程管理多个项目。
 
 ### 基本使用
-
-### Http.js
-一个前端HTTP库，api参考axios，支持全局配置，实例化，请求拦截，响应拦截。
 
 ##### 新建项目
 `
@@ -18,7 +15,6 @@ npm run create projectName
 `
 
 运行以上命令后会复制模板目录./template到src下，并重命名为projectName。
-
 
 ##### 开发环境
 `
@@ -73,7 +69,7 @@ template下的模版是需要不断更新迭代的，所以我们需要让templa
 
 ### 翻页动画  和是否滑动翻页
 ~~~ js
-H5Init({
+A.H5Init({
 	pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
 	//scale : window.innerHeight<1008?window.innerHeight/1008:1,  //此参数 作废
 
@@ -92,7 +88,7 @@ H5Init({
 
 竖屏适配
 ~~~ js
-J.remInit({
+A.RemInit({
 	// 基础宽度 通常和设计稿宽度一致
 	baseWidth: 750,
 	// 在使用宽度适配时的 页面的最大宽度，此值只在按宽度适配时，才有效
@@ -106,7 +102,7 @@ J.remInit({
 
 横屏适配
 ~~~ js
-J.remInit({
+A.RemInit({
 	// 基础宽度 通常和设计稿宽度一致
 	baseWidth: 1334,
 	// 在使用宽度适配时的 页面的最大宽度，此值只在按宽度适配时，才有效
@@ -122,13 +118,12 @@ J.remInit({
 });
 ~~~
 
-横屏模式下不支持threeD翻页动画
-
-这里要注意，如果旋转了canvas，canvas的坐标获取并没有因此发生旋转，另外在ios有滚动条的情况下，也有些不可描述的地方，不过都可以找到解决办法，这里就不详细说明了。
+### http.js
+一个前端异步请求库，api参考axios，支持全局配置，实例化，请求拦截，响应拦截。
 
 ### 手动页面跳转
 ~~~ js
-J.gotoPage(1,{
+A.gotoPage(1,{
 	time:300,//翻页动画的运行时间
 	endCallback:function(){},//翻页后的回调函数
 	startCallback:function(){}//翻页前调用的函数
@@ -138,13 +133,13 @@ J.gotoPage(1,{
 ### 添加背景音乐
 ~~~ js
 //添加背景音乐
-var audioEle = J.addMp3({
+var audioEle = A.addMp3({
 	src:'media/bj.mp3',
-	autoplay:true,//音乐是否自动播放
-	loop:true//是否循环播放
+	autoplay:true, // 音乐是否自动播放
+	loop:true // 是否循环播放
 });
 //给背景音乐添加一个按钮
-J.setMp3Btn({
+A.setMp3Btn({
 	audioBtn:document.getElementById('micBtn'),
 	audioEle:audioEle,
 	autoplay:true
@@ -162,7 +157,7 @@ document.addEventListener('YixinJSBridgeReady', function() {
 
 ### 关闭微信页面下拉露出网页来源
 ~~~ js
-J.setScroll(false)
+A.setScroll(false)
 ~~~
 setScroll 是通过取消document的touchmove默认行为来实现的，如果页面有滚动条会使滚动条失效，需要根据项目实际情况来适时开启或关闭。
 
@@ -173,7 +168,7 @@ setScroll 是通过取消document的touchmove默认行为来实现的，如果�
 ~~~
 加载所有 .lazy 元素的data-pic属性指向的图片资源：
 ~~~ js
-J.lazyLoad('.lazy',{
+utils.lazyLoad('.lazy',{
 	fileload:function(item){
 		console.log(item.progress);
 	},
@@ -194,11 +189,10 @@ J.lazyLoad('.lazy',{
 
 minTime：如果你有一个漂亮的loading动画，想要每个用户都有足够的时间来欣赏它，你可以设置最小加载时间。设置这个参数，在你测试loading页面的时候也非常有用。
 
-
 ### 获取地址参数getQueryString
 ~~~ js
-var page = Number(J.getQueryString('page'))||3//
-J.gotoPage(page,{
+var page = Number(utils.queryString('page'))||3//
+A.gotoPage(page,{
 	time:300,//翻页动画的运行时间
 	endCallback:function(){},//翻页后的回调函数
 	startCallback:function(){}//翻页前调用的函数
@@ -208,7 +202,7 @@ J.gotoPage(page,{
 
 ### 调用相册图片
 ~~~ js
-var fileEle = J.initUpImg(element,'image/*',function(reader){
+var fileEle = A.initUpImg(element,'image/*',function(reader){
 	console.log(reader.result)
 });
 ~~~
@@ -218,7 +212,7 @@ reader.result 是选择图片后 图片的base64字符串
 
 ### 图片压缩
 ~~~ js
-J.compressionPIC(url,{maxSize:100,type:'image/png',encoderOptions:0.92},function(picdata){
+utils.compressionPIC(url,{maxSize:100,type:'image/png',encoderOptions:0.92},function(picdata){
 	
 })
 ~~~
@@ -227,28 +221,28 @@ type为jpeg或webp的情况下，encoderOptions才起作用；
 
 ### 是否为微信环境
 ~~~ js
-J.isWeixin()
+utils.isWechat()
 ~~~
 
 ### 判断是否为手机号码
 ~~~ js
-J.isMobile(srt)
+utils.isMobile(srt)
 ~~~
 
 ### 判断是否为邮箱地址
 ~~~ js
-J.isEmail(srt)
+utils.isEmail(srt)
 ~~~
 
 ### 生成随机数
 ~~~ js
-J.getRandomNum(Min,Max,integerB){ 
+utils.getRandomNum(Min,Max,integerB){ 
 ~~~
 整数[]  任意数（）
 
 ### 设备判断
 ~~~ js
-var obj = J.browserDetect();
+var obj = utils.browserDetect();
 obj.isWindowPhone
 obj.isFirefox
 obj.isOpera
@@ -259,10 +253,9 @@ obj.isBlackberry
 ~~~
 根据设备的 window.navigator.userAgent 字符串返回设备信息;
 
-
 ### 函数节流
 ~~~ js
-J.throttle(method,context);
+utils.throttle(method,context);
 ~~~
 
 
