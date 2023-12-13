@@ -2,11 +2,6 @@
 
 import utils from './utils.js';
 
-// $('img').on('click', function (e) {
-// 	if (e.target.parentNode.nodeName == 'A') return;
-// 	e.preventDefault();
-// })
-
 document.body.ondragstart = function (e) {
 	e.preventDefault();
 }
@@ -39,8 +34,6 @@ if(document.querySelector('#fx')){
 		ele.addEventListener('change', handler);
 	});
 }();
-
-
 
 //var thisData = new Date();
 //thisData.format("yyyy/MM/dd")
@@ -158,7 +151,7 @@ var activity = {
 		if (window.Hammer && info.page.length > 0) {
 
 			var mc = new Hammer(content, { 
-				// touchAction: 'pan-x pan-y'  // 谷歌浏览器手机调试模式需要去掉这句 滑动才能有效。奇怪的是changlongWSJ项目中并不是这样的。。。
+				// touchAction: 'pan-x pan-y'
 			});
 			mc.get('swipe').set({ velocity: 0, threshold: 30, direction: 30 });//修改滑动的速度与方向
 
