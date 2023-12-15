@@ -162,9 +162,9 @@ var activity = {
 				if (info.pageSwipeB[info.pageIndex] === false || info.pageSwipeB[info.pageIndex] < 0) return false;
 				var nextPage = info.page[info.pageIndex].getAttribute('next-page')
 				if (nextPage) {
-					this.GotoPage(Number(nextPage));
+					this.gotoPage(Number(nextPage));
 				} else {
-					this.GotoPage(info.pageIndex + 1);
+					this.gotoPage(info.pageIndex + 1);
 				}
 			});
 			//上一页
@@ -175,9 +175,9 @@ var activity = {
 
 				var nextPage = info.page[info.pageIndex].getAttribute('previous-page')
 				if (nextPage) {
-					this.GotoPage(Number(nextPage));
+					this.gotoPage(Number(nextPage));
 				} else {
-					this.GotoPage(info.pageIndex - 1);
+					this.gotoPage(info.pageIndex - 1);
 				}
 			});
 		}

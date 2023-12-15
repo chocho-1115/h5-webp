@@ -1,14 +1,9 @@
-// JavaScript Document
-//escape   unescape
-
 import '../css/reset.css';
 import '../css/main.css';
 import '../image/160.jpg';
 import A from './activity.js';
 import utils from './utils.js';
 import http from './http.js';
-
-var browserDetectInfo = utils.browserDetect();
 
 var doc = document;
 function qs(selector, parentNode){
@@ -52,7 +47,7 @@ A.remInit({
 	// 基础宽度 通常和设计稿宽度一致
 	baseWidth: 750,
 	// 在使用宽度适配时的 页面的最大宽度，此值只在按宽度适配时，才有效
-	maxWidth: browserDetectInfo.isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
+	maxWidth: utils.browserDetect().isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
 	// 视窗显示的最小高度范围 当按宽度适配会裁切掉viewportMinHeight所指定的高度范围内的内容时 此时将按高度来适配
 	// 所以按高度适配的临界值为 baseWidth / viewportMinHeight, 界面宽高比大于此值时 按高度适配
 	// 此值可以为空
@@ -65,7 +60,7 @@ A.remInit({
 	// 按高度适配时的临界值，会覆盖设置viewportMinHeight后默认的临界值（baseWidth / viewportMinHeight）
 	// viewportMinHeight未设置时 此值无效
 	// 使用场景：在横屏下才使用高度适配 就可以把zoomOutCriticalValue设置为 1/1
-	// zoomOutCriticalValue: !browserDetectInfo.isPc ? 1 / 1 : null,
+	// zoomOutCriticalValue: !utils.browserDetect().isPc ? 1 / 1 : null,
 	// zoomOutCriticalValue: 1334/(750-400),
 });
 
