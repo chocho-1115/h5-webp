@@ -26,14 +26,16 @@ var config = {
 	}
 };
 Object.assign(A.data, config);
-A.init();
+
+if(utils.isWechat()) A.initWxFX()
+A.setFX();
 
 //跳到第二页  
 A.h5Init({
 	//pageAnimateTime: 600,
 	pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
 	pageSwipeB : {
-		'0':false,//
+		'0':false,
 		'1':false,
 		'2':false,
 		'3':false,
@@ -113,6 +115,11 @@ Object.assign(A, {
 		// });
 		//关闭页面下拉露出网页来源
 		// this.SetScroll(false)//
+
+		var str = 'font'
+		
+		console.log(str.startsWith('f'))
+
 	},
 
 });

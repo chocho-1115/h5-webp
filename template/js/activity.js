@@ -65,20 +65,12 @@ function stopDefaultScroll (e) {
 //////////////////////////////////////////////
 var activity = {
 	data:{
-		// content : document.querySelector('#content'),
 		page : document.querySelectorAll('.page'),
 		pageIndex: -1,
 		pageStatus: -1,//页面切换状态
 		pageCutover: true,//页面切换开关 可以用来从外部限制页面是否可以滑动翻页
-		pageLen: 0,//总共多少页
 		pageSwipeB: [],
 		pageCallback: {}
-	},
-	init(){
-		this.data.pageLen = this.data.page.length;
-		
-		if(utils.isWechat()) this.initWxFX()
-		this.setFX();
 	},
     // 微信初始化分享
     initWxFX: function(){
@@ -306,7 +298,7 @@ var activity = {
 			self = this,
 			time = opt.time === undefined ? 300 : opt.time;
 
-		if (info.pageIndex == num || num >= info.pageLen) {
+		if (info.pageIndex == num || num >= info.page.length) {
 			if (opt && opt.startCallback) opt.startCallback();
 			if (opt && opt.endCallback) opt.endCallback();
 			return false;
@@ -376,7 +368,7 @@ var activity = {
 		}
 		return audioEle;
 	},
-	//设置mp4 背景音乐按钮	
+	//设置mp3 背景音乐按钮	
 	setMp3Btn (opt) {
 		var audioBtn = opt.audioBtn,
 			audioEle = opt.audioEle,
