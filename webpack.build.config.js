@@ -112,7 +112,7 @@ module.exports = function(env, argv){
                         }
                     },
                     generator: {
-                        filename: 'image/[name][ext]'
+                        filename: 'image/[name][ext]' // 导出图片路径 在打包时才需配置
                     },
                     use: [
                         {

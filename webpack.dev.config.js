@@ -77,9 +77,6 @@ module.exports = function (env) {
                             maxSize: 39 * 1024 // 小于 ？kb 转 base64
                         }
                     },
-                    generator: {
-                        filename: '[name].[contenthash:8].[ext]'
-                    },
                 },
 				{
                     test: /\.(s[ac]|c)ss$/i, //匹配所有的 sass/scss/css 文件, // 匹配所有的 css 文件
