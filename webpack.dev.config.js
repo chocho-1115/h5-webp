@@ -4,8 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const projectConfig = require('./config/projectConfig.json');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const getFreePort = require('./config/getFreePort');
-
 let projectName = process.argv[6];
 
 let projectConfig = {};
@@ -33,7 +31,6 @@ module.exports = function (env) {
 		devServer: {
 			headers: {},
 			static: projectConfig.srcPath,
-			port: getFreePort(),
 			client: {
                 logging: 'error',
 				// overlay: false // 关闭错误提示层
