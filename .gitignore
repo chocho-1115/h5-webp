@@ -5,7 +5,8 @@ db.json
 node_modules/
 dist/
 
-/src/*
+src/
+# /src/*
 # !/src/demo
 
 .deploy*/
