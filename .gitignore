@@ -6,7 +6,7 @@ node_modules/
 dist/
 
 /src/*
-!/src/demo
+# !/src/demo
 
 .deploy*/
 *.txt
