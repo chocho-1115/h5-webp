@@ -10,11 +10,10 @@ if(!projectName){
 	throw '新建项目名称不能为空：npm run create projectName';
 }
 
-
 if(fs.existsSync(tarDir)){
   throw tarDir + ' 目录已存在';
 }else{
-  fs.mkdir(tarDir, function(err) {
+  fs.mkdir(tarDir, {recursive: true}, function(err) {
     if (err) {
       console.log(err);
       return;
@@ -22,7 +21,6 @@ if(fs.existsSync(tarDir)){
     copyFolder(srcDir, tarDir);
   });
 }
-
 
 // 将源文件拷贝到目标文件
 // 将srcPath路径的文件复制到tarPath
