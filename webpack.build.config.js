@@ -8,7 +8,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');//css提取
 // const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');// weipack4
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');// weipack5
-
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 
 // const webpack = require("webpack");
@@ -111,30 +111,10 @@ module.exports = function(env, argv){
                             maxSize: 2 * 1024 // 小于 ？kb 转 base64
                         }
                     },
-                    generator: {
+					generator: {
                         filename: 'image/[name][ext]' // 导出图片路径 在打包时才需配置
                     },
-                    use: [
-                        {
-                            loader: 'image-webpack-loader',
-                            options: {
-                                //bypassOnDebug : true, // webpack@1.x 
-                                disable: false, // webpack@2.x and newer 
-                                // jpeg / jpg
-                                mozjpeg: {
-                                    progressive: true,
-                                    quality: 70
-                                },
-                                // png
-                                pngquant: {
-                                    quality: [0.7, 0.80],
-                                    speed: 4
-                                },
-                                // webp
-                                // webp: { quality: 85 }
-                            }
-                        }
-                    ]
+                    
                 },
 		        // html
 		        {
@@ -209,7 +189,32 @@ module.exports = function(env, argv){
 				new TerserPlugin({
 					extractComments: false,//不将注释提取到单独的文件中
 				}),
-				new CssMinimizerPlugin()
+				new CssMinimizerPlugin(),
+				new ImageMinimizerPlugin({
+					// Disable `loader`
+					loader: false,
+					
+					// severityError: 'warning', // Ignore errors on corrupted images
+					minimizer: {
+						// Implementation
+						// implementation: ImageMinimizerPlugin.sharpMinify,
+						// Options
+						implementation: ImageMinimizerPlugin.imageminMinify,
+						options: {
+							plugins: [
+								['gifsicle', { interlaced: true }],
+								['pngquant', { quality: [0.6, 0.8] } ],
+								['mozjpeg', { quality: 80 }],
+								['svgo', {
+									name: 'addAttributesToSVGElement',
+									params: {
+										attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }],
+									}
+								}],
+							],
+						},
+					},
+				}),
 			],
 		},
 		plugins: [
