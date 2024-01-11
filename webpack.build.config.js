@@ -108,7 +108,7 @@ module.exports = function(env, argv){
                     type: 'asset',
                     parser: {
                         dataUrlCondition: {
-                            maxSize: 2 * 1024 // 小于 ？kb 转 base64
+                            maxSize: 4 * 1024 // 小于 ？kb 转 base64 默认值为 4 * 1024
                         }
                     },
 					generator: {
@@ -127,31 +127,9 @@ module.exports = function(env, argv){
 								esModule: false,
 								sources: {
 									list: [
-										// 原生
-										{ tag: 'img', attribute: 'src', type: 'src' },
-										{ tag: 'video', attribute: 'poster', type: 'src' },
-										// 自定义
-										{ tag: 'a', attribute: 'data-src', type: 'src' },
-										{ tag: 'body', attribute: 'data-src', type: 'src' },
-										{ tag: 'div', attribute: 'data-src', type: 'src' },
-										{ tag: 'span', attribute: 'data-src', type: 'src' },
-										{ tag: 'img', attribute: 'data-src', type: 'src' },
-										{ tag: 'ul', attribute: 'data-src', type: 'src' },
-										{ tag: 'ol', attribute: 'data-src', type: 'src' },
-										{ tag: 'li', attribute: 'data-src', type: 'src' },
-										{ tag: 'dl', attribute: 'data-src', type: 'src' },
-										{ tag: 'dt', attribute: 'data-src', type: 'src' },
-										{ tag: 'dd', attribute: 'data-src', type: 'src' },
-										{ tag: 'p', attribute: 'data-src', type: 'src' },
-										{ tag: 'input', attribute: 'data-src', type: 'src' },
-										{ tag: 'textarea', attribute: 'data-src', type: 'src' },
-										{ tag: 'form', attribute: 'data-src', type: 'src' },
-										{ tag: 'canvas', attribute: 'data-src', type: 'src' },
-										// html5
-										{ tag: 'header', attribute: 'data-src', type: 'src' },
-										{ tag: 'footer', attribute: 'data-src', type: 'src' },
-										{ tag: 'article', attribute: 'data-src', type: 'src' },
-										{ tag: 'section', attribute: 'data-src', type: 'src' }
+										{ attribute: 'src', type: 'src' },
+										{ attribute: 'poster', type: 'src' },
+										{ attribute: 'data-src', type: 'src' }
 									],
 									urlFilter: (attribute, value, resourcePath) => {
 										if (value.indexOf('image') == -1) {
