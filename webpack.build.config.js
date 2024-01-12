@@ -60,13 +60,12 @@ module.exports = function(env, argv){
 		    rules: [
 				{
                     test: /\.(s[ac]|c)ss$/i, //匹配所有的 sass/scss/css 文件, // 匹配所有的 css 文件
-					
                     use: [
                         MiniCssExtractPlugin.loader,
 						{
 							loader: 'css-loader',
 							options: {
-								modules: false,
+								esModule: true
 							},
 						},
                     ]
@@ -97,7 +96,7 @@ module.exports = function(env, argv){
 									"corejs": 3,
 									"helpers": true,
 									"regenerator": true,
-									"useESModules": false
+									"useESModules": true
 								}]
 							]
 						}
@@ -124,7 +123,7 @@ module.exports = function(env, argv){
 		                    loader: 'html-loader',
 		                    options: {
 								minimize: true,
-								esModule: false,
+								esModule: true,
 								sources: {
 									list: [
 										{ attribute: 'src', type: 'src' },
@@ -170,13 +169,9 @@ module.exports = function(env, argv){
 				new CssMinimizerPlugin(),
 				new ImageMinimizerPlugin({
 					// Disable `loader`
-					loader: false,
-					
+					loader: true, // 默认true，自动添加内置loader。 如果设置为false html、css如果同时引入同一张图时，会报错。
 					// severityError: 'warning', // Ignore errors on corrupted images
 					minimizer: {
-						// Implementation
-						// implementation: ImageMinimizerPlugin.sharpMinify,
-						// Options
 						implementation: ImageMinimizerPlugin.imageminMinify,
 						options: {
 							plugins: [
