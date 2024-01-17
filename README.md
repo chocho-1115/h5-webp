@@ -236,13 +236,13 @@ utils.isEmail(srt)
 
 ### 生成随机数
 ~~~ js
-utils.getRandomNum(Min,Max,integerB){ 
+utils.getRandomNum(Min,Max,integerB)
 ~~~
 整数[]  任意数（）
 
 ### 设备判断
 ~~~ js
-var obj = utils.browserDetect();
+var obj = utils.browserDetect()
 obj.isWindowPhone
 obj.isFirefox
 obj.isOpera
@@ -255,7 +255,7 @@ obj.isBlackberry
 
 ### 函数节流
 ~~~ js
-utils.throttle(method,context);
+utils.throttle(method,context)
 ~~~
 
 
