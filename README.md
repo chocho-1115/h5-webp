@@ -255,7 +255,12 @@ obj.isBlackberry
 
 ### 函数节流
 ~~~ js
-utils.throttle(method,context)
+utils.throttle (method, delay)
+~~~
+
+### 函数防抖
+~~~ js
+utils.debounce (method, delay)
 ~~~
 
 

@@ -147,15 +147,38 @@ var utils = {
 			}
 		}
 	},
-	// 函数节流
-	throttle(method, context) {
-		//console.log(method.tId)
-		if (method.tId) clearTimeout(method.tId);
-		//console.log(method.tId)
-		method.tId = setTimeout(function () {
-			method.call(context);
-		}, 100);
+	// 函数防抖 多次触发只执行最后一次  此函数不执行第一次触发
+	debounce (method, delay){
+		let timeout;
+        return function () {
+            let context = this; // 保存this指向
+            let args = arguments; // 拿到event对象
+            clearTimeout(timeout)
+            timeout = setTimeout(function(){
+                method.apply(context, args)
+            }, delay);
+        }
 	},
+    // 函数节流 多次触发时减少触发频次 此函数会执行第一次触发
+    throttle (method, delay) {
+        let timer = null
+        let starttime = Date.now()
+        return function () {
+            let curTime = Date.now() // 当前时间
+            let remaining = delay - (curTime - starttime)  // 从上一次到现在，还剩下多少多余时间
+            let context = this
+            let args = arguments
+            clearTimeout(timer)
+            if (remaining <= 0) {
+                method.apply(context, args)
+                starttime = Date.now()
+            } else {
+                timer = setTimeout(function(){
+                    method.apply(context, args)
+                }, remaining);
+            }
+        }
+    },
 	browserDetect() {
 		var obj = {
 			agent: window.navigator.userAgent
