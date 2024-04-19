@@ -123,7 +123,7 @@ var activity = {
         }
         // 设置默认分享文案
 		if(utils.isWechat()){
-			jWeixin.ready(function () {
+			wx.ready(function () {
 				jssdk.share(fxData);
 			});
 		}
@@ -406,29 +406,32 @@ var activity = {
 		}
 	},
 	// 设置省市区联动
-	initChinaAreaPicker: function(province, city, area, district, callback){
+	initChinaAreaPicker: function({province, city, area, district, depth, defaultValue = []} = {}, callback){
         if(!window.ChinaAreaData){
             return;
         }
         district.onclick = function () {
             weui.picker(window.ChinaAreaData, {
+				depth: depth,
                 container: "body",
-                // defaultValue: [province.value||'湖南省', city.value||'长沙市', area.value||'市辖区'],
-                defaultValue: [province.value||'430000', city.value||'430100', area.value||'430101'],
+				// defaultValue: ['430000', '430100', '430101'],
+                defaultValue: defaultValue,
                 onConfirm: function (result) {
-					var res = {
-						province: result[0]?result[0].label:'',
-						city: result[1]?result[1].label:'',
-						area: result[2]?result[2].label:'',
-						provinceCode: result[0]?result[0].value:'',
-                    	cityCode: result[1]?result[1].value:'',
-                    	areaCode: result[2]?result[2].value:''
+					let str = ''
+                    if(province) {
+						province.value = result[0]?result[0].value:'';
+						str += result[0] ? result[0].label + ' ' : ''
 					}
-                    province.value = res.provinceCode;
-                    city.value = res.cityCode;
-                    area.value = res.areaCode;
-                    district.value = res.province + " " + res.city + " " + res.area;
-					callback && callback(res)
+                    if(city) {
+						city.value = result[1]?result[1].value:'';
+						str += result[1] ? result[1].label + ' ' : ''
+					}
+                    if(area) {
+						area.value = result[2]?result[2].value:'';
+						str += result[2] ? result[2].label : ''
+					}
+					district.value = str.trim();
+					callback && callback(result)
                 },
                 id: "AddressPicker" //缓存id
             });
