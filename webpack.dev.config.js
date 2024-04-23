@@ -33,7 +33,7 @@ module.exports = function (env) {
 			static: projectConfig.srcPath,
 			client: {
                 logging: 'error',
-				// overlay: false // 关闭错误提示层
+				overlay: false // 关闭vue错误提示层
             },
 			compress: true, // 是否启动压缩 gzip
             open: false, // 是否自动打开浏览器
