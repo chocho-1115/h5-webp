@@ -107,7 +107,7 @@ module.exports = function(env, argv){
                     type: 'asset',
                     parser: {
                         dataUrlCondition: {
-                            maxSize: 4 * 1024 // 小于 ？kb 转 base64 默认值为 4 * 1024
+                            maxSize: 0 // 4 * 1024 // 小于 ？kb 转 base64 默认值为 4 * 1024
                         }
                     },
 					generator: {
@@ -173,6 +173,18 @@ module.exports = function(env, argv){
 					// severityError: 'warning', // Ignore errors on corrupted images
 					minimizer: {
 						implementation: ImageMinimizerPlugin.imageminMinify,
+						filter: (source, sourcePath) => {
+							
+							if (sourcePath.indexOf('static') > -1) {
+								return false
+							}
+
+							// if (source.byteLength < 8192) {
+							//   return false;
+							// }
+			  
+							return true;
+						},
 						options: {
 							plugins: [
 								['gifsicle', { interlaced: true }],
