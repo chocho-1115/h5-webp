@@ -406,6 +406,34 @@ var activity = {
 		}
 	},
 	// 设置省市区联动
+	initHunanAreaPicker: function({city, area, district, depth, defaultValue = []} = {}, callback){
+        if(!window.HunanAreaData){
+            return;
+        }
+        district.onclick = function () {
+            weui.picker(window.HunanAreaData, {
+				depth: depth,
+                container: "body",
+                // defaultValue: ['430000', '430100', '430101'],
+                defaultValue: defaultValue,
+                onConfirm: function (result) {
+                    let str = ''
+                    if(city) {
+						city.value = result[0]?result[0].value:'';
+						str += result[0] ? result[0].label + ' ' : ''
+					}
+                    if(area) {
+						area.value = result[1]?result[1].value:'';
+						str += result[1] ? result[1].label : ''
+					}
+					district.value = str.trim();
+					callback && callback(result)
+                },
+                id: "AddressPicker" //缓存id
+            });
+        };
+    },
+	// 设置省市区联动
 	initChinaAreaPicker: function({province, city, area, district, depth, defaultValue = []} = {}, callback){
         if(!window.ChinaAreaData){
             return;
