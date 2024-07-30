@@ -141,7 +141,7 @@ var utils = {
 			input = document.createElement('input');
 			input.id = "copy-input";
 			input.readOnly = "readOnly";        // 防止ios聚焦触发键盘事件
-			input.style.position = "absolute";
+			input.style.position = "fixed";
 			input.style.left = "-1000px";
 			input.style.zIndex = "-1000";
 			document.body.appendChild(input);
