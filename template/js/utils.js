@@ -242,7 +242,7 @@ var utils = {
 			dom: dom,
 			lowercase: pre,
 			css: '-' + pre + '-',
-			js: pre[0].toUpperCase() + pre.substr(1)
+			js: pre[0].toUpperCase() + pre.substring(1)
 		};
 	},
 	// 预载器
@@ -339,7 +339,7 @@ var utils = {
 	// 获取地址参数
 	queryString(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-		var r = window.location.search.substr(1).match(reg);
+		var r = window.location.search.substring(1).match(reg);
 		if (r != null) return decodeURIComponent(r[2]);
 		return null;
 	},
