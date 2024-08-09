@@ -105,7 +105,7 @@ module.exports = function (env) {
 			}),
 			new ESLintPlugin({
 				fix: true, // 自动修复
-				exclude: 'node_modules',
+				context: projectConfig.srcPath,
 				overrideConfigFile: './eslint.config.js'
 			})
 		],
