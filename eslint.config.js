@@ -20,11 +20,12 @@ module.exports = {
         "gsap": "readonly",
         "Hammer": "readonly",
     },
+
     rules: {
         "no-var": 2, // 不能使用 var 定义变量
         "indent": ["error", 4], // 缩进
     },
-    // ignorePatterns: ["libs/*"],
+    ignorePatterns: ["libs/"], // 忽略
     
 }
 
