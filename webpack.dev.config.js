@@ -2,6 +2,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 let projectName = process.argv[6];
 
@@ -102,6 +103,9 @@ module.exports = function (env) {
 				filename: 'css/[name]-[contenthash].css', //'css/main.css',
 				//chunkFilename: 'css/main.css',
 			}),
+			new ESLintPlugin({
+				overrideConfigFile: './eslint.config.js'
+			})
 		],
 		externals: {
 			// jquery: 'jQuery'
