@@ -6,7 +6,6 @@ const readline = require('readline');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');//css提取
-// const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');// weipack4
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');// weipack5
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
@@ -231,7 +230,6 @@ module.exports = function(env, argv){
 				filename: 'css/[name]-[contenthash].css', //'css/main.css',
 				//chunkFilename: 'css/main.css',
 			}),
-			// new OptimizeCssAssetsPlugin(),
 			new CopyPlugin({
 				patterns: [
 					{ 
