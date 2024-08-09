@@ -104,6 +104,7 @@ module.exports = function (env) {
 				//chunkFilename: 'css/main.css',
 			}),
 			new ESLintPlugin({
+				fix: true, // 自动修复
 				overrideConfigFile: './eslint.config.js'
 			})
 		],
