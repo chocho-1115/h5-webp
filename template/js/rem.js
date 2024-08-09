@@ -1,7 +1,7 @@
 
 (function () {
     function remInit(opt) {
-        var docEl = document.documentElement,
+        let docEl = document.documentElement,
             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
             viewportMinHeight = opt.viewportMinHeight,
             zoomOutCriticalValue = opt.zoomOutCriticalValue,
@@ -11,22 +11,23 @@
             timer = null;
 
         recalc = function () {
-            var clientWidth = docEl.clientWidth;
-            var clientHeight = docEl.clientHeight;
-            var zoomOutByHeight = false;
+            let clientWidth = docEl.clientWidth;
+            let clientHeight = docEl.clientHeight;
+            let zoomOutByHeight = false;
+            let v
             if (viewportMinHeight && docEl.clientWidth / clientHeight > (zoomOutCriticalValue || baseWidth / viewportMinHeight)) {
                 zoomOutByHeight = true;
             }
             if (zoomOutByHeight) {
-                var v = 100 * (clientHeight / viewportMinHeight);
+                v = 100 * (clientHeight / viewportMinHeight);
             } else {
-                var v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
+                v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
             }
             docEl.style.fontSize = v + 'px';
             docEl.setAttribute('data', v);
 
             // 解决部分 Android 手机(例如华为) 通过 rem 计算的宽度和手机上实际显示的宽度不一致
-            var realFs = parseFloat(window.getComputedStyle(docEl)["font-size"]);
+            let realFs = parseFloat(window.getComputedStyle(docEl)["font-size"]);
             if (Math.abs(realFs - v) >= 1) {
                 docEl.style.fontSize = (v / (realFs / v)) + "px";
             }
@@ -41,7 +42,7 @@
         recalc();
     }
     function browserDetect() {
-        var obj = {
+        let obj = {
             agent: window.navigator.userAgent
         };
 
@@ -59,7 +60,7 @@
         //throw "BrowserDetect cannot be instantiated";
     }
 
-    var browserDetectInfo = browserDetect();
+    let browserDetectInfo = browserDetect();
     remInit({
         // 基础宽度 通常和设计稿宽度一致
         baseWidth: 750,

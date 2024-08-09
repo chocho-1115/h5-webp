@@ -18,7 +18,7 @@ function mergeConfig(config1, config2){
 	config1 = config1 || {}
 	config2 = config2 || {}
 	const headers = Object.assign({}, config1.headers, config2.headers)
-	var config = Object.assign({}, config1, config2)
+	let config = Object.assign({}, config1, config2)
 	config.headers = headers
 	return config
 }
@@ -79,7 +79,7 @@ function dispatchRequest(config){
 		client.open(config.method, url.substring(0,4) == 'http' ? url : config.baseURL + url, config.async);
 		client.responseType = config.responseType;
 		
-		for (name in headers) {
+		for (let name in headers) {
 			client.setRequestHeader(name, headers[name]);
 		}
 

@@ -20,9 +20,9 @@ if(document.querySelector('#fx')){
 // });
 
 +function(){
-	var selectAll = document.getElementsByTagName('select');
+	let selectAll = document.getElementsByTagName('select');
 	function handler(){
-		var v = this.value;
+		let v = this.value;
 		if(v==''){
 			this.classList.add('select-placeholder');
 		}else{
@@ -35,10 +35,10 @@ if(document.querySelector('#fx')){
 	});
 }();
 
-//var thisData = new Date();
+//let thisData = new Date();
 //thisData.format("yyyy/MM/dd")
 Date.prototype.format = function (format) {
-	var o = {
+	let o = {
 		"M+": this.getMonth() + 1, //month   
 		"d+": this.getDate(),    //day   
 		"h+": this.getHours(),   //hour   
@@ -49,7 +49,7 @@ Date.prototype.format = function (format) {
 	}
 	if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
 		(this.getFullYear() + "").substring(4 - RegExp.$1.length));
-	for (var k in o) if (new RegExp("(" + k + ")").test(format))
+	for (let k in o) if (new RegExp("(" + k + ")").test(format))
 		format = format.replace(RegExp.$1,
 			RegExp.$1.length == 1 ? o[k] :
 				("00" + o[k]).substring(("" + o[k]).length));
@@ -63,7 +63,7 @@ function stopDefaultScroll (e) {
 }
 
 //////////////////////////////////////////////
-var activity = {
+let activity = {
 	data:{
 		page : document.querySelectorAll('.page'),
 		pageIndex: -1,
@@ -74,27 +74,21 @@ var activity = {
 	},
     // 微信初始化分享
     initWxFX: function(){
-        var self = this;
-        // jssdk.init({debug:false}).then(function(res) {
-        //     wx.hideMenuItems({
-        //         menuList: [
-        //             'menuItem:copyUrl', 
-        //             //'menuItem:readMode' 
-        //         ] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
-        //     });
-        //     self.setFX();
-        //     console.log('jssdk签名成功');
-        // }).catch((res)=>{ 
-        //     console.log('jssdk出错了', res);
-        // });
-		window.jssdk && window.jssdk.init({debug:false}).then(function(){
-			// self.setFX();
-		})
+		jssdk && jssdk.init({debug:false}).then(function(){
+			// wx.hideMenuItems({
+            //     menuList: [
+            //         'menuItem:copyUrl', 
+            //         //'menuItem:readMode' 
+            //     ] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+            // });
+		}).catch(()=>{ 
+			
+		});
     },
-	setFX(options, callback){
+	setFX(options){
         options = options || {};
-        var self = this;
-        var fxData = {
+        let self = this;
+        let fxData = {
             title: this.data.shareInfo.title, 
             desc: this.data.shareInfo.desc,
             imgUrl: this.data.shareInfo.imgUrl,
@@ -130,8 +124,8 @@ var activity = {
 		
 	},
 	h5Init (opt) {
-		var info = this.data;
-		var content = document.querySelector('#content');
+		let info = this.data;
+		let content = document.querySelector('#content');
 		info.pageSwipeB = opt.pageSwipeB;
 
 		TweenMax.set(info.page, {
@@ -142,7 +136,7 @@ var activity = {
 		//设置翻页事件
 		if (window.Hammer && info.page.length > 0) {
 
-			var mc = new Hammer(content, { 
+			let mc = new Hammer(content, { 
 				// touchAction: 'pan-x pan-y'
 			});
 			mc.get('swipe').set({ velocity: 0, threshold: 30, direction: 30 });//修改滑动的速度与方向
@@ -152,7 +146,7 @@ var activity = {
 				if (!info.pageStatus) return false;
 				if (!info.pageCutover) return false;
 				if (info.pageSwipeB[info.pageIndex] === false || info.pageSwipeB[info.pageIndex] < 0) return false;
-				var nextPage = info.page[info.pageIndex].getAttribute('next-page')
+				let nextPage = info.page[info.pageIndex].getAttribute('next-page')
 				if (nextPage) {
 					this.gotoPage(Number(nextPage));
 				} else {
@@ -165,7 +159,7 @@ var activity = {
 				if (!info.pageCutover) return false;
 				if (info.pageSwipeB[info.pageIndex] === false || info.pageSwipeB[info.pageIndex] > 0) return false;
 
-				var nextPage = info.page[info.pageIndex].getAttribute('previous-page')
+				let nextPage = info.page[info.pageIndex].getAttribute('previous-page')
 				if (nextPage) {
 					this.gotoPage(Number(nextPage));
 				} else {
@@ -176,13 +170,13 @@ var activity = {
 	},
 	//rem适配   DOMContentLoaded
 	remInit (config) {
-		var docEl = document.documentElement,
+		let docEl = document.documentElement,
 			resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize',
 			timer = null;
 
 		// 可配置参数
-		var isLandscape = config.isLandscape ? true : false; // 是否横屏 这里是只页面是否要横屏展示 并不代表当前的设备状态
-		var zoomOutCriticalValue = config.zoomOutCriticalValue;
+		let isLandscape = config.isLandscape ? true : false; // 是否横屏 这里是只页面是否要横屏展示 并不代表当前的设备状态
+		let zoomOutCriticalValue = config.zoomOutCriticalValue;
 		// 添加横屏标识
 		if (isLandscape) docEl.classList.add('landscape');
 
@@ -230,39 +224,40 @@ var activity = {
 
 		function recalc(opt) {
 			// 可配置参数
-			var viewportMinHeight = opt.viewportMinHeight,
+			let viewportMinHeight = opt.viewportMinHeight,
 				baseWidth = opt.baseWidth,
 				maxWidth = opt.maxWidth ? opt.maxWidth : 10000;
 
-			var zoomOutByHeight = false;
+			let zoomOutByHeight = false;
 
 			if (viewportMinHeight && docEl.clientWidth / docEl.clientHeight > (zoomOutCriticalValue || baseWidth / viewportMinHeight)) {
 				zoomOutByHeight = true;
 			}
-			var clientWidth = docEl.clientWidth;
-			var clientHeight = docEl.clientHeight;
+			let clientWidth = docEl.clientWidth;
+			let clientHeight = docEl.clientHeight;
+			let v
 			if (zoomOutByHeight) {
-				var v = 100 * (clientHeight / viewportMinHeight);
+				v = 100 * (clientHeight / viewportMinHeight);
 			} else {
-				var v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
+				v = 100 * (Math.min(clientWidth, maxWidth) / baseWidth);
 			}
 			docEl.style.fontSize = v + 'px';
 			docEl.setAttribute('data', v);
 
 			// 解决部分 Android 手机(例如华为) 通过 rem 计算的宽度和手机上实际显示的宽度不一致
 			// 方法一
-			// var realFs = parseFloat(window.getComputedStyle(docEl)["font-size"]);
+			// let realFs = parseFloat(window.getComputedStyle(docEl)["font-size"]);
 			// if (Math.abs(realFs - v) >= 1) {
 			// 	docEl.style.fontSize = (v / (realFs / v)) + "px";
 			// }
 
 			// 方法二
-			// var settedFs = v
-			// var settingFs = v;
-			// var whileCount = 0;
+			// let settedFs = v
+			// let settingFs = v;
+			// let whileCount = 0;
 			// while (true) {
-			// 	var realFs = parseInt(window.getComputedStyle(docEl).fontSize);
-			// 	var delta = realFs - settedFs;
+			// 	let realFs = parseInt(window.getComputedStyle(docEl).fontSize);
+			// 	let delta = realFs - settedFs;
 			// 	//不相等
 			// 	if (Math.abs(delta) >= 1) {
 			// 		if (delta > 0)
@@ -281,7 +276,7 @@ var activity = {
 		};
 	},
 	setUpJt (B) {
-		var ele = document.getElementById('upJt');
+		let ele = document.getElementById('upJt');
 		if(!ele) return;
 		if(B){
 			ele.style.display = 'block';
@@ -290,9 +285,8 @@ var activity = {
 		}
 	},
 	gotoPage (num, opt) {
-		var info = this.data;
-		var opt = opt || {},
-			direction = 1,
+		opt = opt || {}
+		let info = this.data,
 			oldPage = info.page[info.pageIndex],
 			newPage = info.page[num],
 			self = this,
@@ -305,7 +299,6 @@ var activity = {
 		}
 		info.pageStatus = 0;
 
-		if (info.pageIndex > num) direction = -1;
 		self.setUpJt(false);
 
 		//TweenMax.set(opt.newPage,{display:'block'});
@@ -333,7 +326,7 @@ var activity = {
 				if (info.callback && info.callback[num]) info.callback[num]();
 				if (opt.endCallback) opt.endCallback();
 
-				var d = info.pageSwipeB[num]
+				let d = info.pageSwipeB[num]
 				if (opt.upJtB === undefined && (d === 0 || d === 1)) {
 					self.setUpJt(true);
 				} else {
@@ -346,8 +339,8 @@ var activity = {
 		
 	},
 	addMp3 (opt) {
-		var audioEle = document.createElement('audio');
-		var eventName = 'ontouchstart' in window ? 'touchstart' : 'mousedown';
+		let audioEle = document.createElement('audio');
+		let eventName = 'ontouchstart' in window ? 'touchstart' : 'mousedown';
 		audioEle.setAttribute('src', opt.src);
 		audioEle.loop = opt.loop;
 		if (opt.autoplay) {
@@ -370,7 +363,7 @@ var activity = {
 	},
 	//设置mp3 背景音乐按钮	
 	setMp3Btn (opt) {
-		var audioBtn = opt.audioBtn,
+		let audioBtn = opt.audioBtn,
 			audioEle = opt.audioEle,
 			autoplay = opt.autoplay;
 
@@ -387,7 +380,7 @@ var activity = {
 		if (autoplay && audioEle.paused) {
 			audioBtn.classList.add('hide');
 		}
-		audioBtn.addEventListener('click', function (e) {
+		audioBtn.addEventListener('click', function () {
 			if (audioEle.paused) {
 				audioBtn.classList.remove('hide');
 				audioEle.play();

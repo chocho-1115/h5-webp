@@ -1,9 +1,9 @@
 // https://github.com/chocho-1115/h5-webp
 
-var utils = {
+let utils = {
 	// window.onload
 	whenWindowLoad(func) {
-		var oldonload = window.onload;
+		let oldonload = window.onload;
 		if (typeof window.onload != 'function') {
 			window.onload = func;
 		} else {
@@ -15,8 +15,8 @@ var utils = {
 	},
 	// jq的document.ready
 	whenDomReady: function () {
-		var funcs = [];
-		var ready = false; // 当触发事件处理程序时,切换为true
+		let funcs = [];
+		let ready = false; // 当触发事件处理程序时,切换为true
 
 		// 当文档就绪时,调用事件处理程序
 		function handler(e) {
@@ -30,7 +30,7 @@ var utils = {
 			//运行所有注册函数
 			//注意每次都要计算funcs.length
 			//以防这些函数的调用可能会导致注册更多的函数
-			for (var i = 0; i < funcs.length; i++) {
+			for (let i = 0; i < funcs.length; i++) {
 				funcs[i].call(document);
 			}
 			//事件处理函数完整执行,切换ready状态, 并移除所有函数
@@ -54,12 +54,12 @@ var utils = {
 	}(),
 	// 固定宽度适配时高度不够
 	setViewportMinHeight(minH, callback) {
-		var metaEle = document.getElementById('viewEle');
+		let metaEle = document.getElementById('viewEle');
 		if (!metaEle) return;
-		var winW = document.documentElement.clientWidth;
-		var winH = document.documentElement.clientHeight;
+		let winW = document.documentElement.clientWidth;
+		let winH = document.documentElement.clientHeight;
 		if (minH && winH < minH) {
-			var w = minH * winW / winH;
+			let w = minH * winW / winH;
 			document.getElementById('viewEle').setAttribute('content', 'width=' + w + ', user-scalable=no,target-densitydpi = device-dpi');
 		}
 		callback && callback();
@@ -68,7 +68,7 @@ var utils = {
 	countDown(endTime, opt) {
 		opt.framerate = opt.framerate || 1;
 		opt.nowTime = opt.nowTime || new Date().getTime();
-		var res = {
+		let res = {
 			death: false,
 			day: 0,
 			hour: 0,
@@ -76,8 +76,8 @@ var utils = {
 			second: 0,
 			millisecond: 0
 		};
-		var sys_millisecond = endTime - opt.nowTime;
-		var sys_millisecond_speed = 1000 / opt.framerate;
+		let sys_millisecond = endTime - opt.nowTime;
+		let sys_millisecond_speed = 1000 / opt.framerate;
 		function anim() {
 			if (sys_millisecond < sys_millisecond_speed) {
 				clearInterval(timer);
@@ -99,15 +99,15 @@ var utils = {
 				if (opt.onUpdate) opt.onUpdate(res);
 			}
 		}
-		var timer = setInterval(anim, sys_millisecond_speed);
+		let timer = setInterval(anim, sys_millisecond_speed);
 		anim();
 		return timer;
 	},
 	clock (opt){
 		opt.framerate = opt.framerate||1;
 		opt.nowTime = opt.nowTime||new Date().getTime();
-		var startTime = new Date().getTime();
-		var res = {
+		let startTime = new Date().getTime();
+		let res = {
 			year: 0,
 			month: 0,
 			date: 0,
@@ -117,8 +117,8 @@ var utils = {
 			millisecond: 0
 		};
 		function anim(){
-			var time = (new Date().getTime() - startTime) + opt.nowTime
-			var D = new Date(time);
+			let time = (new Date().getTime() - startTime) + opt.nowTime
+			let D = new Date(time);
 			res.year = D.getFullYear();
 			res.month = D.getMonth()+1;
 			res.date = D.getDate();
@@ -128,7 +128,7 @@ var utils = {
 			res.millisecond = D.getMilliseconds();
 			if(opt.onUpdate)opt.onUpdate(res);
 		}
-		var timer = setInterval(anim, 1000/opt.framerate);
+		let timer = setInterval(anim, 1000/opt.framerate);
 		anim();
 		return timer;
 	},
@@ -209,7 +209,7 @@ var utils = {
         }
     },
 	browserDetect() {
-		var obj = {
+		let obj = {
 			agent: window.navigator.userAgent
 		};
 		obj.isWindowPhone = (obj.agent.indexOf("IEMobile") > -1) || (obj.agent.indexOf("Windows Phone") > -1);
@@ -232,7 +232,7 @@ var utils = {
 			不过这些浏览器没有必要获取浏览器前缀了 浏览器前缀主要用于css3 而这些老古董浏览器不支持大部分的css3；
 		*/
 		if (window.opera || !window.getComputedStyle) return null;
-		var styles = window.getComputedStyle(document.documentElement, ''),
+		let styles = window.getComputedStyle(document.documentElement, ''),
 			pre = (Array.prototype.slice
 				.call(styles)
 				.join('')
@@ -251,7 +251,7 @@ var utils = {
 			srcArr = [{ path: srcArr }];
 		};
 		if (srcArr.length == 0) { params.complete && params.complete({}); return false };
-		var num = 0,
+		let num = 0,
 			imgArrObj = {},
 			minTime = params.minTime || 0,
 			baseUrl = params.baseUrl || '',
@@ -259,14 +259,14 @@ var utils = {
 			t = minTime / len,
 			st = (new Date()).getTime();
 
-		for (var i = 0; i < len; i++) {
+		for (let i = 0; i < len; i++) {
 			(function (i) {
 				if (typeof (srcArr[i]) == 'string') srcArr[i] = { path: srcArr[i], name: i };
-				var newImg = new Image();
+				let newImg = new Image();
 				if (srcArr[i].crossOrigin) newImg.crossOrigin = srcArr[i].crossOrigin;
 				newImg.onload = newImg.onerror = function (e) {
 					e = e || window.event;
-					var self = this;
+					let self = this;
 					endLoad(self, e.type, i);
 				};
 				setTimeout(function () {
@@ -276,7 +276,7 @@ var utils = {
 		}
 		function endLoad(this_, eType, i) {
 			num++;
-			var progress = num / len;
+			let progress = num / len;
 			srcArr[i]['result'] = this_;
 			srcArr[i]['progress'] = progress;
 			srcArr[i]['index'] = i;
@@ -289,14 +289,13 @@ var utils = {
 	// 
 	lazyLoad(selector, params) {
 		params = params || {};
-		var doc = document,
+		let doc = document,
 			assets = [],
 			ele = doc.querySelectorAll(selector),
 			baseUrl = params.baseUrl || '';
 
-		for (var i = 0, len = ele.length; i < len; i++) {
-			var id = i;
-			var obj = { path: '', type: '', ele: ele[i], name: '_' + i, crossOrigin: null }
+		for (let i = 0, len = ele.length; i < len; i++) {
+			let obj = { path: '', type: '', ele: ele[i], name: '_' + i, crossOrigin: null }
 			if (ele[i].nodeName === 'IMG') {
 				obj.type = 'img';
 			} else {
@@ -305,7 +304,7 @@ var utils = {
 			obj.path = ele[i].getAttribute('data-src');
 			obj.crossOrigin = ele[i].getAttribute('crossOrigin');
 			// 过滤已转为base64的图片
-			var result = /^data\:([^\;]+)\;base64,/gmi;
+			let result = /^data:([^;]+);base64,/gmi;
 			if (result.test(obj.path)) {
 				if (obj.type == 'img') {
 					obj.ele.setAttribute('src', obj.path);
@@ -338,18 +337,18 @@ var utils = {
 	},
 	// 获取地址参数
 	queryString(name) {
-		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-		var r = window.location.search.substring(1).match(reg);
+		let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		let r = window.location.search.substring(1).match(reg);
 		if (r != null) return decodeURIComponent(r[2]);
 		return null;
 	},
 	// 生成随机字符串
 	getRandomStr(len) {
 		len = len || 32;
-		var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';// 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
-		var maxPos = $chars.length;
-		var sttr = '';
-		for (var i = 0; i < len; i++) {
+		let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';// 默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+		let maxPos = $chars.length;
+		let sttr = '';
+		for (let i = 0; i < len; i++) {
 			sttr += $chars.charAt(Math.floor(Math.random() * maxPos));
 		}
 		return sttr;
@@ -365,24 +364,24 @@ var utils = {
 	// 获取农历日期
 	getLunarDay(solarYear, solarMonth, solarDay) {
 		solarMonth = (parseInt(solarMonth) > 0) ? (solarMonth - 1) : 11;
-		var madd = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-		var tgString = "甲乙丙丁戊己庚辛壬癸";
-		var dzString = "子丑寅卯辰巳午未申酉戌亥";
-		var numString = "一二三四五六七八九十";
-		var monString = "正二三四五六七八九十冬腊";
-		var weekString = "日一二三四五六";
-		var sx = "鼠牛虎兔龙蛇马羊猴鸡狗猪";
-		var cYear, cMonth, cDay, TheDate;
-		var CalendarData = new Array(0xA4B, 0x5164B, 0x6A5, 0x6D4, 0x415B5, 0x2B6, 0x957, 0x2092F, 0x497, 0x60C96, 0xD4A, 0xEA5, 0x50DA9, 0x5AD, 0x2B6, 0x3126E, 0x92E, 0x7192D, 0xC95, 0xD4A, 0x61B4A, 0xB55, 0x56A, 0x4155B, 0x25D, 0x92D, 0x2192B, 0xA95, 0x71695, 0x6CA, 0xB55, 0x50AB5, 0x4DA, 0xA5B, 0x30A57, 0x52B, 0x8152A, 0xE95, 0x6AA, 0x615AA, 0xAB5, 0x4B6, 0x414AE, 0xA57, 0x526, 0x31D26, 0xD95, 0x70B55, 0x56A, 0x96D, 0x5095D, 0x4AD, 0xA4D, 0x41A4D, 0xD25, 0x81AA5, 0xB54, 0xB6A, 0x612DA, 0x95B, 0x49B, 0x41497, 0xA4B, 0xA164B, 0x6A5, 0x6D4, 0x615B4, 0xAB6, 0x957, 0x5092F, 0x497, 0x64B, 0x30D4A, 0xEA5, 0x80D65, 0x5AC, 0xAB6, 0x5126D, 0x92E, 0xC96, 0x41A95, 0xD4A, 0xDA5, 0x20B55, 0x56A, 0x7155B, 0x25D, 0x92D, 0x5192B, 0xA95, 0xB4A, 0x416AA, 0xAD5, 0x90AB5, 0x4BA, 0xA5B, 0x60A57, 0x52B, 0xA93, 0x40E95);
+		let madd = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+		let tgString = "甲乙丙丁戊己庚辛壬癸";
+		let dzString = "子丑寅卯辰巳午未申酉戌亥";
+		let numString = "一二三四五六七八九十";
+		let monString = "正二三四五六七八九十冬腊";
+		// let weekString = "日一二三四五六";
+		let sx = "鼠牛虎兔龙蛇马羊猴鸡狗猪";
+		let cYear, cMonth, cDay, TheDate;
+		let CalendarData = new Array(0xA4B, 0x5164B, 0x6A5, 0x6D4, 0x415B5, 0x2B6, 0x957, 0x2092F, 0x497, 0x60C96, 0xD4A, 0xEA5, 0x50DA9, 0x5AD, 0x2B6, 0x3126E, 0x92E, 0x7192D, 0xC95, 0xD4A, 0x61B4A, 0xB55, 0x56A, 0x4155B, 0x25D, 0x92D, 0x2192B, 0xA95, 0x71695, 0x6CA, 0xB55, 0x50AB5, 0x4DA, 0xA5B, 0x30A57, 0x52B, 0x8152A, 0xE95, 0x6AA, 0x615AA, 0xAB5, 0x4B6, 0x414AE, 0xA57, 0x526, 0x31D26, 0xD95, 0x70B55, 0x56A, 0x96D, 0x5095D, 0x4AD, 0xA4D, 0x41A4D, 0xD25, 0x81AA5, 0xB54, 0xB6A, 0x612DA, 0x95B, 0x49B, 0x41497, 0xA4B, 0xA164B, 0x6A5, 0x6D4, 0x615B4, 0xAB6, 0x957, 0x5092F, 0x497, 0x64B, 0x30D4A, 0xEA5, 0x80D65, 0x5AC, 0xAB6, 0x5126D, 0x92E, 0xC96, 0x41A95, 0xD4A, 0xDA5, 0x20B55, 0x56A, 0x7155B, 0x25D, 0x92D, 0x5192B, 0xA95, 0xB4A, 0x416AA, 0xAD5, 0x90AB5, 0x4BA, 0xA5B, 0x60A57, 0x52B, 0xA93, 0x40E95);
 
 		function GetBit(m, n) {
 			return (m >> n) & 1;
 		}
 		function e2c() {
 			TheDate = (arguments.length != 3) ? new Date() : new Date(arguments[0], arguments[1], arguments[2]);
-			var total, m, n, k;
-			var isEnd = false;
-			var tmp = TheDate.getYear();
+			let total, m, n, k;
+			let isEnd = false;
+			let tmp = TheDate.getYear();
 			if (tmp < 1900) {
 				tmp += 1900;
 			}
@@ -416,7 +415,7 @@ var utils = {
 
 		e2c(solarYear, solarMonth, solarDay);
 
-		var res = {};
+		let res = {};
 		res.year = tgString.charAt((cYear - 4) % 10) + dzString.charAt((cYear - 4) % 12);
 		res.signs = sx.charAt((cYear - 4) % 12);
 		res.month = cMonth < 1 ? "(闰)" + monString.charAt(-cMonth - 1) : monString.charAt(cMonth - 1);
@@ -430,11 +429,11 @@ var utils = {
 	// 上传组件
 	//<input class="abso upimg" id="upimg" accept="image/*" type="file" style='left:100px;top:100px;width:100px;height:100px;opacity:0.5'/>
 	bindFileControl(btnEle, accept, opt) {
-		var fileEle = document.createElement('input');
+		let fileEle = document.createElement('input');
 		fileEle.setAttribute('type', 'file');
 		fileEle.setAttribute('accept', accept);
 		fileEle.addEventListener('change', function () {
-			var file = this.files[0]; //获取file对象
+			let file = this.files[0]; //获取file对象
 			//判断file的类型是不是图片类型。
 			// if(!file || !/image\/\w+/.test(file.type)){ 
 			// 	console.log("文件必须为图片！"); 
@@ -444,14 +443,14 @@ var utils = {
 				if (opt.errorCallback) opt.errorCallback({});
 				return;
 			}
-			var reader = new FileReader(); //声明一个FileReader实例
+			let reader = new FileReader(); //声明一个FileReader实例
 			//最后在onload事件中，获取到成功读取的文件内容，并以插入一个img节点的方式显示选中的图片
-			reader.onload = function (e) {
+			reader.onload = function () {
 				//alert(reader.readyState)
 				if (opt.successCallback) opt.successCallback(this)
 
 			}
-			reader.onerror = function (e) {
+			reader.onerror = function () {
 				if (opt.errorCallback) opt.errorCallback(this)
 			}
 			reader.readAsDataURL(file); //调用readAsDataURL方法来读取选中的图像文件
@@ -471,15 +470,15 @@ var utils = {
 	// 是否为手机号码
 	isMobile(str) {
 		if (str == null || str == "") return false;
-		//var result=str.match(/^((\(\d{2,3}\))|(\d{3}\-))?((13\d{9})|(15\d{9})|(18\d{9}))$/);
-		var result = str.match(/^1[3|4|5|6|7|8|9][0-9]\d{8}$/);
+		//let result=str.match(/^((\(\d{2,3}\))|(\d{3}\-))?((13\d{9})|(15\d{9})|(18\d{9}))$/);
+		let result = str.match(/^1[3|4|5|6|7|8|9][0-9]\d{8}$/);
 		if (result == null) return false;
 		return true;
 	},
 	// 是否为邮箱
 	isEmail(str) {
 		if (str == null || str == "") return false;
-		var result = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+		let result = /^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
 		if (result.test(str)) {
 			return true;
 		} else {
@@ -490,27 +489,27 @@ var utils = {
 	// 函数参数必须是字符串，因为二代身份证号码是十八位，而在javascript中，十八位的数值会超出计算范围，造成不精确的结果，导致最后两位和计算的值不一致，从而该函数出现错误。
 	isIDCard(idcode) {
 		// 加权因子
-		var weight_factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+		let weight_factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
 		// 校验码
-		var check_code = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
+		let check_code = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
 
-		var code = idcode + "";
-		var last = idcode[17];//最后一位
+		let code = idcode + "";
+		let last = idcode[17];//最后一位
 
-		var seventeen = code.substring(0, 17);
+		let seventeen = code.substring(0, 17);
 
 		// ISO 7064:1983.MOD 11-2
 		// 判断最后一位校验码是否正确
-		var arr = seventeen.split("");
-		var len = arr.length;
-		var num = 0;
-		for (var i = 0; i < len; i++) {
+		let arr = seventeen.split("");
+		let len = arr.length;
+		let num = 0;
+		for (let i = 0; i < len; i++) {
 			num = num + arr[i] * weight_factor[i];
 		}
 
 		// 获取余数
-		var resisue = num % 11;
-		var last_no = check_code[resisue];
+		let resisue = num % 11;
+		let last_no = check_code[resisue];
 
 		// 格式的正则
 		// 正则思路
@@ -523,17 +522,17 @@ var utils = {
 		十五，十六，十七都是数字0-9
 		十八位可能是数字0-9，也可能是X
 		*/
-		var idcard_patter = /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/;
+		let idcard_patter = /^[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$/;
 
 		// 判断格式是否正确
-		var format = idcard_patter.test(idcode);
+		let format = idcard_patter.test(idcode);
 
 		// 返回验证结果，校验码和格式同时正确才算是合法的身份证号码
 		return last === last_no && format ? true : false;
 	},
 	// 是否为微信环境
 	isWechat(includePc) {
-		var isWechat = navigator.userAgent.match(/MicroMessenger/i);
+		let isWechat = navigator.userAgent.match(/MicroMessenger/i);
 		if (!includePc && navigator.userAgent.match(/(WindowsWechat|MacWechat)/i)) isWechat = false;
 		return !!isWechat;
 	},
@@ -541,17 +540,17 @@ var utils = {
 	// quality 可选
 	// 在指定图片格式为 image/jpeg 或 image/webp的情况下，可以从 0 到 1 的区间内选择图片的质量。如果超出取值范围，将会使用默认值 0.92。其他参数会被忽略。
 	compressionPIC(src, opt, callback) {
-		var self = this;
-		var maxSize = Math.max(opt.maxSize, 0) || 0;
-		var exif_orientation = opt.exif_orientation || 0;
-		var type = opt.type || 'image/png';
-		var quality = opt.quality || 0.92;
-		var encode = opt.encode || 'base64';//支持 base64、blob、file 默认base64
+		let self = this;
+		let maxSize = Math.max(opt.maxSize, 0) || 0;
+		let exif_orientation = opt.exif_orientation || 0;
+		let type = opt.type || 'image/png';
+		let quality = opt.quality || 0.92;
+		let encode = opt.encode || 'base64';//支持 base64、blob、file 默认base64
 
-		var Img = new Image();
+		let Img = new Image();
 		Img.onload = init;
 		Img.onerror = function () {
-			var Img = new Image();
+			let Img = new Image();
 			Img.onload = init;
 			Img.src = src;
 		}
@@ -559,17 +558,17 @@ var utils = {
 		Img.crossOrigin = 'Anonymous';//解决跨域问题，需在服务器端运行，也可为 anonymous   
 		Img.src = src;
 
-		function init(name) {
+		function init() {
 
-			var canvas = document.createElement('canvas');
+			let canvas = document.createElement('canvas');
 
 			if (!maxSize) maxSize = Math.max(this.width, this.height);
 
 			//图片原始尺寸
-			var sw = this.width;
-			var sh = this.height;
+			let sw = this.width;
+			let sh = this.height;
 			//缩放后的尺寸
-			var ew = 0, eh = 0;
+			let ew = 0, eh = 0;
 			if (sw >= sh) {
 				ew = Math.min(maxSize, sw)
 				eh = sh * ew / sw;
@@ -580,8 +579,8 @@ var utils = {
 
 			//	Orientation  1	0°  3	180°  6	顺时针90°  8	逆时针90°
 			//画布尺寸 输出尺寸
-			var canW = ew, canH = eh;
-			var rotate = 0;
+			let canW = ew, canH = eh;
+			let rotate = 0;
 			if (exif_orientation == 6) {
 				canW = eh;
 				canH = ew;
@@ -596,7 +595,7 @@ var utils = {
 
 			canvas.width = canW;
 			canvas.height = canH;
-			var ctx = canvas.getContext("2d");
+			let ctx = canvas.getContext("2d");
 			ctx.translate(canW / 2, canH / 2);
 			ctx.rotate(Math.PI / 180 * rotate);
 
@@ -619,8 +618,8 @@ var utils = {
 			}, type);
 			// 导出 file
 			callback && encode === 'file' && canvas.toBlob(function (blob) {
-				var filesName = self.getRandomStr(8);
-				var files = new File([blob], filesName, { type: type });
+				let filesName = self.getRandomStr(8);
+				let files = new File([blob], filesName, { type: type });
 				callback({
 					width: canW,
 					height: canH,
@@ -644,12 +643,12 @@ var utils = {
 	*/
 	exifOrientation(base64) {
 		function base64ToArrayBuffer(base64) {
-			base64 = base64.replace(/^data\:([^\;]+)\;base64,/gmi, '');
-			var binary = atob(base64);
-			var len = binary.length;
-			var buffer = new ArrayBuffer(len);
-			var view = new Uint8Array(buffer);
-			for (var i = 0; i < len; i++) {
+			base64 = base64.replace(/^data:([^;]+);base64,/gmi, '');
+			let binary = atob(base64);
+			let len = binary.length;
+			let buffer = new ArrayBuffer(len);
+			let view = new Uint8Array(buffer);
+			for (let i = 0; i < len; i++) {
 				view[i] = binary.charCodeAt(i);
 			}
 			return buffer;
@@ -657,8 +656,8 @@ var utils = {
 		// 步骤二，Unicode码转字符串
 		// ArrayBuffer对象 Unicode码转字符串
 		function getStringFromCharCode(dataView, start, length) {
-			var str = '';
-			var i;
+			let str = '';
+			let i;
 			for (i = start, length += start; i < length; i++) {
 				str += String.fromCharCode(dataView.getUint8(i));
 			}
@@ -667,18 +666,18 @@ var utils = {
 
 		// 步骤三，获取jpg图片的exif的角度（在ios体现最明显）
 		function getOrientation(arrayBuffer) {
-			var dataView = new DataView(arrayBuffer);
-			var length = dataView.byteLength;
-			var orientation;
-			var exifIDCode;
-			var tiffOffset;
-			var firstIFDOffset;
-			var littleEndian;
-			var endianness;
-			var app1Start;
-			var ifdStart;
-			var offset;
-			var i;
+			let dataView = new DataView(arrayBuffer);
+			let length = dataView.byteLength;
+			let orientation;
+			let exifIDCode;
+			let tiffOffset;
+			let firstIFDOffset;
+			let littleEndian;
+			let endianness;
+			let app1Start;
+			let ifdStart;
+			let offset;
+			let i;
 			// Only handle JPEG image (start by 0xFFD8)
 			if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
 				offset = 2;
@@ -731,7 +730,7 @@ var utils = {
 			}
 			return orientation;
 		}
-		var data = base64ToArrayBuffer(base64);
+		let data = base64ToArrayBuffer(base64);
 		return getOrientation(data);
 	}
 };

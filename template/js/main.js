@@ -3,20 +3,20 @@ import '../css/main.css';
 import '../image/160.jpg';
 import A from './activity.js';
 import utils from './utils.js';
-import http from './http.js';
+// import http from './http.js';
 
-var doc = document;
+let doc = document;
 function qs(selector, parentNode){
     return parentNode ? parentNode.querySelector(selector) : doc.querySelector(selector)
 }
 
-function qsa(selector, parentNode){
-    return parentNode ? parentNode.querySelectorAll(selector) : doc.querySelectorAll(selector)
-}
+// function qsa(selector, parentNode){
+//     return parentNode ? parentNode.querySelectorAll(selector) : doc.querySelectorAll(selector)
+// }
 
-var config = {
+let config = {
 	debug: !!utils.queryString('debug'),
-	userInfo: {}, //登录信息
+	userInfo: {}, // 登录信息
 	// 分享信息
 	shareInfo: {
 		title: '分享标题',
@@ -33,7 +33,7 @@ A.setFX();
 //跳到第二页  
 A.h5Init({
 	//pageAnimateTime: 600,
-	pageAnimateType: 'fade',//fade 渐隐渐现翻页   translate 位移翻页 threeD  三d翻页
+	pageAnimateType: 'fade',//fade 渐隐渐现翻页 translate 位移翻页 threeD  三d翻页
 	pageSwipeB : {
 		'0':false,
 		'1':false,
@@ -80,12 +80,12 @@ Object.assign(A, {
 			return;
 		}
 		const fragment = document.createDocumentFragment();
-		var len = options.data.length;
-		for(var i=0;i<len;i++){
-			var item = options.factory(options.data[i], i);
+		let len = options.data.length;
+		for(let i=0;i<len;i++){
+			let item = options.factory(options.data[i], i);
 			if(!item) continue;
 			if(Object.prototype.toString.call(item) === '[object Array]'){
-				for(var k=0; k<item.length; k++ ){
+				for(let k=0; k<item.length; k++ ){
 					fragment.appendChild(item[k]);
 				}
 			}else{
@@ -104,7 +104,7 @@ Object.assign(A, {
 		
 		console.log('entry');
 
-		var page = Number(utils.queryString('page'))||1;
+		let page = Number(utils.queryString('page'))||1;
 		this.gotoPage(page);
 
 		this.event();
@@ -116,7 +116,7 @@ Object.assign(A, {
 		//关闭页面下拉露出网页来源
 		// this.SetScroll(false)//
 
-		var str = 'font'
+		let str = 'font'
 		
 		console.log(str.startsWith('f'))
 
@@ -128,7 +128,7 @@ utils.whenDomReady(function(){
 	
 	/*+function(){
 		
-		var end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"
+		let end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"
 		
 		utils.countDown(end_time,{
 			framerate:100,
@@ -144,29 +144,28 @@ utils.whenDomReady(function(){
 
 	//在有load页面的时候用
 	utils.lazyLoad('.lazy_load',{
-		fileload:function(item){},
-		complete:function(assets){
-			var $loadNum = qs('#set_load_num');
+		complete(){
+			let $loadNum = qs('#set_load_num');
 			A.gotoPage(0, {time: 0, endCallback: function(){
 				utils.lazyLoad('.lazy',{
-					fileload:function(item){
+					fileload(item){
 						$loadNum.innerHTML = parseInt(item.progress*100)+'%';
 					},
-					complete:function(assets){
+					complete(){
 						$loadNum.innerHTML = 100+'%';
 						setTimeout(function(){
 							A.entry();
 						},800);
 					},
-					minTime:0
+					minTime: 0
 				});
 			}})
 		},
-		minTime:0
+		minTime: 0
 	});
 
 	//添加背景音乐
-	// var audioEle = A.addMp3({
+	// let audioEle = A.addMp3({
 	// 	src:'media/bj.mp3',
 	// 	autoplay:true,//音乐是否自动播放
 	// 	loop:true//是否循环播放
@@ -188,10 +187,10 @@ utils.whenDomReady(function(){
 	// }, false);
 	
 	//调用手机相册
-	// var fileEle = utils.bindFileControl(document.documentElement,'image/*',{
+	// let fileEle = utils.bindFileControl(document.documentElement,'image/*',{
 	// 	successCallback: function(reader){
 	// 		console.log(reader)
-	// 		// var exif_orientation = utils.exifOrientation(reader.result)
+	// 		// let exif_orientation = utils.exifOrientation(reader.result)
 	// 		//.substring(22)
 	// 		//type为jpeg webp的情况下 encoderOptions才起作用
 	// 		utils.compressionPIC(reader.result, {
@@ -213,15 +212,15 @@ utils.whenDomReady(function(){
 
 	//post 请求数据
 	/*$.post("http://www.cui2.com/h5/tongCheng20151210/index.php?act=chaxun", {openid:openid}, function(data){
-			var data=JSON.parse(data);
-			var text1 = $('.text1').val().replace(/\s/g, ""),
+			let data=JSON.parse(data);
+			let text1 = $('.text1').val().replace(/\s/g, ""),
 				text2 = $('.text2').val().replace(/\s/g, "");
 			JSON.stringify(result)
 	});*/
 	
 	/*
 	$('.sub').on("click",function(e){
-		var text1 = $('.info .text1').val().replace(/\s/g, ""),//获取input数据  并且去掉数据中的空格
+		let text1 = $('.info .text1').val().replace(/\s/g, ""),//获取input数据  并且去掉数据中的空格
 			text3 = $('.info .text3').val().replace(/\s/g, ""),
 			text2 = $('.info .text2').val().replace(/\s/g, "");
 		if(text1.length==0||text2.length==0||text3.length==0){
@@ -240,7 +239,7 @@ utils.whenDomReady(function(){
 		}
 	
 		$.post("", {openid:openid,name:text1,tele:text2,address:text3}, function(data){
-				var data=JSON.parse(data);
+				let data=JSON.parse(data);
 				console.log(data);
 				if (data.code == 1) {
 					weui.toast('提交成功！', {
