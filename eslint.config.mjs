@@ -1,6 +1,8 @@
 import js from "@eslint/js";
 import globals from "globals";
 
+// console.log(js.configs.recommended)
+
 export default [
     js.configs.recommended, // 推荐规则配置
 
