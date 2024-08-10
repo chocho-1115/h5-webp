@@ -105,8 +105,9 @@ module.exports = function (env) {
 			}),
 			new ESLintPlugin({
 				fix: true, // 自动修复
-				context: projectConfig.srcPath,
-				overrideConfigFile: './eslint.config.js'
+				// context: projectConfig.srcPath, // 上下文目录 默认为编译器目录  compiler.context
+				// overrideConfigFile: './eslint.config.mjs', // 配置文件 不配置此项 ESLintPlugin也会自动找到配置文件； 这里必须使用mjs，因为webpack默认commonjs模块系统
+				configType: 'flat', // 使用最新的flat config方式 默认为eslintrc；flat使用esmodule模块系统  eslintrc使用commonjs模块系统
 			})
 		],
 		externals: {
