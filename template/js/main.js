@@ -1,11 +1,11 @@
-import '../css/reset.css';
-import '../css/main.css';
-import '../image/160.jpg';
-import A from './activity.js';
-import utils from './utils.js';
+import '../css/reset.css'
+import '../css/main.css'
+import '../image/160.jpg'
+import A from './activity.js'
+import utils from './utils.js'
 // import http from './http.js';
 
-let doc = document;
+let doc = document
 function qs(selector, parentNode){
     return parentNode ? parentNode.querySelector(selector) : doc.querySelector(selector)
 }
@@ -24,26 +24,26 @@ let config = {
         imgUrl: 'https://www.seth5.com/2022/ltYearEndReview/image/160.jpg', // document.location.hostname 不带端口
         link: 'https://www.seth5.com/2022/ltYearEndReview/' // http://uat.h5.maijimeng.com/activity/2022/
     }
-};
-Object.assign(A.data, config);
+}
+Object.assign(A.data, config)
 
 if(utils.isWechat()) A.initWxFX()
-A.setFX();
+A.setFX()
 
-//跳到第二页  
+// 跳到第二页  
 A.h5Init({
-    //pageAnimateTime: 600,
-    pageAnimateType: 'fade',//fade 渐隐渐现翻页 translate 位移翻页 threeD  三d翻页
-    pageSwipeB : {
-        '0':false,
-        '1':false,
-        '2':false,
-        '3':false,
-        '4':false,
-        '5':false,
-        '6':false,
+    // pageAnimateTime: 600,
+    pageAnimateType: 'fade',// fade 渐隐渐现翻页 translate 位移翻页 threeD  三d翻页
+    pageSwipeB: {
+        '0': false,
+        '1': false,
+        '2': false,
+        '3': false,
+        '4': false,
+        '5': false,
+        '6': false,
     }
-});
+})
 
 A.remInit({
     // 基础宽度 通常和设计稿宽度一致
@@ -64,37 +64,37 @@ A.remInit({
     // 使用场景：在横屏下才使用高度适配 就可以把zoomOutCriticalValue设置为 1/1
     // zoomOutCriticalValue: !utils.browserDetect().isPc ? 1 / 1 : null,
     // zoomOutCriticalValue: 1334/(750-400),
-});
+})
 
 A.data.pageCallback = {
-    '2':function(){
+    '2': function(){
 		
     }
-};
+}
 
 // 组装A对象
 Object.assign(A, {
     render(options){
         if(!options.data){
-            if(options.blockDom) options.blockDom.style.display = 'none';
-            return;
+            if(options.blockDom) options.blockDom.style.display = 'none'
+            return
         }
-        const fragment = document.createDocumentFragment();
-        let len = options.data.length;
+        const fragment = document.createDocumentFragment()
+        let len = options.data.length
         for(let i=0;i<len;i++){
-            let item = options.factory(options.data[i], i);
-            if(!item) continue;
+            let item = options.factory(options.data[i], i)
+            if(!item) continue
             if(Object.prototype.toString.call(item) === '[object Array]'){
                 for(let k=0; k<item.length; k++ ){
-                    fragment.appendChild(item[k]);
+                    fragment.appendChild(item[k])
                 }
             }else{
-                fragment.appendChild(item);
+                fragment.appendChild(item)
             }
         }
-        if(options.clean) options.renderDom.innerHTML = '';
-        options.renderDom && options.renderDom.appendChild(fragment);
-        options.renderCallback && options.renderCallback();
+        if(options.clean) options.renderDom.innerHTML = ''
+        options.renderDom && options.renderDom.appendChild(fragment)
+        options.renderCallback && options.renderCallback()
     },
     event() {
 		
@@ -102,18 +102,18 @@ Object.assign(A, {
     // 进入页面
     entry() {
 		
-        console.log('entry');
+        console.log('entry')
 
-        let page = Number(utils.queryString('page'))||1;
-        this.gotoPage(page);
+        let page = Number(utils.queryString('page'))||1
+        this.gotoPage(page)
 
-        this.event();
+        this.event()
 
         // weui.toast('兑换成功', {
         // 	duration: 2000,
         // 	className: 'weui-toast-text penetrate',
         // });
-        //关闭页面下拉露出网页来源
+        // 关闭页面下拉露出网页来源
         // this.SetScroll(false)//
 
         let str = 'font'
@@ -122,11 +122,11 @@ Object.assign(A, {
 
     },
 
-});
+})
 
 utils.whenDomReady(function(){
 	
-    /*+function(){
+    /* +function(){
 		
 		let end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"
 		
@@ -142,29 +142,29 @@ utils.whenDomReady(function(){
 	}();
 	*/	
 
-    //在有load页面的时候用
+    // 在有load页面的时候用
     utils.lazyLoad('.lazy_load',{
         complete(){
-            let $loadNum = qs('#set_load_num');
+            let $loadNum = qs('#set_load_num')
             A.gotoPage(0, {time: 0, endCallback: function(){
                 utils.lazyLoad('.lazy',{
                     fileload(item){
-                        $loadNum.innerHTML = parseInt(item.progress*100)+'%';
+                        $loadNum.innerHTML = parseInt(item.progress*100)+'%'
                     },
                     complete(){
-                        $loadNum.innerHTML = 100+'%';
+                        $loadNum.innerHTML = 100+'%'
                         setTimeout(function(){
-                            A.entry();
-                        },800);
+                            A.entry()
+                        },800)
                     },
                     minTime: 0
-                });
+                })
             }})
         },
         minTime: 0
-    });
+    })
 
-    //添加背景音乐
+    // 添加背景音乐
     // let audioEle = A.addMp3({
     // 	src:'media/bj.mp3',
     // 	autoplay:true,//音乐是否自动播放
@@ -186,7 +186,7 @@ utils.whenDomReady(function(){
     // qs('#micBtn').classList.remove('hide');
     // }, false);
 	
-    //调用手机相册
+    // 调用手机相册
     // let fileEle = utils.bindFileControl(document.documentElement,'image/*',{
     // 	successCallback: function(reader){
     // 		console.log(reader)
@@ -210,8 +210,8 @@ utils.whenDomReady(function(){
     // 	}
     // });
 
-    //post 请求数据
-    /*$.post("http://www.cui2.com/h5/tongCheng20151210/index.php?act=chaxun", {openid:openid}, function(data){
+    // post 请求数据
+    /* $.post("http://www.cui2.com/h5/tongCheng20151210/index.php?act=chaxun", {openid:openid}, function(data){
 			let data=JSON.parse(data);
 			let text1 = $('.text1').val().replace(/\s/g, ""),
 				text2 = $('.text2').val().replace(/\s/g, "");
@@ -260,5 +260,5 @@ utils.whenDomReady(function(){
 		});
 	});
 	*/
-});
+})
 

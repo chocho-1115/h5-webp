@@ -23,7 +23,11 @@ export default [
         },
         rules: {
             "no-var": 1, // 不能使用 var 定义变量
-            "indent": ["error", 4], // 缩进
+            "spaced-comment": 1, // 注释风格要不要有空格
+            "indent": [1, 4], // 缩进
+            "semi": [1, "never"], // 分号结尾
+            "quotes": [1, "single"], // 字符串单引号
+            "key-spacing": [1, { "beforeColon": false, "afterColon": true }], // 对象字面量中冒号的前后空格
         }
     },
     
