@@ -10,8 +10,7 @@
   "scripts": {
     "build": "webpack --config webpack.build.config.js --name",
     "dev": "webpack serve --config webpack.dev.config.js --name",
-    "create": "node config/create.js",
-    "template": "node config/template.js"
+    "create": "node config/create.js"
   },
   "author": "YangYiPing",
   "license": "ISC",
