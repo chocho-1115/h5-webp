@@ -123,10 +123,10 @@ A.RemInit({
 
 ### 手动页面跳转
 ~~~ js
-A.gotoPage(1,{
-	time:300,//翻页动画的运行时间
-	endCallback:function(){},//翻页后的回调函数
-	startCallback:function(){}//翻页前调用的函数
+A.gotoPage(1, {
+	time: 300,//翻页动画的运行时间
+	endCallback: function(){},//翻页后的回调函数
+	startCallback: function(){}//翻页前调用的函数
 });
 ~~~
 
@@ -202,11 +202,14 @@ A.gotoPage(page,{
 
 ### 调用相册图片
 ~~~ js
-var fileEle = A.initUpImg(element,'image/*',function(reader){
-	console.log(reader.result)
+let fileEle = utils.bindFileControl(document.documentElement,'image/*',{
+	successCallback: function(reader){
+		console.log(reader)
+	},
+	errorCallback: function(res){}
 });
 ~~~
-initUpImg函数返回一个file类型的input；
+bindFileControl函数返回一个file类型的input；
 参数element可以指向任何类型的元素，不一定非得file类型的input；
 reader.result 是选择图片后 图片的base64字符串
 
