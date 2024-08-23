@@ -35,17 +35,17 @@ function dispatchRequest(config){
     const promise = new Promise(function (resolve, reject) {
         const handler = function () {
             if (this.readyState !== 4) return
+            let res = {
+                data: this.response, // this.responseText
+                status: this.status,
+                statusText: this.statusText,
+                config: config,
+                request: this
+            }
             if (this.status >= 200 && this.status < 300) {
-                resolve({
-                    data: this.response, // this.responseText
-                    status: this.status,
-                    statusText: this.statusText,
-                    // headers: ,
-                    config: config,
-                    request: this
-                })
+                resolve(res)
             } else {
-                reject(this.response)
+                reject(res)
             }
         }
 		
