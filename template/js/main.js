@@ -1,8 +1,8 @@
 import '../css/reset.css'
 import '../css/main.css'
 import '../image/160.jpg'
-import A from './activity.js'
-import utils from './utils.js'
+import A from '../common/activity.js'
+import utils, {isWechat, queryString, lazyLoad, browserDetect} from '../common/utils.js'
 // import http from './http.js';
 
 let doc = document
@@ -15,7 +15,7 @@ function qs(selector, parentNode){
 // }
 
 let config = {
-    debug: !!utils.queryString('debug'),
+    debug: !!queryString('debug'),
     userInfo: {}, // 登录信息
     // 分享信息
     shareInfo: {
@@ -27,7 +27,7 @@ let config = {
 }
 Object.assign(A.data, config)
 
-if(utils.isWechat()) A.initWxFX()
+if(isWechat()) A.initWxFX()
 A.setFX()
 
 // 跳到第二页  
@@ -49,7 +49,7 @@ A.remInit({
     // 基础宽度 通常和设计稿宽度一致
     baseWidth: 750,
     // 在使用宽度适配时的 页面的最大宽度，此值只在按宽度适配时，才有效
-    maxWidth: utils.browserDetect().isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
+    maxWidth: browserDetect().isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
     // 视窗显示的最小高度范围 当按宽度适配会裁切掉viewportMinHeight所指定的高度范围内的内容时 此时将按高度来适配
     // 所以按高度适配的临界值为 baseWidth / viewportMinHeight, 界面宽高比大于此值时 按高度适配
     // 此值可以为空
@@ -62,7 +62,7 @@ A.remInit({
     // 按高度适配时的临界值，会覆盖设置viewportMinHeight后默认的临界值（baseWidth / viewportMinHeight）
     // viewportMinHeight未设置时 此值无效
     // 使用场景：在横屏下才使用高度适配 就可以把zoomOutCriticalValue设置为 1/1
-    // zoomOutCriticalValue: !utils.browserDetect().isPc ? 1 / 1 : null,
+    // zoomOutCriticalValue: !browserDetect().isPc ? 1 / 1 : null,
     // zoomOutCriticalValue: 1334/(750-400),
 })
 
@@ -104,7 +104,7 @@ Object.assign(A, {
 		
         console.log('entry')
 
-        let page = Number(utils.queryString('page'))||1
+        let page = Number(queryString('page'))||1
         this.gotoPage(page)
 
         this.event()
@@ -130,7 +130,7 @@ utils.whenDomReady(function(){
 		
 		let end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"
 		
-		utils.countDown(end_time,{
+		countDown(end_time,{
 			framerate:100,
 			onUpdate:function(res){
 				console.log(res.second)
@@ -143,11 +143,11 @@ utils.whenDomReady(function(){
 	*/	
 
     // 在有load页面的时候用
-    utils.lazyLoad('.lazy_load',{
+    lazyLoad('.lazy_load',{
         complete(){
             let $loadNum = qs('#set_load_num')
             A.gotoPage(0, {time: 0, endCallback: function(){
-                utils.lazyLoad('.lazy',{
+                lazyLoad('.lazy',{
                     fileload(item){
                         $loadNum.innerHTML = parseInt(item.progress*100)+'%'
                     },
@@ -187,13 +187,13 @@ utils.whenDomReady(function(){
     // }, false);
 	
     // 调用手机相册
-    // let fileEle = utils.bindFileControl(document.documentElement,'image/*',{
+    // let fileEle = bindFileControl(document.documentElement,'image/*',{
     // 	successCallback: function(reader){
     // 		console.log(reader)
-    // 		// let exif_orientation = utils.exifOrientation(reader.result)
+    // 		// let exif_orientation = exifOrientation(reader.result)
     // 		//.substring(22)
     // 		//type为jpeg webp的情况下 encoderOptions才起作用
-    // 		utils.compressionPIC(reader.result, {
+    // 		compressionPic(reader.result, {
     // 			maxSize:750,
     // 			// exif_orientation:exif_orientation,
     // 			type:'image/jpeg',
@@ -230,7 +230,7 @@ utils.whenDomReady(function(){
 			});
 			return false
 		}	
-		if(!utils.isMobile(text2)){
+		if(!isMobile(text2)){
 			weui.toast('电话号码错误！', {
 				duration: 2000,
 				className: 'weui-toast-text penetrate',
