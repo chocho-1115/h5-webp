@@ -2,8 +2,8 @@ import '../css/reset.css'
 import '../css/main.css'
 import '../image/160.jpg'
 import A from '../common/activity.js'
-import utils, {isWechat, queryString, lazyLoad, browserDetect} from '../common/utils.js'
-// import http from './http.js';
+import utils, {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from '../common/utils.js'
+import http from '../common/http.js'
 
 let doc = document
 function qs(selector, parentNode){
@@ -74,6 +74,7 @@ A.data.pageCallback = {
 
 // 组装A对象
 Object.assign(A, {
+
     render(options){
         if(!options.data){
             if(options.blockDom) options.blockDom.style.display = 'none'
@@ -96,6 +97,44 @@ Object.assign(A, {
         options.renderDom && options.renderDom.appendChild(fragment)
         options.renderCallback && options.renderCallback()
     },
+
+    async addBgMp3(){
+        let src = 'media/bj.mp3'
+        const audioConfig = {
+            src,
+            audioContext: null,
+            asPossibleAutoplay: true,
+            autoplay: true,// 音乐是否自动播放
+            loop: true,// 是否循环播放
+        }
+
+        if(isAndroid()){ // 安卓谷歌浏览器也无法自动播放 只能解决安卓微信 和默认浏览器的自动播放
+            const res = await http.get(src, { responseType: 'arraybuffer' }).catch((e) => { console.log(e) })
+            audioConfig.audioContext = await A.createAudioContext(res.data)
+        }
+
+        const audio = A.createAudio(audioConfig)
+
+        A.setAudioButton({
+            button: document.getElementById('micBtn'),
+            audio,
+        })
+
+        // 以下方式都能解决ios微信下音频自动播放的问题
+        if(isWechat()) {
+            if(typeof window.WeixinJSBridge == 'object' && typeof window.WeixinJSBridge.invoke == 'function') {  
+                window.WeixinJSBridge.invoke('getNetworkType', {}, () => {
+                    console.log('getNetworkType')
+                    audio.play() 
+                })
+            } else {
+                document.addEventListener('WeixinJSBridgeReady', function() {  
+                    console.log('WeixinJSBridgeReady')
+                    audio.play()
+                }, false)  
+            }  
+        }
+    },
     event() {
 		
     },
@@ -116,9 +155,7 @@ Object.assign(A, {
         // 关闭页面下拉露出网页来源
         // this.SetScroll(false)//
 
-        let str = 'font'
-		
-        console.log(str.startsWith('f'))
+        
 
     },
 
@@ -164,27 +201,11 @@ utils.whenDomReady(function(){
         minTime: 0
     })
 
-    // 添加背景音乐
-    // let audioEle = A.addMp3({
-    // 	src:'media/bj.mp3',
-    // 	autoplay:true,//音乐是否自动播放
-    // 	loop:true//是否循环播放
-    // });
-    // //给背景音乐添加一个按钮
-    // A.setMp3Btn({
-    // 	audioBtn:document.getElementById('micBtn'),
-    // 	audioEle:audioEle,
-    // 	autoplay:true
-    // });
-    // //以下是为了兼容ios自动播放音乐
-    // document.addEventListener("WeixinJSBridgeReady", function () {  
-    // 	audioEle.play();
-    // qs('#micBtn').classList.remove('hide');
-    // }, false);  
-    // document.addEventListener('YixinJSBridgeReady', function() {  
-    // 	audioEle.play(); 
-    // qs('#micBtn').classList.remove('hide');
-    // }, false);
+    A.addBgMp3()
+
+
+
+    
 	
     // 调用手机相册
     // let fileEle = bindFileControl(document.documentElement,'image/*',{
