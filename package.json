@@ -11,7 +11,7 @@
     "build": "webpack --config webpack.build.config.js --name",
     "dev": "webpack serve --config webpack.dev.config.js --name",
     "create": "node config/create.js",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "changelog": "conventional-changelog -i CHANGELOG.md -s -r 0 -n config/changelog-filter.js"
   },
   "author": "YangYiPing",
   "license": "ISC",
