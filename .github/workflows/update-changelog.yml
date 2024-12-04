@@ -25,12 +25,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: changelog
+    - name: update changelog
       run: |
         npm install
-        
-    - run: npm run changelog
+        npm run changelog
 
-
+        git config --global user.email "849890769@qq.com"
+        git config --global user.name "chocho-1115"
+        git commit CHANGELOG.md -m "Update CHANGELOG.md" || true
+        git push --quiet https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
 
 
