@@ -156,6 +156,7 @@ Object.assign(A, {
         // this.SetScroll(false)//
 
         
+        //  .replace(/\s/g, "")
 
     },
 
@@ -203,10 +204,6 @@ utils.whenDomReady(function(){
 
     A.addBgMp3()
 
-
-
-    
-	
     // 调用手机相册
     // let fileEle = bindFileControl(document.documentElement,'image/*',{
     // 	successCallback: function(reader){
@@ -231,55 +228,5 @@ utils.whenDomReady(function(){
     // 	}
     // });
 
-    // post 请求数据
-    /* $.post("http://www.cui2.com/h5/tongCheng20151210/index.php?act=chaxun", {openid:openid}, function(data){
-			let data=JSON.parse(data);
-			let text1 = $('.text1').val().replace(/\s/g, ""),
-				text2 = $('.text2').val().replace(/\s/g, "");
-			JSON.stringify(result)
-	});*/
-	
-    /*
-	$('.sub').on("click",function(e){
-		let text1 = $('.info .text1').val().replace(/\s/g, ""),//获取input数据  并且去掉数据中的空格
-			text3 = $('.info .text3').val().replace(/\s/g, ""),
-			text2 = $('.info .text2').val().replace(/\s/g, "");
-		if(text1.length==0||text2.length==0||text3.length==0){
-			weui.toast('请完善好信息！', {
-				duration: 2000,
-				className: 'weui-toast-text penetrate',
-			});
-			return false
-		}	
-		if(!isMobile(text2)){
-			weui.toast('电话号码错误！', {
-				duration: 2000,
-				className: 'weui-toast-text penetrate',
-			});
-			return false
-		}
-	
-		$.post("", {openid:openid,name:text1,tele:text2,address:text3}, function(data){
-				let data=JSON.parse(data);
-				console.log(data);
-				if (data.code == 1) {
-					weui.toast('提交成功！', {
-						duration: 2000,
-						className: 'penetrate',
-					});
-					$('.info .text1').val('')
-					$('.info .text2').val('')
-					$('.info .text3').val('')
-					
-					$('.info').fadeOut(300);
-				}else{
-					weui.toast('您提交收获地址无需重复提交！', {
-						duration: 2000,
-						className: 'weui-toast-text penetrate',
-					});
-				}
-		});
-	});
-	*/
 })
 
