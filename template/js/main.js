@@ -2,7 +2,7 @@ import '../css/reset.css'
 import '../css/main.css'
 import '../image/160.jpg'
 import A from '../common/activity.js'
-import utils, {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from '../common/utils.js'
+import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from '../common/utils.js'
 import http from '../common/http.js'
 
 let doc = document
@@ -158,75 +158,75 @@ Object.assign(A, {
         
         //  .replace(/\s/g, "")
 
+        
+
     },
 
 })
 
-utils.whenDomReady(function(){
-	
-    /* +function(){
-		
-		let end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"
-		
-		countDown(end_time,{
-			framerate:100,
-			onUpdate:function(res){
-				console.log(res.second)
-			},
-			onComplete:function(res){
-				console.log(res.day+'天 '+(res.hour<10?"0"+res.hour:res.hour)+':'+(res.minute<10?"0"+res.minute:res.minute)+':'+(res.second<10?"0"+res.second:res.second)+':'+res.millisecond)
-			}
-		});
-	}();
-	*/	
-
-    // 在有load页面的时候用
-    lazyLoad('.lazy_load',{
-        complete(){
-            let $loadNum = qs('#set_load_num')
-            A.gotoPage(0, {time: 0, endCallback: function(){
-                lazyLoad('.lazy',{
-                    fileload(item){
-                        $loadNum.innerHTML = parseInt(item.progress*100)+'%'
-                    },
-                    complete(){
-                        $loadNum.innerHTML = 100+'%'
-                        setTimeout(function(){
-                            A.entry()
-                        },800)
-                    },
-                    minTime: 0
-                })
-            }})
-        },
-        minTime: 0
-    })
-
-    A.addBgMp3()
-
-    // 调用手机相册
-    // let fileEle = bindFileControl(document.documentElement,'image/*',{
-    // 	successCallback: function(reader){
-    // 		console.log(reader)
-    // 		// let exif_orientation = exifOrientation(reader.result)
-    // 		//.substring(22)
-    // 		//type为jpeg webp的情况下 encoderOptions才起作用
-    // 		compressionPic(reader.result, {
-    // 			maxSize:750,
-    // 			// exif_orientation:exif_orientation,
-    // 			type:'image/jpeg',
-    // 			quality: 0.8,
-    // 			encode: 'file'//支持 base64、blob、file 默认base64
-    // 		},function(res){
-    // 			//$('.page4 .logo').attr('src',res.result)
-    // 			info.img = res.result.substring(23);
-    // 			$('.page3 .pic').css({'background-image':'url('+res.result+')','opacity':1});
-    // 		})
-    // 	},
-    // 	errorCallback: function(res){
-
-    // 	}
-    // });
-
+// utils.whenDomReady(function(){
+// 在有load页面的时候用
+lazyLoad('.lazy_load',{
+    complete(){
+        let $loadNum = qs('#set_load_num')
+        A.gotoPage(0, {time: 0, endCallback: function(){
+            lazyLoad('.lazy',{
+                fileload(item){
+                    $loadNum.innerHTML = parseInt(item.progress*100)+'%'
+                },
+                complete(){
+                    $loadNum.innerHTML = 100+'%'
+                    setTimeout(function(){
+                        A.entry()
+                    },800)
+                },
+                minTime: 0
+            })
+        }})
+    },
+    minTime: 0
 })
 
+A.addBgMp3()
+
+// })
+
+
+/* +function(){
+    let end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"
+    countDown(end_time,{
+        framerate:100,
+        onUpdate:function(res){
+            console.log(res.second)
+        },
+        onComplete:function(res){
+            console.log(res.day+'天 '+(res.hour<10?"0"+res.hour:res.hour)+':'+(res.minute<10?"0"+res.minute:res.minute)+':'+(res.second<10?"0"+res.second:res.second)+':'+res.millisecond)
+        }
+    });
+}();
+*/	
+
+
+// 调用手机相册
+// let fileEle = bindFileControl(document.documentElement,'image/*',{
+// 	successCallback: function(reader){
+// 		console.log(reader)
+// 		// let exif_orientation = exifOrientation(reader.result)
+// 		//.substring(22)
+// 		//type为jpeg webp的情况下 encoderOptions才起作用
+// 		compressionPic(reader.result, {
+// 			maxSize:750,
+// 			// exif_orientation:exif_orientation,
+// 			type:'image/jpeg',
+// 			quality: 0.8,
+// 			encode: 'file'//支持 base64、blob、file 默认base64
+// 		},function(res){
+// 			//$('.page4 .logo').attr('src',res.result)
+// 			info.img = res.result.substring(23);
+// 			$('.page3 .pic').css({'background-image':'url('+res.result+')','opacity':1});
+// 		})
+// 	},
+// 	errorCallback: function(res){
+
+// 	}
+// });
