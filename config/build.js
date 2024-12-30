@@ -12,7 +12,7 @@ const serveList = process.argv.slice(2)
 // fork 是衍生当前进程 共享内存,spawn 是执行一个新程序
 for(let i=0;i<serveList.length;i++){
     
-    const cmd = `webpack --config webpack.build.config.js --env name=${serveList[i]}`
+    const cmd = `webpack --config webpack.build.config.js --env name=${serveList[i]} --color --progress`
     const spawnArgs = cmd.split(' ')
     const child = spawn(spawnArgs[0], spawnArgs.slice(1), {})
 
