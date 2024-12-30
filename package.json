@@ -3,15 +3,16 @@
   "version": "2.0.1",
   "description": "",
   "main": "",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/chocho-1115/h5-webp"
   },
   "scripts": {
-    "build": "webpack --config webpack.build.config.js --name",
-    "dev": "webpack serve --config webpack.dev.config.js --name",
+    "build": "node config/build.js",
+    "dev": "node config/dev.js",
     "create": "node config/create.js",
-    "changelog": "conventional-changelog -i CHANGELOG.md -s -r 0 -n config/changelog-filter.js"
+    "changelog": "conventional-changelog -i CHANGELOG.md -s -r 0 -n config/changelog.js"
   },
   "author": "YangYiPing",
   "license": "ISC",

@@ -1,33 +1,27 @@
-const fs = require('fs')
-const chalk = require('chalk')
-const path = require('path')
-const {ProgressPlugin} = require('webpack')
-const readline = require('readline')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')// css提取
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')// weipack5
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
+import chalk from 'chalk'
+import path from 'path'
+import readline from 'readline'
 
-// const webpack = require("webpack");
-let projectName = process.argv[5]
+import pkg from 'webpack'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import CopyPlugin from 'copy-webpack-plugin'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin' // weipack5
+import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 
-let projectConfig = {}
+import {getProjectConfig} from './config/project.js'
 
-if (projectName && projectName === 'template') {
-    projectConfig.name = 'template'
-    projectConfig.srcPath = './template/'
-    projectConfig.distPath = './dist/template/'
-} else {
-    projectConfig.name = projectName
-    projectConfig.srcPath = './src/' + projectName + '/'
-    projectConfig.distPath = './dist/' + projectName + '/'
-}
+const { ProgressPlugin } = pkg
 
-process.stdout.write(chalk.blue.bold(`\n [ ${projectConfig.name} ] \n\n`))
+// eslint-disable-next-line no-unused-vars
+export default function (env,argv) {
 
-module.exports = function(env, argv){
+    const projectConfig = getProjectConfig(env.name)
+    console.log(projectConfig)
+
+    process.stdout.write(chalk.blue.bold(`\n [ ${projectConfig.name} ] \n\n`))
+
     // const isDevMode = env.mode=='development' ? true : false;
     return {
         mode: 'production',
@@ -43,12 +37,12 @@ module.exports = function(env, argv){
         },
 
         entry: {
-            main: projectConfig.srcPath + 'js/main.js',
+            main: projectConfig.src + 'js/main.js',
             // maiji: projectConfig.srcPath + 'js/maiji.js',
         },
         output: {
             filename: 'js/[name]-[chunkhash].js',
-            path: path.resolve(projectConfig.distPath),
+            path: path.resolve(projectConfig.dist),
             clean: true, // 每次构建清除dist包
         },
         cache: {
@@ -129,6 +123,7 @@ module.exports = function(env, argv){
                                         { attribute: 'poster', type: 'src' },
                                         { attribute: 'data-src', type: 'src' }
                                     ],
+                                    // eslint-disable-next-line no-unused-vars
                                     urlFilter: (attribute, value, resourcePath) => {
                                         if (value.indexOf('image') == -1) {
                                             return false
@@ -204,6 +199,7 @@ module.exports = function(env, argv){
         plugins: [
             // 打包完成监控
             new ProgressPlugin({
+                // eslint-disable-next-line no-unused-vars
                 handler(percentage, message, ...args) {
                     readline.clearLine(process.stdout, 0)
                     readline.cursorTo(process.stdout, 0) 
@@ -218,7 +214,7 @@ module.exports = function(env, argv){
 			
             // https://webpack.js.org/plugins/html-webpack-plugin/
             new HtmlWebpackPlugin({
-                template: projectConfig.srcPath + 'index.html',
+                template: projectConfig.src + 'index.html',
                 filename: 'index.html',
                 inject: 'body'
             }),
@@ -233,17 +229,17 @@ module.exports = function(env, argv){
             new CopyPlugin({
                 patterns: [
                     { 
-                        from: path.join(projectConfig.srcPath, 'media'),
+                        from: path.join(projectConfig.src, 'media'),
                         to: 'media',
                         noErrorOnMissing: true
                     },
                     { 
-                        from: path.resolve(projectConfig.srcPath, 'static'),
+                        from: path.resolve(projectConfig.src, 'static'),
                         to: 'static',
                         noErrorOnMissing: true
                     },
                     { 
-                        from: path.resolve(projectConfig.srcPath, 'libs'),
+                        from: path.resolve(projectConfig.src, 'libs'),
                         to: 'libs',
                         noErrorOnMissing: true
                     }

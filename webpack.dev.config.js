@@ -1,23 +1,22 @@
 
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const ESLintPlugin = require('eslint-webpack-plugin')
+// const path = require('path')
+// const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+// const ESLintPlugin = require('eslint-webpack-plugin')
 
-let projectName = process.argv[6]
+import path from 'path'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import ESLintPlugin from 'eslint-webpack-plugin'
 
-let projectConfig = {}
-if (projectName && projectName === 'template') {
-    projectConfig.name = 'template'
-    projectConfig.srcPath = './template/'
-    projectConfig.distPath = './dist/template/'
-} else {
-    projectConfig.name = projectName
-    projectConfig.srcPath = './src/' + projectName + '/'
-    projectConfig.distPath = './dist/' + projectName + '/'
-}
+import {getProjectConfig} from './config/project.js'
 
-module.exports = function (env) {
+const __dirname = path.resolve()
+// eslint-disable-next-line no-unused-vars
+export default function (env,argv) {
+    // console.log(env.name)
+    const projectConfig = getProjectConfig(env.name)
+    // console.log(projectConfig)
     return {
         mode: 'development',
         performance: false, // 不显示大文件警告
@@ -30,7 +29,7 @@ module.exports = function (env) {
         },
         devServer: {
             headers: {},
-            static: projectConfig.srcPath,
+            static: projectConfig.src,
             client: {
                 logging: 'error',
                 overlay: false // 关闭vue错误提示层
@@ -41,16 +40,16 @@ module.exports = function (env) {
         },
         // devtool: 'inline-source-map',
         devtool: 'eval-cheap-module-source-map', // 定位到错误所在行信息，不需要定位列信息，速度较快
-        entry: projectConfig.srcPath + 'js/main.js',
+        entry: projectConfig.src + 'js/main.js',
         output: {
             filename: 'js/[name]-[chunkhash].js',
-            path: path.resolve(__dirname, projectConfig.distPath)
+            path: path.resolve(__dirname, projectConfig.dist)
         },
         cache: true,
         resolve: {
             // extensions: ['js', '.css', '...'], // 注意：1.高频文件后缀名放前面 2.手动配置后，默认配置会被覆盖，如果想保留默认配置，可以用 ... 扩展运算符代表默认配置
             alias: {
-                '@': path.resolve(projectConfig.srcPath)
+                '@': path.resolve(projectConfig.src)
             },
             symlinks: false // 减少解析工作量
         },
@@ -91,7 +90,7 @@ module.exports = function (env) {
         plugins: [
             // https://webpack.js.org/plugins/html-webpack-plugin/
             new HtmlWebpackPlugin({
-                template: projectConfig.srcPath + 'index.html',
+                template: projectConfig.src + 'index.html',
                 filename: 'index.html',
                 inject: 'body'
             }),
@@ -105,7 +104,7 @@ module.exports = function (env) {
             }),
             new ESLintPlugin({
                 fix: true, // 自动修复
-                // context: projectConfig.srcPath, // 上下文目录 默认为编译器目录  compiler.context
+                // context: projectConfig.src, // 上下文目录 默认为编译器目录  compiler.context
                 // overrideConfigFile: './eslint.config.mjs', // 配置文件 不配置此项 ESLintPlugin也会自动找到配置文件； 这里必须使用mjs，因为webpack默认commonjs模块系统
                 configType: 'flat', // 使用最新的flat config方式 默认为eslintrc；flat使用esmodule模块系统  eslintrc使用commonjs模块系统
             })
