@@ -14,9 +14,7 @@ import {getProjectConfig} from './config/project.js'
 const __dirname = path.resolve()
 // eslint-disable-next-line no-unused-vars
 export default function (env,argv) {
-    // console.log(env.name)
     const projectConfig = getProjectConfig(env.name)
-    // console.log(projectConfig)
     return {
         mode: 'development',
         performance: false, // 不显示大文件警告
