@@ -13,7 +13,7 @@ function qs(selector, parentNode){
 // function qsa(selector, parentNode){
 //     return parentNode ? parentNode.querySelectorAll(selector) : doc.querySelectorAll(selector)
 // }
-
+ 
 let config = {
     debug: !!queryString('debug'),
     userInfo: {}, // 登录信息
@@ -185,12 +185,12 @@ lazyLoad('.lazy_load',{
         }})
     },
     minTime: 0
-})
-
-A.addBgMp3()
-
+}) 
+ 
+A.addBgMp3()  
+ 
 // })
-
+ 
 
 /* +function(){
     let end_time = (new Date()).getTime()+10001;//月份是实际月份-1 "10/31/2018 14:51:00"

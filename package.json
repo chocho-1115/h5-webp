@@ -9,8 +9,8 @@
     "url": "https://github.com/chocho-1115/h5-webp"
   },
   "scripts": {
-    "build": "cross-env MODE=production node config/server.js",
-    "dev": "cross-env MODE=development node config/server.js",
+    "build": "node config/pro.js",
+    "dev": "node config/dev.js",
     "create": "node config/create.js",
     "changelog": "conventional-changelog -i CHANGELOG.md -s -r 0 -n config/changelog.js"
   },

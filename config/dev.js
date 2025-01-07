@@ -20,10 +20,7 @@ const openAllServe = () => {
     // fork 是衍生当前进程 共享内存,spawn 是执行一个新程序
     for(let i=0;i<serveList.length;i++){
 
-        const cmd = process.env.MODE == 'development' ? 
-            `cross-env PROJECTNAME=${serveList[i]} webpack serve --config webpack.config.js --port 809${i} --color`
-            :
-            `cross-env PROJECTNAME=${serveList[i]} webpack --config webpack.config.js --color`
+        const cmd = `cross-env MODE=development PROJECTNAME=${serveList[i]} webpack serve --config webpack.config.js --port 809${i} --color`
         const spawnArgs = cmd.split(' ')
         
         let child = spawn(spawnArgs[0], spawnArgs.slice(1), {
@@ -62,13 +59,8 @@ const openAllServe = () => {
 if (serveList.length == 0) serveList.push('template')
 
 if (serveList.length == 1){
-    const cmd = process.env.MODE == 'development' ? 
-        `cross-env PROJECTNAME=${serveList[0]} webpack serve --config webpack.config.js`
-        :
-        `cross-env PROJECTNAME=${serveList[0]} webpack --config webpack.config.js`
     try {
-        execSync(cmd, {stdio: 'inherit'})
-        console.log('启动成功')
+        execSync(`cross-env MODE=development PROJECTNAME=${serveList[0]} webpack serve --config webpack.config.js`, {stdio: 'inherit'})
     } catch (error) {
         console.error(`执行的错误: ${error}`)
     }

@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import path from 'path'
 import readline from 'readline'
 
-import pkg from 'webpack'
+import webpack from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin' // weipack5
@@ -11,7 +11,7 @@ import TerserPlugin from 'terser-webpack-plugin'
 
 import projectConfig from './project.js'
 
-const { ProgressPlugin } = pkg
+let hasErrors = false
 
 export default {
     
@@ -25,7 +25,6 @@ export default {
     output: {
         clean: true, // 每次构建清除dist包
     },
-    
     module: {
         rules: [
             {
@@ -174,17 +173,26 @@ export default {
         ],
     },
     plugins: [
+        function () {
+            this.hooks.done.tap('DonePlugin', (stats) => {
+                hasErrors = stats.hasErrors()
+            })
+        },
         // 打包完成监控
-        new ProgressPlugin({
+        new webpack.ProgressPlugin({
             // eslint-disable-next-line no-unused-vars
             handler(percentage, message, ...args) {
                 readline.clearLine(process.stdout, 0)
                 readline.cursorTo(process.stdout, 0) 
                 if (percentage == 1) {
-                    process.stdout.write(chalk.green.bold(` [${projectConfig.name}] Build completed \n\n`))
+                    if (hasErrors) {
+                        process.stdout.write(chalk.red.bold(` [${projectConfig.name}] Build error`) + ' \n\n')
+                    }else{
+                        process.stdout.write(chalk.green.bold(` [${projectConfig.name}] Build completed`) + ' \n\n')
+                    }
                 }else{
                     let proV = (percentage * 100).toFixed(0) + '% '
-                    process.stdout.write(chalk.yellow.bold(` [${projectConfig.name}] Build progress ${proV} | ${message}`))
+                    process.stdout.write(chalk.yellow.bold(` [${projectConfig.name}] Building progress ${proV} | ${message}`))
                 }
             },
         }),
