@@ -29,7 +29,7 @@ const outputText = (data, i) => {
 }
 
 const openAllServe = () => {
-    console.log('tips: 打包多个项目时 如果打包报错 countStrLines函数计算行数会出现错误 \n \n')// 空出一行
+    console.log('tips: 打包多个项目时 如果打包报错 countStrLines函数计算行数会出现错误。此时你可以单独打包错误项目查看错误信息。 \n \n')// 空出一行
     // fork 是衍生当前进程 共享内存,spawn 是执行一个新程序
     for(let i=0;i<serveList.length;i++){
 

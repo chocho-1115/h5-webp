@@ -17,8 +17,6 @@ export default {
     },
     // devtool: 'inline-source-map',
     devtool: 'eval-cheap-module-source-map', // 定位到错误所在行信息，不需要定位列信息，速度较快
-    
-    
     module: {
         rules: [
             {

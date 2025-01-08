@@ -5,8 +5,9 @@ import proConfig from './config/webpack.pro.js'
 
 // eslint-disable-next-line no-unused-vars
 export default function (env, argv) {
-    const config = merge(baseConfig, process.env.MODE == 'development' ? devConfig : proConfig)
-    // console.log(config)
+    let config = {}
+    if(process.env.MODE == 'development') config = merge(baseConfig,  devConfig)
+    if(process.env.MODE == 'production') config = merge(baseConfig,  proConfig)
     return config
 }
 

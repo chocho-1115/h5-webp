@@ -9,9 +9,9 @@
     "url": "https://github.com/chocho-1115/h5-webp"
   },
   "scripts": {
-    "build": "node config/pro.js",
-    "dev": "node config/dev.js",
-    "create": "node config/create.js",
+    "build": "node server/pro.js",
+    "dev": "node server/dev.js",
+    "create": "node server/create.js",
     "changelog": "conventional-changelog -i CHANGELOG.md -s -r 0 -n config/changelog.js"
   },
   "author": "YangYiPing",
