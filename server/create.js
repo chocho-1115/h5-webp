@@ -27,7 +27,11 @@ if(fs.existsSync(tarDir)){
             console.log(err)
             return
         }
-        copyFolder(srcDir, tarDir)
+        copyFolder(srcDir, tarDir, ()=> {
+            console.log(' \n' + chalk.green.bold(` [${projectName}] Create completed`) + ' \n')
+            console.log(' Path', tarDir)
+            console.log(` Run \`npm run dev ${projectName}\` \n`)
+        })
     })
 }
 
@@ -76,9 +80,7 @@ const copyFolder = function(srcDir, tarDir, cb) {
             fs.stat(srcPath, function(err, stats) {
                 if (stats.isDirectory()) {
                     
-                    console.log(chalk.green.bold(` [${projectName}] Create completed`) + ' \n')
-                    console.log(' Path', tarDir)
-                    console.log(` Run \`npm run dev ${projectName}\` \n`)
+                    console.log('mkdir', tarPath)
 
                     fs.mkdir(tarPath, function(err) {
                         if (err) {
