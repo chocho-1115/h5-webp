@@ -1,13 +1,22 @@
-const fs = require('fs')
-const path = require('path')
-// const readline = require('readline');
+import fs from 'fs'
+import path from 'path'
+import chalk from 'chalk'
+
+const __dirname = path.resolve()
 
 let projectName = process.argv[2]
-let srcDir = path.resolve(__dirname, '../template')
-let tarDir = path.resolve(__dirname, '../src/'+projectName)
+let srcDir = ''
+let tarDir = path.resolve(__dirname, './src/'+projectName)
+let isUseReact = !!process.env.npm_config_react
 
 if(!projectName){
     throw '新建项目名称不能为空：npm run create projectName'
+}
+
+if(isUseReact){
+    srcDir = path.resolve(__dirname, './template-react')
+}else{
+    srcDir = path.resolve(__dirname, './template')
 }
 
 if(fs.existsSync(tarDir)){
@@ -24,7 +33,7 @@ if(fs.existsSync(tarDir)){
 
 // 将源文件拷贝到目标文件
 // 将srcPath路径的文件复制到tarPath
-let copyFile = function(srcPath, tarPath, cb) {
+const copyFile = function(srcPath, tarPath, cb) {
     let rs = fs.createReadStream(srcPath)
     rs.on('error', function(err) {
         if (err) {
@@ -48,7 +57,7 @@ let copyFile = function(srcPath, tarPath, cb) {
 }
 
 // 将srcDir文件下的文件、文件夹递归的复制到tarDir下
-var copyFolder = function(srcDir, tarDir, cb) {
+const copyFolder = function(srcDir, tarDir, cb) {
     fs.readdir(srcDir, function(err, files) {
         let count = 0
         let checkEnd = function() {
@@ -66,13 +75,16 @@ var copyFolder = function(srcDir, tarDir, cb) {
  
             fs.stat(srcPath, function(err, stats) {
                 if (stats.isDirectory()) {
-                    console.log('mkdir', tarPath)
+                    
+                    console.log(chalk.green.bold(` [${projectName}] Create completed`) + ' \n')
+                    console.log(' Path', tarDir)
+                    console.log(` Run \`npm run dev ${projectName}\` \n`)
+
                     fs.mkdir(tarPath, function(err) {
                         if (err) {
                             console.log(err)
                             return
                         }
- 
                         copyFolder(srcPath, tarPath, checkEnd)
                     })
                 } else {
