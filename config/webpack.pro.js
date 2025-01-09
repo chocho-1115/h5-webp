@@ -42,6 +42,9 @@ export default {
             {
                 test: /.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
+                resolve: {
+                    fullySpecified: false
+                },
                 use: {
                     loader: 'babel-loader',
                     options: {
