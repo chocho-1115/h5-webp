@@ -16,6 +16,13 @@ npm run create projectName
 
 运行以上命令后会复制模板目录./template到src下，并重命名为projectName。
 
+如果想用react来开发项目，可运行
+`
+npm run create projectName -react
+`
+
+运行以上命令后会复制模板目录./template-react到src下，并重命名为projectName。
+
 ##### 开发环境
 `
 npm run dev demo
