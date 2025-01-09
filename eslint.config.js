@@ -1,4 +1,6 @@
 import js from '@eslint/js'
+import react from 'eslint-plugin-react';
+
 import globals from 'globals'
 
 // console.log(js.configs.recommended)
@@ -30,7 +32,7 @@ export default [
             'quotes': [1, 'single'], // 字符串单引号
             'key-spacing': [1, { 'beforeColon': false, 'afterColon': true }], // 对象字面量中冒号的前后空格
             // 'no-unused-vars': [1, { varsIgnorePattern: '.*', args: 'none' }],
-        }
+        },
     },
     
     // 全局ignores 不能添加其他键 
@@ -38,6 +40,31 @@ export default [
     // In your eslint.config.js file, if an ignores key is used without any other keys in the configuration object, then the patterns act as global ignores.
     {
         ignores: ['node_modules/', 'dist/', '**/libs/', '**/media/', '**/css/', '**/image/', '**/static/'], // 全局ignores是相对于配置文件的
-    }
+    },
 
+    // https://zh-hans.eslint.org/docs/latest/use/configure/language-options#%E6%8C%87%E5%AE%9A%E8%A7%A3%E6%9E%90%E5%99%A8%E9%80%89%E9%A1%B9
+    {
+        files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
+        plugins: {
+            react,
+        },
+        languageOptions: {
+          parserOptions: {
+            ecmaFeatures: {
+              jsx: true,
+            },
+          },
+          globals: {
+            ...globals.browser,
+          },
+        },
+        rules: {
+          // ... any rules you want
+          'react/jsx-uses-react': 'error',
+          'react/jsx-uses-vars': 'error',
+         },
+        // ... others are omitted for brevity
+      },
+
+   
 ]

@@ -20,6 +20,42 @@ export default {
     module: {
         rules: [
             {
+                test: /.(js|jsx)$/,
+                exclude: /(node_modules|bower_components)/,
+                resolve: {
+                    fullySpecified: false
+                },
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            '@babel/preset-react',
+                            [
+                                '@babel/preset-env',
+                                {
+                                    'corejs': '3',
+                                    'useBuiltIns': 'usage',// usage 会根据配置的浏览器兼容，以及你代码中用到的 API 来进行 polyfill，实现了按需添加
+                                    'debug': false,
+                                // "targets": {
+                                // 	"chrome": "58",
+                                // 	"ie": "14"
+                                // }
+                                }
+                            ]
+                        ],
+                        // modules: 'commonjs',
+                        plugins: [
+                            ['@babel/plugin-transform-runtime', {
+                                'corejs': 3,
+                                'helpers': true,
+                                'regenerator': true,
+                                'useESModules': true
+                            }]
+                        ]
+                    }
+                }
+            },
+            {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 type: 'asset',
                 parser: {
@@ -46,4 +82,5 @@ export default {
             configType: 'flat', // 使用最新的flat config方式 默认为eslintrc；flat使用esmodule模块系统  eslintrc使用commonjs模块系统
         })
     ],
+    
 }
