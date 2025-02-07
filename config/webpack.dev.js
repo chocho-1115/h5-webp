@@ -1,5 +1,4 @@
 import ESLintPlugin from 'eslint-webpack-plugin'
-// import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 import projectConfig from './project.js'
 
@@ -20,15 +19,7 @@ export default {
     devtool: 'eval-cheap-module-source-map', // 定位到错误所在行信息，不需要定位列信息，速度较快
     module: {
         rules: [
-            {
-                test: /\.(jpe?g|png|gif|svg)$/i,
-                type: 'asset',
-                parser: {
-                    dataUrlCondition: {
-                        maxSize: 39 * 1024 // 小于 ？kb 转 base64
-                    }
-                },
-            },
+            
         ]
     },
     plugins: [

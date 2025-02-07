@@ -3,7 +3,6 @@ import path from 'path'
 import readline from 'readline'
 
 import webpack from 'webpack'
-// import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin' // weipack5
 import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin'
@@ -27,19 +26,6 @@ export default {
     },
     module: {
         rules: [
-            {
-                test: /\.(jpe?g|png|gif|svg)$/i,
-                type: 'asset',
-                parser: {
-                    dataUrlCondition: {
-                        maxSize: 0 // 4 * 1024 // 小于 ？kb 转 base64 默认值为 4 * 1024
-                    }
-                },
-                generator: {
-                    filename: 'image/[name][ext]' // 导出图片路径 在打包时才需配置
-                },
-                
-            },
             // html
             {
                 test: /\.html$/,
@@ -70,18 +56,18 @@ export default {
                     }
                 ]
             },
-            {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
-                type: 'asset',
-                generator: {
-                    filename: 'static/[name][ext]'
-                },
-                parser: {
-                    dataUrlCondition: {
-                        maxSize: 10 * 1024
-                    }
-                }
-            }
+            // {
+            //     test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+            //     type: 'asset',
+            //     generator: {
+            //         filename: 'static/[name][ext]'
+            //     },
+            //     parser: {
+            //         dataUrlCondition: {
+            //             maxSize: 10 * 1024
+            //         }
+            //     }
+            // }
         ]
     },
     // / config.optimization.minimize instead.

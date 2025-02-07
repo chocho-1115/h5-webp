@@ -1,7 +1,6 @@
 import path from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-// import ESLintPlugin from 'eslint-webpack-plugin'
 
 import projectConfig from './project.js'
 
@@ -54,6 +53,19 @@ export default {
                     },
                 ]
             },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                type: 'asset',
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 0 // 4 * 1024 // 小于 ？kb 转 base64 默认值为 4 * 1024
+                    }
+                },
+                generator: {
+                    filename: 'image/[name][ext]' // 导出图片路径 在打包时才需配置
+                },
+                
+            }
         ]
     },
     plugins: [
