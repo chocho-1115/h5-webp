@@ -156,21 +156,11 @@ export default {
         new CopyPlugin({
             patterns: [
                 { 
-                    from: path.join(projectConfig.src, 'media'),
-                    to: 'media',
-                    noErrorOnMissing: true
-                },
-                { 
                     from: path.resolve(projectConfig.src, 'static'),
                     to: 'static',
                     noErrorOnMissing: true
-                },
-                { 
-                    from: path.resolve(projectConfig.src, 'libs'),
-                    to: 'libs',
-                    noErrorOnMissing: true
                 }
-            ],
+            ]
         })
     ]
 }

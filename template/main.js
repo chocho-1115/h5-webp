@@ -99,7 +99,7 @@ Object.assign(A, {
     },
 
     async addBgMp3(){
-        let src = 'media/bj.mp3'
+        let src = 'static/media/bj.mp3'
         const audioConfig = {
             src,
             audioContext: null,
