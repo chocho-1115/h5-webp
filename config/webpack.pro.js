@@ -74,7 +74,6 @@ export default {
     optimization: {
         minimize: true,
         minimizer: [
-            // ...
             new TerserPlugin({
                 extractComments: false,// 不将注释提取到单独的文件中
             }),
@@ -84,17 +83,12 @@ export default {
                 loader: true, // 默认true，自动添加内置loader。 如果设置为false html、css如果同时引入同一张图时，会报错。
                 // severityError: 'warning', // Ignore errors on corrupted images
                 minimizer: {
+                    filename: '[name].webp', // 都转webp gif转webp后依然支持动画
                     implementation: ImageMinimizerPlugin.imageminMinify,
                     filter: (source, sourcePath) => {
-							
                         if (sourcePath.indexOf('static') > -1) {
                             return false
                         }
-
-                        // if (source.byteLength < 8192) {
-                        //   return false;
-                        // }
-			  
                         return true
                     },
                     options: {

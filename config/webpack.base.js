@@ -58,11 +58,11 @@ export default {
                 type: 'asset',
                 parser: {
                     dataUrlCondition: {
-                        maxSize: 0 // 4 * 1024 // 小于 ？kb 转 base64 默认值为 4 * 1024
+                        maxSize: 4 * 1024 // 4 * 1024  打包时小于？kb 转 base64
                     }
                 },
                 generator: {
-                    filename: 'image/[name][ext]' // 导出图片路径 在打包时才需配置
+                    filename: 'image/[name][ext]' // 打包时的输出路径
                 },
                 
             }
