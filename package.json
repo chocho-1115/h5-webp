@@ -12,8 +12,7 @@
   "scripts": {
     "build": "node server/pro.js",
     "dev": "node server/dev.js",
-    "create": "node server/create.js",
-    "changelog": "conventional-changelog -i CHANGELOG.md -s -r 0 -n config/changelog.js"
+    "create": "node server/create.js"
   },
   "author": "YangYiPing",
   "license": "ISC",
@@ -24,7 +23,6 @@
     "@babel/preset-react": "^7.26.3",
     "babel-loader": "^9.2.1",
     "chalk": "^5.4.1",
-    "conventional-changelog-cli": "^5.0.0",
     "copy-webpack-plugin": "^12.0.2",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
