@@ -1,9 +1,9 @@
-import '../css/reset.css'
-import '../css/main.css'
-import '../image/160.jpg'
-import A from '../common/activity.js'
-import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from '../common/utils.js'
-import http from '../common/http.js'
+import './css/reset.css'
+import './css/main.css'
+import './image/160.jpg'
+import A from './public/activity.js'
+import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './public/utils.js'
+import http from './public/http.js'
 
 let doc = document
 function qs(selector, parentNode){

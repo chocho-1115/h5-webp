@@ -1,6 +1,6 @@
 // https://github.com/chocho-1115/h5-webp by 杨燚平 email：849890769@qq.com
 
-import {isWechat} from '../common/utils.js'
+import {isWechat} from '../public/utils.js'
 
 document.body.ondragstart = function (e) {
     e.preventDefault()

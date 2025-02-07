@@ -1,5 +1,5 @@
 import ESLintPlugin from 'eslint-webpack-plugin'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+// import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 import projectConfig from './project.js'
 
@@ -13,27 +13,13 @@ export default {
         },
         compress: true, // 是否启动压缩 gzip
         open: false, // 是否自动打开浏览器
-        hot: true // 热更新
+        hot: true, // 热更新
+        historyApiFallback: true
     },
     // devtool: 'inline-source-map',
     devtool: 'eval-cheap-module-source-map', // 定位到错误所在行信息，不需要定位列信息，速度较快
     module: {
         rules: [
-            {
-                test: /.(js|jsx)$/,
-                exclude: /(node_modules|bower_components)/,
-                resolve: {
-                    fullySpecified: false
-                },
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            '@babel/preset-react',
-                        ],
-                    }
-                }
-            },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 type: 'asset',
@@ -43,14 +29,6 @@ export default {
                     }
                 },
             },
-            {
-                test: /\.(s[ac]|c)ss$/i, // 匹配所有的 sass/scss/css 文件, // 匹配所有的 css 文件
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    // 'sass-loader'
-                ]
-            }
         ]
     },
     plugins: [
