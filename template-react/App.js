@@ -1,3 +1,4 @@
+import './css/main.scss'
 import React from 'react'
 import { NavLink, BrowserRouter, Routes, Route } from 'react-router'
 import Index from './pages/index'

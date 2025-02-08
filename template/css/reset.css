@@ -1,4 +1,5 @@
-﻿/* reset */
+﻿
+/* reset */
 html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0;}
 header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
 table{border-collapse:collapse;border-spacing:0;}
@@ -24,7 +25,7 @@ select{
    -moz-appearance:none;
    		appearance:none;
 }
-html{-webkit-font-smoothing: antialiased;/*字体抗锯齿*/font-size:0;}
+html{-webkit-font-smoothing: antialiased;/*字体抗锯齿*/}
 
 body{	
 	-webkit-user-select:none;/*文本不可选择*/
@@ -32,7 +33,7 @@ body{
 		    user-select:none;
 	-webkit-user-drag: none;/*禁止拖拽*/
 	    -ms-user-drag: none;
-		    user-drag: none;font-family:'Microsoft Yahei',Arial;font-size:16px;background:#fff;
+		    user-drag: none;font-family:'Microsoft Yahei',Arial;
 	-webkit-touch-callout: none;
 	-webkit-tap-highlight-color: transparent;
 /* -webkit-filter: grayscale(100%);
@@ -45,160 +46,7 @@ body{
     filter: gray;opacity:0.5 */
 			
 }
-			
-			
-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder{
-    color: #000;opacity:0.3;
-}		
-select.select-placeholder{
-  color: rgba(0,0,0,.3) !important;
-}
-
-
-.penetrate{pointer-events: none;}
-			
-.abso{position:absolute;}			
-.fixed{position:fixed;}			
-
-.boxSizing{box-sizing:border-box;}
-
-.ios-scroll{-webkit-overflow-scrolling: touch}
-
-
-
-.center{
-justify-content:center;
-align-items:center;
-display:-webkit-flex;}
-
-/*提示分享层*/
-#fx{background:rgba(0,0,0,.7);position:fixed;left:0;top:0;height:100%;width:100%;text-align:center;display:none;z-index:9999;}
-#fx img{float:right;width:4.15rem;}
-
-/*向上滑动提示箭头*/
-.pt-page-moveIconUp {display:none;height:auto;width:.25rem;position:absolute;left:50%;bottom:3%;margin-left:-.12rem;-webkit-animation: moveIconUp ease 1.5s both infinite;animation: moveIconUp ease 1.5s both infinite;}
-@-webkit-keyframes moveIconUp{
-	0% { -webkit-transform: translateY(100%); opacity:0;}
-	50% { -webkit-transform: translateY(0%); opacity:1;}
-	100% { -webkit-transform: translateY(-100%); opacity:0;}
-}
-@keyframes moveIconUp{
-	0% {transform: translateY(100%); opacity:0;}
-	50% {transform: translateY(0%); opacity:1;}
-	100% {transform: translateY(-100%); opacity:0;}
-}
 
 /*选中文本的颜色*/
 ::-moz-selection {background-color: rgba(230,224,203,0.3);color: #fff8e1;}
 ::selection {background-color: rgba(230,224,203,0.3);color: #fff8e1;}
-
-/* ################# */
-/* 滚动相关的文章 https://zhuanlan.zhihu.com/p/477594628?utm_id=0 */
-/* Scroll Snap
-scroll-behavior
-overscroll-behavior
-overflow-anchor
-scrollbar-width
-scrollbar-color
-scrollbar-gutter
--webkit-overflow-scrolling */
-/* ################# */
-.scrollBox{min-height:2.5rem;overflow-y:auto !important;
-	/* iOS13以后就无效了 */
-	-webkit-overflow-scrolling: touch;
-}
-.scrollBox::-webkit-scrollbar {width:.06rem;}
-.scrollBox::-webkit-scrollbar-thumb{background:#333;border-radius:.04rem;}
-.scrollBox::-webkit-scrollbar-resizer  {background:#333;}
-.scrollBox::-webkit-scrollbar-track-piece { background:rgba(0,0,0,.2);border-radius:0.04rem;}
-.scrollBox .scrollNr{position:relative;}
-
-.m-close{width:.7rem;height:.7rem;border:.02rem solid #ccc;border-radius:1000px;position: relative;}
-.m-close:before{content:'';position: absolute;left:50%;top:50%;transform: translateX(-50%) rotate(-45deg);width:80%;margin:-1px;width:66%;height:2px;background:#fff;}
-.m-close:after {content:'';position: absolute;left:50%;top:50%;transform: translateX(-50%) rotate(45deg) ;width:80%;margin:-1px;width:66%;height:2px;background:#fff;}
-
-/*  开启硬件加速	*/
-.threeD{
-   -webkit-transform: translateZ(0);
-   transform: translateZ(0);
-}
-
-.textOver{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;}
-
-
-.cube {
-   -webkit-backface-visibility: hidden;
-   backface-visibility: hidden;
- 
-   -webkit-perspective: 1000;
-   perspective: 1000;
-}
-
-
-.anim_linear{
-	-webkit-transition:all .8s cubic-bezier(0.165, 0.84, 0.44, 1);
-	        transition:all .8s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-.anim{
-	-webkit-transition:all .8s cubic-bezier(.58,2,.68,.58);
-	        transition:all .8s cubic-bezier(.58,2,.68,.58);
-}
-
-/* ///////////////////////// */
-
-/* 不要系统默认滚动条 */
-.hide-default-scroll,
-.hide-default-scroll body{
-	width:100%;height:100%;overflow:hidden;
-}	
-
-.content{width:100%;height:100%;position:relative;overflow:hidden;margin:auto;}
-
-.page{display:none;width:100%;height:100%;position:absolute;left:0;top:0;overflow:hidden;}
-
-.page .nr{width:7.5rem;height:13.34rem;margin:-6.67rem auto auto;position:relative;top:50%;}
-.page .nr:before{content:'';height:1px;display:block;margin-bottom:-1px;}
-.page .nr:after{content:'';height:1px;display:block;margin-top:-1px;}
-
-/* 横屏 */
-.landscape .page .nr{width:13.34rem;height:7.5rem;margin-top:-3.75rem;}
-.landscape.rotateWin .content{
-	position: absolute !important;
-	left: 50% !important;
-	top: 50% !important;
-	transform: rotate(90deg) !important;
-	width: 100vh !important;
-	height: 100vw !important;
-	margin-left: calc( 100vh / -2) !important;
-	margin-top: calc( 100vw / -2) !important;
-}
-/* page可滚动 */
-.page.add-scroll{overflow-y:auto !important;-webkit-overflow-scrolling: touch !important;}
-.page.add-scroll .nr{top:auto;margin:auto;height:auto;}
-
-
-/* 音乐按钮 */
-.micBtn{display:none;border-radius:1000px;border:.02rem solid #fff;right:.3rem;top:.2rem;width:.45rem;height:.45rem;background:rgba(0,0,0,.3) url(../image/mc.gif) no-repeat center top;cursor:pointer;background-size:.23rem auto;}
-.micBtn.hide{background-position:center -1rem;}
-/* .micBtn.show{background-position:center 0;} */
-/* 横屏音乐按钮 */
-.landscape.rotateWin .micBtn{
-	top:auto;
-	bottom:.2rem;
-	transform: rotate(90deg);
-}
-
-
-
-/* .micBtn.show{-webkit-animation: mc linear 1.5s both infinite;animation: mc linear 1.5s both infinite;}
-@-webkit-keyframes mc{
-	0% { -webkit-transform: rotate(0deg);}
-	100% { -webkit-transform: rotate(360deg);}
-}
-@keyframes mc{
-	0% {transform: rotate(0deg);}
-	100% {transform: rotate(360deg);}
-} */
-
-
-

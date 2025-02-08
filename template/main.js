@@ -1,7 +1,7 @@
 import './css/main.scss'
 import A from './js/activity.js'
-import http from './js/http.js'
-import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './js/utils.js'
+import http from './common/http.js'
+import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './common/utils.js'
 
 let doc = document
 function qs(selector, parentNode){
