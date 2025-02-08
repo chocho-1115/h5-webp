@@ -1,4 +1,4 @@
-import './css/main.css'
+import './css/main.scss'
 import A from './js/activity.js'
 import http from './js/http.js'
 import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './js/utils.js'

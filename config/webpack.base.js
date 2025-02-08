@@ -54,11 +54,12 @@ export default {
                                     if(url.indexOf('static/') > -1) return false
                                     return true
                                 }
-                            }// 
+                            }
                             // esModule: true // https://www.npmjs.com/package/css-loader#modules
                         },
                     },
-                ]
+                    'sass-loader'
+                ] // Loader 的执行顺序是固定从后往前
             },
             
         ]
