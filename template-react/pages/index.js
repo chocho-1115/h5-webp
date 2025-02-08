@@ -1,8 +1,10 @@
-import './index.scss'
+
+import * as style from './index.scss' 
+
 export default () => {
     return (
-        <div className="index">
-            index
+        <div className={style.index}>
+            <span>index</span>
         </div>
     )
 }

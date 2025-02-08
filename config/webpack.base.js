@@ -54,8 +54,9 @@ export default {
                                     if(url.indexOf('static/') > -1) return false
                                     return true
                                 }
-                            }
-                            // esModule: true // https://www.npmjs.com/package/css-loader#modules
+                            },
+                            // importLoaders: 1, // css-loader 之前应用的加载器数量
+                            modules: true, // https://www.npmjs.com/package/css-loader#modules
                         },
                     },
                     'sass-loader'
