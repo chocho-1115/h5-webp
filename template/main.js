@@ -1,9 +1,7 @@
-import './css/reset.css'
 import './css/main.css'
-import './image/160.jpg'
-import A from './public/activity.js'
-import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './public/utils.js'
-import http from './public/http.js'
+import A from './js/activity.js'
+import http from './js/http.js'
+import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './js/utils.js'
 
 let doc = document
 function qs(selector, parentNode){
@@ -21,8 +19,8 @@ let config = {
     shareInfo: {
         title: '分享标题',
         desc: '分享副标题',
-        imgUrl: 'https://www.seth5.com/2022/ltYearEndReview/image/160.jpg', // document.location.hostname 不带端口
-        link: 'https://www.seth5.com/2022/ltYearEndReview/' // http://uat.h5.maijimeng.com/activity/2022/
+        imgUrl: 'https://www.seth5.com/2024/**/static/image/share.jpg', // document.location.hostname 不带端口
+        link: 'https://www.seth5.com/2024/**/' // http://uat.h5.maijimeng.com/activity/2022/
     }
 }
 Object.assign(A.data, config)

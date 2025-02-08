@@ -48,24 +48,19 @@ export default {
                     {
                         loader: 'css-loader',
                         options: {
-                            esModule: true
+                            url: {
+                                filter(url) {
+                                    if(process.env.MODE == 'development') return false
+                                    if(url.indexOf('static/') > -1) return false
+                                    return true
+                                }
+                            }// 
+                            // esModule: true // https://www.npmjs.com/package/css-loader#modules
                         },
                     },
                 ]
             },
-            {
-                test: /\.(jpe?g|png|gif|svg)$/i,
-                type: 'asset',
-                parser: {
-                    dataUrlCondition: {
-                        maxSize: 4 * 1024 // 4 * 1024  打包时小于？kb 转 base64
-                    }
-                },
-                generator: {
-                    filename: 'image/[name][ext]' // 打包时的输出路径
-                },
-                
-            }
+            
         ]
     },
     plugins: [

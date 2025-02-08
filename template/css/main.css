@@ -1,4 +1,5 @@
 @charset "utf-8";
+@import url('reset.css');
 /* CSS Document */
 /*7s
 @keyframes blinky {
@@ -50,7 +51,8 @@ img.block {
 }
 .page1 .nr {
   box-shadow: #fff 0 0 0 0.1rem inset;
-  background: #1898f1;
+  background: url(../static/image/share.jpg) center no-repeat, url(../image/fx_text.png) no-repeat center;
+  background-color: #1898f1;
 }
 .page2 {
   background: #669;

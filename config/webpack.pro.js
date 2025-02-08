@@ -22,6 +22,7 @@ export default {
         ignored: ['**/*.less', '**/node_modules'] // 排除文件夹
     },
     output: {
+
         clean: true, // 每次构建清除dist包
     },
     module: {
@@ -29,6 +30,7 @@ export default {
             // html
             {
                 test: /\.html$/,
+                // use loader 都是加载器
                 use: [
                     {
                         loader: 'html-loader',
@@ -43,7 +45,7 @@ export default {
                                 ],
                                 // eslint-disable-next-line no-unused-vars
                                 urlFilter: (attribute, value, resourcePath) => {
-                                    if (value.indexOf('image') == -1) {
+                                    if (value.indexOf('static/') > -1) {
                                         return false
                                     }
                                     if (/example\.pdf$/.test(value)) {
@@ -56,6 +58,21 @@ export default {
                     }
                 ]
             },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                type: 'asset',
+                // 解析器
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 4 * 1024 // 4 * 1024  小于？kb 转 base64
+                    }
+                },
+                // 生成器
+                generator: {
+                    filename: 'image/[name]-[contenthash:6][ext]', // 输出路径
+                },
+                            
+            }
             // {
             //     test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
             //     type: 'asset',
@@ -86,7 +103,7 @@ export default {
                     filename: '[name].webp', // 都转webp gif转webp后依然支持动画
                     implementation: ImageMinimizerPlugin.imageminMinify,
                     filter: (source, sourcePath) => {
-                        if (sourcePath.indexOf('static') > -1) {
+                        if (sourcePath.indexOf('static/') > -1) {
                             return false
                         }
                         return true
