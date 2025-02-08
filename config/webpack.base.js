@@ -56,7 +56,10 @@ export default {
                                 }
                             },
                             // importLoaders: 1, // css-loader 之前应用的加载器数量
-                            modules: true, // https://www.npmjs.com/package/css-loader#modules
+                            // https://www.npmjs.com/package/css-loader#modules
+                            modules: {
+                                localIdentName: '[local]-[hash:base64]',
+                            }, 
                         },
                     },
                     'sass-loader'
