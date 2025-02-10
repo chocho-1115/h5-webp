@@ -1,5 +1,5 @@
 
-import * as style from './index.scss' 
+import * as style from './index.m.scss' 
 
 export default () => {
     return (

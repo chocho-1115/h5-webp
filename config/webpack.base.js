@@ -58,6 +58,7 @@ export default {
                             // importLoaders: 1, // css-loader 之前应用的加载器数量
                             // https://www.npmjs.com/package/css-loader#modules
                             modules: {
+                                auto: /\.m\.\w+$/i,
                                 localIdentName: '[local]-[hash:base64]',
                             }, 
                         },
