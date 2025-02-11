@@ -58,7 +58,7 @@ export default {
                             // importLoaders: 1, // css-loader 之前应用的加载器数量
                             // https://www.npmjs.com/package/css-loader#modules
                             modules: {
-                                auto: /\.m\.\w+$/i,
+                                auto: /\.m\.\w+$/i,  // 以m.scss结尾的用css modules // 如果需要设置为true 这里设置为true无效 只能直接 modules: true
                                 localIdentName: '[local]-[hash:base64]',
                             }, 
                         },
