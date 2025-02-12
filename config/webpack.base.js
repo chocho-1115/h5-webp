@@ -69,6 +69,18 @@ export default {
             },
         ]
     },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    // test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+                    test: /[\\/]node_modules[\\/]/, // 匹配node_modules中的模块
+                    name: 'vendor',
+                    chunks: 'all',
+                },
+            }
+        }
+    },
     plugins: [
         // https://webpack.js.org/plugins/html-webpack-plugin/
         new HtmlWebpackPlugin({

@@ -123,16 +123,6 @@ export default {
                 },
             }),
         ],
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    // test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-                    test: /[\\/]node_modules[\\/]/, // 匹配node_modules中的模块
-                    name: 'vendor',
-                    chunks: 'all',
-                },
-            }
-        }
     },
     plugins: [
         function () {
