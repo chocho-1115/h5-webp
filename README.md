@@ -1,6 +1,10 @@
 # h5-webp
 h5-webpack
 
+### 更新记录
+
+[CHANGELOG.md](https://github.com/chocho-1115/h5-webp/blob/main/CHANGELOG.md)
+
 ### 业务场景
 
 活动类H5开发，当量多的时候，我们就需要一套工程化管理模式来统一管理多个项目。
