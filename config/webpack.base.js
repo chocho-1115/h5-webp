@@ -50,11 +50,12 @@ export default {
                         options: {
                             url: {
                                 filter(url) {
-                                    if(process.env.MODE == 'development') return false
-                                    if(url.indexOf('static/') > -1) return false
+                                    if(process.env.MODE == 'development') return false // 开发环境css内的图片不打包
+                                    if(url.indexOf('static/') > -1) return false // static下的图片不打包
                                     return true
                                 }
                             },
+                            // css modules 配置
                             // importLoaders: 1, // css-loader 之前应用的加载器数量
                             // https://www.npmjs.com/package/css-loader#modules
                             modules: {
@@ -66,7 +67,6 @@ export default {
                     'sass-loader'
                 ] // Loader 的执行顺序是固定从后往前
             },
-            
         ]
     },
     plugins: [
@@ -84,7 +84,6 @@ export default {
             filename: 'css/[name]-[contenthash].css', // 'css/main.css',
             // chunkFilename: 'css/main.css',
         })
-
     ],
     externals: {
         // jquery: 'jQuery'
