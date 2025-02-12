@@ -3,7 +3,7 @@
 ### 暂未实现的功能
 
 ...
-* 过滤掉无用的css（放弃）；
+* 使用purgecss-webpack-plugin，过滤掉无用的css，[参考](https://segmentfault.com/a/1190000042416750)（放弃）；
 * 支持postcss（放弃）；
 
 ### 更新记录
