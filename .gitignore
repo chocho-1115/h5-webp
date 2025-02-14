@@ -5,6 +5,7 @@ db.json
 node_modules/
 dist/
 
+backup/
 src/
 # /src/*
 # !/src/demo

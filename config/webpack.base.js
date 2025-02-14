@@ -30,6 +30,11 @@ export default {
         symlinks: false // 减少解析工作量
     },
     module: {
+        // parser: {
+        //     javascript: {
+        //         importMetaContext: true,
+        //     },
+        // },
         rules: [
             {
                 test: /.(js|jsx)$/,
@@ -79,7 +84,9 @@ export default {
                     chunks: 'all',
                 },
             }
-        }
+        },
+        // runtimeChunk: true,
+
     },
     plugins: [
         // https://webpack.js.org/plugins/html-webpack-plugin/
