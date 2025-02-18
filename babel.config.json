@@ -9,7 +9,7 @@
 		},
 		"production": {
 			"presets": [
-				"@babel/preset-react",
+				"@babel/preset-react", // 不用每个文件都import React from 'react'了
 				[
 					"@babel/preset-env",
 					{
