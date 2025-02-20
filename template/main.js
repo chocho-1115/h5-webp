@@ -1,4 +1,5 @@
 import './css/main.scss'
+import {remInit} from './common/rem.js'
 import A from './js/activity.js'
 import http from './common/http.js'
 import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './common/utils.js'
@@ -43,23 +44,11 @@ A.h5Init({
     }
 })
 
-A.remInit({
-    // 基础宽度 通常和设计稿宽度一致
+remInit({
     baseWidth: 750,
-    // 在使用宽度适配时的 页面的最大宽度，此值只在按宽度适配时，才有效
-    maxWidth: browserDetect().isPc ? 750 : null, // 不限制最大宽度 即按浏览器宽度适配
-    // 视窗显示的最小高度范围 当按宽度适配会裁切掉viewportMinHeight所指定的高度范围内的内容时 此时将按高度来适配
-    // 所以按高度适配的临界值为 baseWidth / viewportMinHeight, 界面宽高比大于此值时 按高度适配
-    // 此值可以为空
+    maxWidth: browserDetect().isPc ? 750 : null,
     viewportMinHeight: 1334,
-    // 是否横屏 默认false
     isLandscape: false,
-    // 默认true 自动旋转屏幕 当设置为false时 如果用户开启了自动旋转屏幕 将会在横屏时显示提示层 只有在isLandscape为true时才有效
-    // autoRotatingScreen: true, // 已废弃 rotateWindows_tips的显示与隐藏 不应该写在适配方法内
-	
-    // 按高度适配时的临界值，会覆盖设置viewportMinHeight后默认的临界值（baseWidth / viewportMinHeight）
-    // viewportMinHeight未设置时 此值无效
-    // 使用场景：在横屏下才使用高度适配 就可以把zoomOutCriticalValue设置为 1/1
     // zoomOutCriticalValue: !browserDetect().isPc ? 1 / 1 : null,
     // zoomOutCriticalValue: 1334/(750-400),
 })
