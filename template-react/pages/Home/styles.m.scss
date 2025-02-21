@@ -1,11 +1,13 @@
-header{
-    background:#696;
+
+// warp css
+.wrap{
+    &>div{
+        background:#669;
+    }
 }
 
-.a{color:#f00;}
-
-.main{
-    background:#669;
+// 内部元素 css
+.wrap{
     span{
         color:#fff;
     }

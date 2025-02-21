@@ -1,3 +1,13 @@
 
 @import './reset.css';
-#app{border:#fff 10px solid;}
+
+body{background:#966;font-size:16px;}
+
+header{
+    background:rgba(100, 200, 100, .7);
+    position: fixed; right:0;top:0;z-index:9;
+    padding: .2rem;
+    a{display:block;}
+}
+
+.content{height: 100vh;}
