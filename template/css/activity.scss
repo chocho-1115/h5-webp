@@ -49,14 +49,20 @@ scrollbar-color
 scrollbar-gutter
 -webkit-overflow-scrolling */
 /* ################# */
-.scrollBox{min-height:2.5rem;overflow-y:auto !important;
+.scrollBox{
 	/* iOS13以后就无效了 */
 	-webkit-overflow-scrolling: touch;
+	&:not([direction="y"]){
+		overflow-y:auto !important;
+	}
+	&[direction="y"]{
+		overflow-x:auto !important;
+	}
 }
 .scrollBox::-webkit-scrollbar {width:.06rem;}
-.scrollBox::-webkit-scrollbar-thumb{background:#333;border-radius:.04rem;}
-.scrollBox::-webkit-scrollbar-resizer  {background:#333;}
-.scrollBox::-webkit-scrollbar-track-piece { background:rgba(0,0,0,.2);border-radius:0.04rem;}
+.scrollBox::-webkit-scrollbar-thumb{background:rgba(0,0,0,.6);border-radius:.04rem;}
+.scrollBox::-webkit-scrollbar-resizer  {background:rgba(0,0,0,.6);}
+.scrollBox::-webkit-scrollbar-track-piece { background:rgba(0,0,0,.1);border-radius:0.04rem;}
 .scrollBox .scrollNr{position:relative;}
 
 .m-close{width:.7rem;height:.7rem;border:.02rem solid #ccc;border-radius:1000px;position: relative;}
