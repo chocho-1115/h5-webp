@@ -26,7 +26,7 @@ let config = {
 }
 Object.assign(A.data, config)
 
-if(isWechat()) A.initWxFX()
+if(isWechat(true)) A.initWxFX()
 A.setFX()
 
 // 跳到第二页  
@@ -52,12 +52,6 @@ remInit({
     // zoomOutCriticalValue: !browserDetect().isPc ? 1 / 1 : null,
     // zoomOutCriticalValue: 1334/(750-400),
 })
-
-A.data.pageCallback = {
-    '2': function(){
-		
-    }
-}
 
 // 组装A对象
 Object.assign(A, {

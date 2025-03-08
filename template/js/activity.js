@@ -48,7 +48,8 @@ let activity = {
         pageStatus: -1,// 页面切换状态
         pageCutover: true,// 页面切换开关 可以用来从外部限制页面是否可以滑动翻页
         pageSwipeB: [],
-        pageCallback: {}
+        startCallback: null,
+        endCallback: null
     },
     // 微信初始化分享
     initWxFX: function(){
@@ -162,41 +163,38 @@ let activity = {
             newPage = info.page[num],
             self = this,
             time = opt.time === undefined ? 300 : opt.time
-
+        
         if (info.pageIndex == num || num >= info.page.length) {
-            if (opt && opt.startCallback) opt.startCallback()
-            if (opt && opt.endCallback) opt.endCallback()
+            // if (opt && opt.startCallback) opt.startCallback()
+            // if (opt && opt.endCallback) opt.endCallback()
             return false
         }
         info.pageStatus = 0
 
         self.setUpJt(false)
 
-        // TweenMax.set(opt.newPage,{display:'block'});
         newPage.style.display = 'block'
-        if (opt.startCallback) opt.startCallback()
-        if (info.pageCallback && info.pageCallback[num]) info.pageCallback[num]()
+        if (opt.startCallback) opt.startCallback(info.pageIndex, num)
+        if (info.startCallback) info.startCallback(info.pageIndex, num)
 
-        if (info.pageIndex >= 0) {
-            TweenMax.to(oldPage, time / 1000, {
-                opacity: 0, onComplete: function () {
-                    TweenMax.set(oldPage, { display: 'none' })
-                    // callBack&&callBack()
-                }
-            })
+        if (oldPage) {
+            TweenMax.to(oldPage, time / 1000, { opacity: 0 })
         }
 
-        // TweenMax.set(opt.newPage,{display:'block'});
         TweenMax.to(newPage, time / 1000, {
             opacity: 1, onComplete: function () {
-                if(oldPage) oldPage.classList.remove('show')
                 newPage.classList.add('show')
+                if(oldPage) oldPage.classList.remove('show')
 
+                let oldIndex = info.pageIndex
                 info.pageIndex = num
 
-                if (info.callback && info.callback[num]) info.callback[num]()
-                if (opt.endCallback) opt.endCallback()
-
+                if (opt.endCallback) opt.endCallback(oldIndex, num)
+                if (info.endCallback) info.endCallback(oldIndex, num)
+                
+                // display的设置放在endCallback后面是为了防止类似scrollTop的设置失效问题
+                if(oldPage) oldPage.style.display = 'none'
+                
                 let d = info.pageSwipeB[num]
                 if (opt.upJtB === undefined && (d === 0 || d === 1)) {
                     self.setUpJt(true)
