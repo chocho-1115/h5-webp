@@ -4,17 +4,19 @@ import A from './js/activity.js'
 import http from './common/http.js'
 import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './common/utils.js'
 
-let doc = document
-function qs(selector, parentNode){
-    return parentNode ? parentNode.querySelector(selector) : doc.querySelector(selector)
+const DEBUG = !!queryString('debug')
+const ISLOCAL = window.location.href.indexOf('localhost')>-1 || window.location.href.indexOf('127.0.0.1')>-1 || window.location.href.indexOf('192.168.1.100')>-1
+const OSSURL = ISLOCAL ? '' : ''
+
+const qs = (selector, parentNode) => {
+    return parentNode ? parentNode.querySelector(selector) : document.querySelector(selector)
 }
 
-// function qsa(selector, parentNode){
-//     return parentNode ? parentNode.querySelectorAll(selector) : doc.querySelectorAll(selector)
+// const qsa = (selector, parentNode) => {
+//     return parentNode ? parentNode.querySelectorAll(selector) : document.querySelectorAll(selector)
 // }
  
 let config = {
-    debug: !!queryString('debug'),
     userInfo: {}, // 登录信息
     // 分享信息
     shareInfo: {
@@ -31,7 +33,6 @@ A.setFX()
 
 // 跳到第二页  
 A.h5Init({
-    // pageAnimateTime: 600,
     pageAnimateType: 'fade',// fade 渐隐渐现翻页 translate 位移翻页 threeD  三d翻页
     pageSwipeB: {
         '0': false,
@@ -80,7 +81,7 @@ Object.assign(A, {
     },
 
     async addBgMp3(){
-        let src = 'static/media/bj.mp3'
+        let src = OSSURL + 'static/media/bj.mp3'
         const audioConfig = {
             src,
             audioContext: null,
@@ -126,7 +127,7 @@ Object.assign(A, {
 
         let page = Number(queryString('page'))||1
         this.gotoPage(page)
-
+        this.addBgMp3()  
         this.event()
 
         // weui.toast('兑换成功', {
@@ -148,10 +149,12 @@ Object.assign(A, {
 // utils.whenDomReady(function(){
 // 在有load页面的时候用
 lazyLoad('.lazy_load',{
+    baseURL: OSSURL,
     complete(){
         let $loadNum = qs('#set_load_num')
         A.gotoPage(0, {time: 0, endCallback: function(){
             lazyLoad('.lazy',{
+                baseURL: OSSURL,
                 fileload(item){
                     $loadNum.innerHTML = parseInt(item.progress*100)+'%'
                 },
@@ -159,16 +162,18 @@ lazyLoad('.lazy_load',{
                     $loadNum.innerHTML = 100+'%'
                     setTimeout(function(){
                         A.entry()
-                    },800)
+                    }, DEBUG ? 0 : 800)
                 },
-                minTime: 0
+                minTime: DEBUG ? 0 : 1000
             })
         }})
     },
     minTime: 0
 }) 
  
-A.addBgMp3()  
+
+
+
  
 // })
  

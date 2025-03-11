@@ -267,7 +267,7 @@ export function preload(srcArr, params) {
     let num = 0,
         imgArrObj = {},
         minTime = params.minTime || 0,
-        baseUrl = params.baseUrl || '',
+        baseURL = params.baseURL || '',
         len = srcArr.length,
         t = minTime / len,
         st = (new Date()).getTime()
@@ -283,7 +283,7 @@ export function preload(srcArr, params) {
                 endLoad(self, e.type, i)
             }
             setTimeout(function () {
-                newImg.src = baseUrl + srcArr[i].path
+                newImg.src = baseURL + srcArr[i].path
             }, t * (i + 1) - ((new Date()).getTime() - st))
         }(i))
     }
@@ -305,7 +305,7 @@ export function lazyLoad(selector, params) {
     let doc = document,
         assets = [],
         ele = doc.querySelectorAll(selector),
-        baseUrl = params.baseUrl || ''
+        baseURL = params.baseURL || ''
 
     for (let i = 0, len = ele.length; i < len; i++) {
         let obj = { path: '', type: '', ele: ele[i], name: '_' + i, crossOrigin: null }
@@ -334,9 +334,9 @@ export function lazyLoad(selector, params) {
         fileload: function (item) {
             if (item.status === 200) {
                 if (item.type == 'img') {
-                    item.ele.setAttribute('src', baseUrl + item.path)
+                    item.ele.setAttribute('src', baseURL + item.path)
                 } else if (item.type == 'bj') {
-                    item.ele.style.backgroundImage = 'url(' + baseUrl + item.path + ')'
+                    item.ele.style.backgroundImage = 'url(' + baseURL + item.path + ')'
                 }
             }
             if (params.fileload) params.fileload(item)
@@ -345,7 +345,7 @@ export function lazyLoad(selector, params) {
             if (params.complete) params.complete(result)
         },
         minTime: params.minTime,
-        baseUrl: baseUrl
+        baseURL
     })
 }
 
