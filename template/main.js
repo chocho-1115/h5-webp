@@ -8,6 +8,16 @@ const DEBUG = !!queryString('debug')
 const ISLOCAL = window.location.href.indexOf('localhost')>-1 || window.location.href.indexOf('127.0.0.1')>-1 || window.location.href.indexOf('192.168.1.100')>-1
 const OSSURL = ISLOCAL ? '' : ''
 
+const H = http.create({ baseURL: ''})
+
+// 添加响应拦截器
+H.interceptors.response.use(function (res) {
+    return res.data
+}, function (error) {
+    console.log('响应拦截器-error')
+    return Promise.reject(error)
+})
+
 const qs = (selector, parentNode) => {
     return parentNode ? parentNode.querySelector(selector) : document.querySelector(selector)
 }
