@@ -1,15 +1,25 @@
 let page = document.querySelectorAll('.page')
-let pageIndex = -1 
-let pageStatus = -1 // 页面切换状态
-let pageCutover = true // 页面切换开关 可以用来从外部限制页面是否可以滑动翻页
-let pageSwipeB = []
+let index = -1 
+let status = -1 // 页面切换状态
+let cutover = true // 页面切换开关 可以用来从外部限制页面是否可以滑动翻页
+let swipeB
 let startCallback
 let endCallback
 
+const setTips = (B) => {
+    let ele = document.getElementById('upJt')
+    if(!ele) return
+    if(B){
+        ele.style.display = 'block'
+    }else{
+        ele.style.display = 'none'
+    }
+}
+
 export default {
-    h5Init(opt) {
+    init(opt) {
         let content = document.querySelector('#content')
-        pageSwipeB = opt.pageSwipeB
+        swipeB = opt.swipeB || []
 
         startCallback = opt.startCallback || null
         endCallback = opt.endCallback || null
@@ -29,58 +39,50 @@ export default {
 
             // 下一页
             mc.on('swipeup', () => {
-                if (!pageStatus) return false
-                if (!pageCutover) return false
-                if ( pageSwipeB[ pageIndex] === false ||  pageSwipeB[ pageIndex] < 0) return false
-                let nextPage =  page[ pageIndex].getAttribute('next-page')
+                if (!status) return false
+                if (!cutover) return false
+                if ( swipeB[ index] === false ||  swipeB[ index] < 0) return false
+                let nextPage =  page[ index].getAttribute('next-page')
                 if (nextPage) {
                     this. goto(Number(nextPage))
                 } else {
-                    this. goto( pageIndex + 1)
+                    this. goto( index + 1)
                 }
             })
             // 上一页
             mc.on('swipedown', () => {
-                if (! pageStatus) return false
-                if (! pageCutover) return false
-                if ( pageSwipeB[ pageIndex] === false ||  pageSwipeB[ pageIndex] > 0) return false
+                if (!status) return false
+                if (!cutover) return false
+                if ( swipeB[ index] === false ||  swipeB[ index] > 0) return false
 
-                let nextPage =  page[ pageIndex].getAttribute('previous-page')
+                let nextPage =  page[ index].getAttribute('previous-page')
                 if (nextPage) {
                     this. goto(Number(nextPage))
                 } else {
-                    this. goto( pageIndex - 1)
+                    this. goto( index - 1)
                 }
             })
         }
     },    
-    setUpJt(B) {
-        let ele = document.getElementById('upJt')
-        if(!ele) return
-        if(B){
-            ele.style.display = 'block'
-        }else{
-            ele.style.display = 'none'
-        }
-    },
+    
     goto(num, opt) {
         opt = opt || {}
-        let oldPage =  page[ pageIndex],
+        let oldPage =  page[ index],
             newPage =  page[num],
             time = opt.time === undefined ? 300 : opt.time
         
-        if ( pageIndex == num || num >=  page.length) {
+        if ( index == num || num >=  page.length) {
             // if (opt && opt.startCallback) opt.startCallback()
             // if (opt && opt.endCallback) opt.endCallback()
             return false
         }
-        pageStatus = 0
+        status = 0
 
-        this.setUpJt(false)
+        setTips(false)
 
         newPage.style.display = 'block'
-        if (opt.startCallback) opt.startCallback( pageIndex, num)
-        if ( startCallback)  startCallback( pageIndex, num)
+        if (opt.startCallback) opt.startCallback( index, num)
+        if ( startCallback)  startCallback( index, num)
 
         if (oldPage) {
             TweenMax.to(oldPage, time / 1000, { opacity: 0 })
@@ -91,22 +93,22 @@ export default {
                 newPage.classList.add('show')
                 if(oldPage) oldPage.classList.remove('show')
 
-                let oldIndex =  pageIndex
-                pageIndex = num
+                let oldIndex =  index
+                index = num
 
                 if (opt.endCallback) opt.endCallback(oldIndex, num)
                 if ( endCallback)  endCallback(oldIndex, num)
                 
                 // display的设置放在endCallback后面是为了防止类似scrollTop的设置失效问题
                 if(oldPage) oldPage.style.display = 'none'
-                let d =  pageSwipeB[num]
+                let d =  swipeB[num]
                 if (opt.upJtB === undefined && (d === 0 || d === 1)) {
-                    this.setUpJt(true)
+                    setTips(true)
                 } else {
-                    this.setUpJt(opt.upJtB)
+                    setTips(opt.upJtB)
                 }
 
-                pageStatus = 1
+                status = 1
             }
         })
 		

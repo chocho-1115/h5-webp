@@ -1,4 +1,6 @@
 // https://github.com/chocho-1115/h5-webp by 杨燚平 email：849890769@qq.com
+import http from '../common/http.js'
+import {isWechat, isAndroid} from '../common/utils.js'
 
 document.body.ondragstart = function (e) {
     e.preventDefault()
@@ -26,8 +28,74 @@ if(document.querySelector('#fx')){
     })
 }()
 
+export function qsa(selector, parentNode) {
+    return parentNode ? parentNode.querySelectorAll(selector) : document.querySelectorAll(selector)
+}
+
+export function qs(selector, parentNode) {
+    return parentNode ? parentNode.querySelector(selector) : document.querySelector(selector)
+} 
+
 // ////////////////////////////////////////////
-let activity = {
+export default {
+    render(options){
+        if(!options.data){
+            if(options.blockDom) options.blockDom.style.display = 'none'
+            return
+        }
+        const fragment = document.createDocumentFragment()
+        let len = options.data.length
+        for(let i=0;i<len;i++){
+            let item = options.factory(options.data[i], i)
+            if(!item) continue
+            if(Object.prototype.toString.call(item) === '[object Array]'){
+                for(let k=0; k<item.length; k++ ){
+                    fragment.appendChild(item[k])
+                }
+            }else{
+                fragment.appendChild(item)
+            }
+        }
+        if(options.clean) options.renderDom.innerHTML = ''
+        options.renderDom && options.renderDom.appendChild(fragment)
+        options.renderCallback && options.renderCallback()
+    },
+    async addBgMp3(src){
+        const audioConfig = {
+            src,
+            audioContext: null,
+            asPossibleAutoplay: true,
+            autoplay: true,// 音乐是否自动播放
+            loop: true,// 是否循环播放
+        }
+    
+        if(isAndroid()){ // 安卓谷歌浏览器也无法自动播放 只能解决安卓微信 和默认浏览器的自动播放
+            const res = await http.get(src, { responseType: 'arraybuffer' }).catch((e) => { console.log(e) })
+            audioConfig.audioContext = await this.createAudioContext(res.data)
+        }
+    
+        const audio = this.createAudio(audioConfig)
+    
+        this.setAudioButton({
+            button: document.getElementById('micBtn'),
+            audio,
+        })
+    
+        // 以下方式都能解决ios微信下音频自动播放的问题
+        if(isWechat()) {
+            if(typeof window.WeixinJSBridge == 'object' && typeof window.WeixinJSBridge.invoke == 'function') {  
+                window.WeixinJSBridge.invoke('getNetworkType', {}, () => {
+                    console.log('getNetworkType')
+                    audio.play() 
+                })
+            } else {
+                document.addEventListener('WeixinJSBridgeReady', function() {  
+                    console.log('WeixinJSBridgeReady')
+                    audio.play()
+                }, false)  
+            }  
+        }
+    },
     /**
      * @desc 利用AudioContext api来播放音频
      * @param {arraybuffer} arraybuffer 通过接口请求的音频文件数据
@@ -203,4 +271,3 @@ let activity = {
     },
 }
 
-export default activity
