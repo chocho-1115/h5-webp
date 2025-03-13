@@ -43,13 +43,7 @@ function stopDefaultScroll (e) {
 // ////////////////////////////////////////////
 let activity = {
     data: {
-        page: document.querySelectorAll('.page'),
-        pageIndex: -1,
-        pageStatus: -1,// 页面切换状态
-        pageCutover: true,// 页面切换开关 可以用来从外部限制页面是否可以滑动翻页
-        pageSwipeB: [],
-        startCallback: null,
-        endCallback: null
+        
     },
     // 微信初始化分享
     initWxFX: function(){
@@ -61,7 +55,7 @@ let activity = {
             //     ] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
             // });
         }).catch(()=>{ 
-			
+            
         })
     },
     setFX(options){
@@ -100,112 +94,7 @@ let activity = {
                 window.jssdk && window.jssdk.share(fxData)
             })
         }
-		
-    },
-    h5Init (opt) {
-        let info = this.data
-        let content = document.querySelector('#content')
-        info.pageSwipeB = opt.pageSwipeB
-
-        TweenMax.set(info.page, {
-            display: 'none',
-            opacity: 0
-        })
-
-        // 设置翻页事件
-        if (window.Hammer && info.page.length > 0) {
-
-            let mc = new Hammer(content, { 
-                // touchAction: 'pan-x pan-y'
-            })
-            mc.get('swipe').set({ velocity: 0, threshold: 30, direction: 30 })// 修改滑动的速度与方向
-
-            // 下一页
-            mc.on('swipeup', () => {
-                if (!info.pageStatus) return false
-                if (!info.pageCutover) return false
-                if (info.pageSwipeB[info.pageIndex] === false || info.pageSwipeB[info.pageIndex] < 0) return false
-                let nextPage = info.page[info.pageIndex].getAttribute('next-page')
-                if (nextPage) {
-                    this.gotoPage(Number(nextPage))
-                } else {
-                    this.gotoPage(info.pageIndex + 1)
-                }
-            })
-            // 上一页
-            mc.on('swipedown', () => {
-                if (!info.pageStatus) return false
-                if (!info.pageCutover) return false
-                if (info.pageSwipeB[info.pageIndex] === false || info.pageSwipeB[info.pageIndex] > 0) return false
-
-                let nextPage = info.page[info.pageIndex].getAttribute('previous-page')
-                if (nextPage) {
-                    this.gotoPage(Number(nextPage))
-                } else {
-                    this.gotoPage(info.pageIndex - 1)
-                }
-            })
-        }
-    },    
-    setUpJt (B) {
-        let ele = document.getElementById('upJt')
-        if(!ele) return
-        if(B){
-            ele.style.display = 'block'
-        }else{
-            ele.style.display = 'none'
-        }
-    },
-    gotoPage (num, opt) {
-        opt = opt || {}
-        let info = this.data,
-            oldPage = info.page[info.pageIndex],
-            newPage = info.page[num],
-            self = this,
-            time = opt.time === undefined ? 300 : opt.time
         
-        if (info.pageIndex == num || num >= info.page.length) {
-            // if (opt && opt.startCallback) opt.startCallback()
-            // if (opt && opt.endCallback) opt.endCallback()
-            return false
-        }
-        info.pageStatus = 0
-
-        self.setUpJt(false)
-
-        newPage.style.display = 'block'
-        if (opt.startCallback) opt.startCallback(info.pageIndex, num)
-        if (info.startCallback) info.startCallback(info.pageIndex, num)
-
-        if (oldPage) {
-            TweenMax.to(oldPage, time / 1000, { opacity: 0 })
-        }
-
-        TweenMax.to(newPage, time / 1000, {
-            opacity: 1, onComplete: function () {
-                newPage.classList.add('show')
-                if(oldPage) oldPage.classList.remove('show')
-
-                let oldIndex = info.pageIndex
-                info.pageIndex = num
-
-                if (opt.endCallback) opt.endCallback(oldIndex, num)
-                if (info.endCallback) info.endCallback(oldIndex, num)
-                
-                // display的设置放在endCallback后面是为了防止类似scrollTop的设置失效问题
-                if(oldPage) oldPage.style.display = 'none'
-                
-                let d = info.pageSwipeB[num]
-                if (opt.upJtB === undefined && (d === 0 || d === 1)) {
-                    self.setUpJt(true)
-                } else {
-                    self.setUpJt(opt.upJtB)
-                }
-
-                info.pageStatus = 1
-            }
-        })
-		
     },
     /**
      * @desc 利用AudioContext api来播放音频

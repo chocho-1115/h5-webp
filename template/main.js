@@ -1,8 +1,10 @@
 import './css/main.scss'
 import {remInit} from './common/rem.js'
-import A from './js/activity.js'
 import http from './common/http.js'
 import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './common/utils.js'
+
+import P from'./js/page.js'
+import A from './js/activity.js'
 
 const DEBUG = !!queryString('debug')
 const ISLOCAL = window.location.href.indexOf('localhost')>-1 || window.location.href.indexOf('127.0.0.1')>-1 || window.location.href.indexOf('192.168.1.100')>-1
@@ -41,8 +43,8 @@ Object.assign(A.data, config)
 if(isWechat(true)) A.initWxFX()
 A.setFX()
 
-// 跳到第二页  
-A.h5Init({
+P.h5Init({
+    // pageAnimateTime: 600,
     pageAnimateType: 'fade',// fade 渐隐渐现翻页 translate 位移翻页 threeD  三d翻页
     pageSwipeB: {
         '0': false,
@@ -52,6 +54,14 @@ A.h5Init({
         '4': false,
         '5': false,
         '6': false,
+    },
+    // eslint-disable-next-line
+    startCallback(oldIndex, newIndex){
+        
+    },
+    // eslint-disable-next-line
+    endCallback(oldIndex, newIndex){
+        
     }
 })
 
@@ -136,7 +146,7 @@ Object.assign(A, {
         console.log('entry')
 
         let page = Number(queryString('page'))||1
-        this.gotoPage(page)
+        P.goto(page)
         this.addBgMp3()  
         this.event()
 
@@ -162,7 +172,7 @@ lazyLoad('.lazy_load',{
     baseURL: OSSURL,
     complete(){
         let $loadNum = qs('#set_load_num')
-        A.gotoPage(0, {time: 0, endCallback: function(){
+        P.goto(0, {time: 0, endCallback: function(){
             lazyLoad('.lazy',{
                 baseURL: OSSURL,
                 fileload(item){
