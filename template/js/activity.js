@@ -10,13 +10,6 @@ if(document.querySelector('#fx')){
     }
 }
 
-// $("input,select,textarea").not('.no-blur').blur(function () {
-// 	// 延迟0秒 解决在聚焦时 点击页面提交按钮无法触发提交事件的问题
-// 	setTimeout(function () {
-// 		$(window).scrollTop(0);
-// 	}, 0);
-// });
-
 +function(){
     let selectAll = document.getElementsByTagName('select')
     function handler(){
@@ -32,11 +25,6 @@ if(document.querySelector('#fx')){
         ele.addEventListener('change', handler)
     })
 }()
-
-function stopDefaultScroll (e) {
-    e.preventDefault()
-    e.stopPropagation()
-}
 
 // ////////////////////////////////////////////
 let activity = {
@@ -152,14 +140,6 @@ let activity = {
 
         if(audio.paused) button.classList.add('hide')
         
-    },
-    // 是否开启 触摸滚动页面
-    setScroll (isScroll) {
-        if (isScroll) {
-            document.removeEventListener('touchmove', stopDefaultScroll, false)
-        } else {
-            document.addEventListener('touchmove', stopDefaultScroll, { passive: false })
-        }
     },
     // 设置省市区联动
     initHunanAreaPicker: function({city, area, district, depth, defaultValue = []} = {}, callback){

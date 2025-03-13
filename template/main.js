@@ -154,9 +154,6 @@ Object.assign(A, {
         // 	duration: 2000,
         // 	className: 'weui-toast-text penetrate',
         // });
-        // 关闭页面下拉露出网页来源
-        // this.SetScroll(false)//
-
         
         //  .replace(/\s/g, "")
 
