@@ -1,7 +1,5 @@
 // https://github.com/chocho-1115/h5-webp by 杨燚平 email：849890769@qq.com
 
-import {isWechat} from '../common/utils.js'
-
 document.body.ondragstart = function (e) {
     e.preventDefault()
 }
@@ -42,60 +40,6 @@ function stopDefaultScroll (e) {
 
 // ////////////////////////////////////////////
 let activity = {
-    data: {
-        
-    },
-    // 微信初始化分享
-    initWxFX: function(){
-        window.jssdk && window.jssdk.init({debug: false}).then(function(){
-            // wx.hideMenuItems({
-            //     menuList: [
-            //         'menuItem:copyUrl', 
-            //         //'menuItem:readMode' 
-            //     ] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
-            // });
-        }).catch(()=>{ 
-            
-        })
-    },
-    setFX(options){
-        options = options || {}
-        let self = this
-        let fxData = {
-            title: this.data.shareInfo.title, 
-            desc: this.data.shareInfo.desc,
-            imgUrl: this.data.shareInfo.imgUrl,
-            link: this.data.shareInfo.link,
-            success: function () {
-                console.log('未设置的分享成功回调')
-                options.success && options.success()
-                self.data.shareInfo.success && self.data.shareInfo.success()
-            },
-            cancel: function () {
-                console.log('未设置的分享取消回调')
-            }
-        }
-        
-        if(options.title) {
-            fxData.title = options.title
-        }
-        if(options.desc) {
-            fxData.desc = options.desc
-        }
-        if(options.imgUrl) {
-            fxData.imgUrl = options.imgUrl
-        }
-        if(options.link) {
-            fxData.link = options.link
-        }
-        // 设置默认分享文案
-        if(isWechat()){
-            wx.ready(function () {
-                window.jssdk && window.jssdk.share(fxData)
-            })
-        }
-        
-    },
     /**
      * @desc 利用AudioContext api来播放音频
      * @param {arraybuffer} arraybuffer 通过接口请求的音频文件数据

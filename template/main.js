@@ -1,7 +1,8 @@
 import './css/main.scss'
+import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './common/utils.js'
 import {remInit} from './common/rem.js'
 import http from './common/http.js'
-import {isWechat, isAndroid, queryString, lazyLoad, browserDetect} from './common/utils.js'
+import share from './common/share.js'
 
 import P from'./js/page.js'
 import A from './js/activity.js'
@@ -35,13 +36,12 @@ let config = {
         title: '分享标题',
         desc: '分享副标题',
         imgUrl: 'https://www.seth5.com/2024/**/static/image/share.jpg', // document.location.hostname 不带端口
-        link: 'https://www.seth5.com/2024/**/' // http://uat.h5.maijimeng.com/activity/2022/
+        link: 'https://www.*.com/*/**/',
     }
 }
-Object.assign(A.data, config)
 
-if(isWechat(true)) A.initWxFX()
-A.setFX()
+share.init(config.shareInfo)
+share.set()
 
 P.h5Init({
     // pageAnimateTime: 600,
@@ -76,7 +76,7 @@ remInit({
 
 // 组装A对象
 Object.assign(A, {
-
+    data: config,
     render(options){
         if(!options.data){
             if(options.blockDom) options.blockDom.style.display = 'none'
