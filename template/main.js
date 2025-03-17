@@ -1,5 +1,6 @@
 import './css/main.scss'
-import {queryString, lazyLoad, browserDetect} from './common/utils.js'
+import {queryString, browserDetect} from './common/utils.js'
+import {lazyload} from './common/lazyload.js'
 import {remInit} from './common/rem.js'
 import http from './common/http.js'
 import share from './common/share.js'
@@ -100,12 +101,12 @@ Object.assign(A, {
 
 // utils.whenDomReady(function(){
 // 在有load页面的时候用
-lazyLoad('.lazy_load',{
+lazyload('.lazy_load',{
     baseURL: OSSURL,
     complete(){
         let $loadNum = qs('#set_load_num')
         P.goto(0, {time: 0, endCallback: function(){
-            lazyLoad('.lazy',{
+            lazyload('.lazy',{
                 baseURL: OSSURL,
                 fileload(item){
                     $loadNum.innerHTML = parseInt(item.progress*100)+'%'
