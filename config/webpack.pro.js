@@ -95,11 +95,23 @@ export default {
             }),
             new CssMinimizerPlugin(),
             new ImageMinimizerPlugin({
+                generator: [
+                    {
+                        // You can apply generator using `?as=webp`, you can use any name and provide more options
+                        preset: 'webp',
+                        implementation: ImageMinimizerPlugin.imageminGenerate,
+                        options: {
+                            plugins: [
+                                ['imagemin-webp', { quality: 75 }], // 默认 75
+                            ],
+                        },
+                    },
+                ],
                 // Disable `loader`
                 loader: true, // 默认true，自动添加内置loader。 如果设置为false html、css如果同时引入同一张图时，会报错。
                 // severityError: 'warning', // Ignore errors on corrupted images
                 minimizer: {
-                    filename: '[name].webp', // 都转webp gif转webp后依然支持动画
+                    filename: '[name][ext]', // 这里直接配置[name].webp 只是修改了扩展名 并没有利用webp的压缩方式来处理图片
                     implementation: ImageMinimizerPlugin.imageminMinify,
                     filter: (source, sourcePath) => {
                         if (sourcePath.indexOf('static/') > -1) {
@@ -157,6 +169,6 @@ export default {
                     noErrorOnMissing: true
                 }
             ]
-        })
+        }),
     ]
 }

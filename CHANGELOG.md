@@ -11,6 +11,7 @@
 ### 更新记录
 
 ...
+* (2025-03-17): 支持图片转webp格式；
 * (2025-02-21): template-react项目新增rem适配，新增页面Wrap组件；
 * (2025-02-12): 生产环境下，将node_modules中的依赖分割到vendor-[hash].js；
 * (2025-02-09): 支持css Modules；
