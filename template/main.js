@@ -7,6 +7,8 @@ import share from './common/share.js'
 
 import P from'./js/page.js'
 import A, {qs} from './js/activity.js'
+// 并发队列任务
+// import './js/parallelTask_test.js'
 
 const DEBUG = !!queryString('debug')
 const ISLOCAL = window.location.href.indexOf('localhost')>-1 || window.location.href.indexOf('127.0.0.1')>-1 || window.location.href.indexOf('192.168.1.100')>-1
