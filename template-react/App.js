@@ -1,6 +1,6 @@
 import './css/main.scss'
 import {remInit} from './common/rem.js'
-import {browserDetect} from './common/utils'
+import { browserDetect } from './common/utils'
 import { numClick } from './js/context'
 import { useState } from 'react'
 import { NavLink, Link, BrowserRouter, Routes, Route } from 'react-router'

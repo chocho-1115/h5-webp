@@ -97,7 +97,6 @@ export default {
             new ImageMinimizerPlugin({
                 generator: [
                     {
-                        // You can apply generator using `?as=webp`, you can use any name and provide more options
                         preset: 'webp',
                         implementation: ImageMinimizerPlugin.imageminGenerate,
                         options: {
@@ -107,7 +106,6 @@ export default {
                         },
                     },
                 ],
-                // Disable `loader`
                 loader: true, // 默认true，自动添加内置loader。 如果设置为false html、css如果同时引入同一张图时，会报错。
                 // severityError: 'warning', // Ignore errors on corrupted images
                 minimizer: {

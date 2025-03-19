@@ -7,7 +7,6 @@ import share from './common/share.js'
 
 import P from'./js/page.js'
 import A, {qs} from './js/activity.js'
-// 并发队列任务
 // import './js/parallelTask_test.js'
 
 const DEBUG = !!queryString('debug')
@@ -75,8 +74,66 @@ remInit({
 // 组装A对象
 Object.assign(A, {
     data: config,
+    addListItem() {
+        let list = document.getElementById('list')
+        const fragment = document.createDocumentFragment()
+
+        let n = 0, m = 0
+        const tasks = Array.from({ 
+            length: 50000
+        }, (_, i) => {
+            return () => {
+                n++
+                let ball = document.createElement('span')
+                ball.innerText = i + 1
+                fragment.appendChild(ball)
+            }
+        })
+
+        let len = tasks.length
+        while (len > 0) {
+            tasks.splice(len, 0, () => {
+                m++
+                list.appendChild(fragment)
+                fragment.innerHTML = ''
+            })
+            len -= 1000
+        }
+        
+        tasks.push(()=>{
+            console.log('完成', n, m)
+            console.log('dom添加数量', n)
+            console.log('dom操作次数', m)
+        })
+        
+        // for (let i = 0; i < tasks.length; i++) {
+        //     tasks[i]()
+        // }
+        // list.appendChild(fragment)
+
+        function performTasks(tasks) {
+            requestIdleCallback((deadline) => {
+                // console.log('---0')
+                while (deadline.timeRemaining() > 0 && tasks.length > 0) {
+                    // console.log('---1')
+                    const task = tasks.shift()
+                    task()
+                }
+                if (tasks.length === 0) {
+                    // 
+                }else{
+                    performTasks(tasks)
+                }
+            })
+        }
+
+        // 开始执行任务
+        performTasks(tasks)
+    },
     event() {
-		
+        let shake = qs('.shake')
+        gsap.to(shake, 1.5, {rotate: 360, ease: 'none', repeat: -1})
+        qs('#btn').onclick = this.addListItem
     },
     // 进入页面
     entry() {

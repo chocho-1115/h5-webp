@@ -20,7 +20,7 @@ del,ins,u,s,a,a:hover{text-decoration:none;}
 body,textarea,input,button,select,keygen,legend{font:12px/1.5 'Microsoft Yahei' arial,\5b8b\4f53;color:#333;outline:0;}
 a,a:hover{color:#333;}
 
-select{
+select, input{
   -webkit-appearance:none;
    -moz-appearance:none;
    		appearance:none;

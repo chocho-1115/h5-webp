@@ -2,6 +2,7 @@ let page = document.querySelectorAll('.page')
 let index = -1 
 let status = -1 // 页面切换状态
 let cutover = true // 页面切换开关 可以用来从外部限制页面是否可以滑动翻页
+
 let swipeB
 let startCallback
 let endCallback
@@ -17,6 +18,12 @@ const setTips = (B) => {
 }
 
 export default {
+    getIndex() {
+        return index
+    },
+    setCutover(B) {
+        cutover = !!B
+    },
     init(opt) {
         let content = document.querySelector('#content')
         swipeB = opt.swipeB || []
