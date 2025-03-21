@@ -4,8 +4,8 @@ let status = -1 // 页面切换状态
 let cutover = true // 页面切换开关 可以用来从外部限制页面是否可以滑动翻页
 
 let swipeB
-let startCallback
-let endCallback
+let onChangeBefore
+let onChangeAfter
 
 const setTips = (B) => {
     let ele = document.getElementById('upJt')
@@ -28,8 +28,8 @@ export default {
         let content = document.querySelector('#content')
         swipeB = opt.swipeB || []
 
-        startCallback = opt.startCallback || null
-        endCallback = opt.endCallback || null
+        onChangeBefore = opt.onChangeBefore || null
+        onChangeAfter = opt.onChangeAfter || null
 
         TweenMax.set(page, {
             display: 'none',
@@ -48,25 +48,25 @@ export default {
             mc.on('swipeup', () => {
                 if (!status) return false
                 if (!cutover) return false
-                if ( swipeB[ index] === false ||  swipeB[ index] < 0) return false
-                let nextPage =  page[ index].getAttribute('next-page')
+                if ( swipeB[index] === false || swipeB[index] < 0) return false
+                let nextPage = page[index].getAttribute('next-page')
                 if (nextPage) {
-                    this. goto(Number(nextPage))
+                    this.goto(Number(nextPage))
                 } else {
-                    this. goto( index + 1)
+                    this.goto(index + 1)
                 }
             })
             // 上一页
             mc.on('swipedown', () => {
                 if (!status) return false
                 if (!cutover) return false
-                if ( swipeB[ index] === false ||  swipeB[ index] > 0) return false
+                if ( swipeB[index] === false || swipeB[index] > 0) return false
 
-                let nextPage =  page[ index].getAttribute('previous-page')
+                let nextPage = page[index].getAttribute('previous-page')
                 if (nextPage) {
-                    this. goto(Number(nextPage))
+                    this.goto(Number(nextPage))
                 } else {
-                    this. goto( index - 1)
+                    this.goto(index - 1)
                 }
             })
         }
@@ -79,8 +79,8 @@ export default {
             time = opt.time === undefined ? 300 : opt.time
         
         if ( index == num || num >=  page.length) {
-            // if (opt && opt.startCallback) opt.startCallback()
-            // if (opt && opt.endCallback) opt.endCallback()
+            // if (opt && opt.onChangeBefore) opt.onChangeBefore()
+            // if (opt && opt.onChangeAfter) opt.onChangeAfter()
             return false
         }
         status = 0
@@ -88,8 +88,8 @@ export default {
         setTips(false)
 
         newPage.style.display = 'block'
-        if (opt.startCallback) opt.startCallback( index, num)
-        if ( startCallback)  startCallback( index, num)
+        if (opt.onChangeBefore) opt.onChangeBefore( index, num)
+        if ( onChangeBefore)  onChangeBefore( index, num)
 
         if (oldPage) {
             TweenMax.to(oldPage, time / 1000, { opacity: 0 })
@@ -103,10 +103,10 @@ export default {
                 let oldIndex =  index
                 index = num
 
-                if (opt.endCallback) opt.endCallback(oldIndex, num)
-                if ( endCallback)  endCallback(oldIndex, num)
+                if (opt.onChangeAfter) opt.onChangeAfter(oldIndex, num)
+                if ( onChangeAfter)  onChangeAfter(oldIndex, num)
                 
-                // display的设置放在endCallback后面是为了防止类似scrollTop的设置失效问题
+                // display的设置放在onChangeAfter后面是为了防止类似scrollTop的设置失效问题
                 if(oldPage) oldPage.style.display = 'none'
                 let d =  swipeB[num]
                 if (opt.upJtB === undefined && (d === 0 || d === 1)) {

@@ -40,23 +40,21 @@ share.set()
 
 //  ========= page ========= 
 P.init({
-    // pageAnimateTime: 600,
-    pageAnimateType: 'fade',// fade 渐隐渐现翻页 translate 位移翻页 threeD  三d翻页
-    pageSwipeB: {
-        '0': false,
-        '1': false,
-        '2': false,
-        '3': false,
-        '4': false,
-        '5': false,
-        '6': false,
-    },
+    swipeB: [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+    ],
     // eslint-disable-next-line
-    startCallback(oldIndex, newIndex){
+    onChangeBefore(oldIndex, newIndex){
         
     },
     // eslint-disable-next-line
-    endCallback(oldIndex, newIndex){
+    onChangeAfter(oldIndex, newIndex){
         
     }
 })
@@ -164,7 +162,7 @@ lazyload('.lazy_load',{
     baseURL: OSSURL,
     complete(){
         let $loadNum = qs('#set_load_num')
-        P.goto(0, {time: 0, endCallback: function(){
+        P.goto(0, {time: 0, onChangeAfter: function(){
             lazyload('.lazy',{
                 baseURL: OSSURL,
                 fileload(item){
