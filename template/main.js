@@ -188,8 +188,8 @@ Object.assign(A, {
 
         // weui.toast('兑换成功', {
         // 	duration: 2000,
-        // 	className: 'weui-toast-text penetrate',
-        // });
+        // 	className: 'weui-toast-text', // penetrate nowrap
+        // })
         
         //  .replace(/\s/g, "")
 
