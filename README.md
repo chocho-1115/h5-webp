@@ -120,7 +120,6 @@ P.setCutover(false)
 
 ### rem适配，支持横屏适配
 
-
 ~~~ js
 import {remInit} from './common/rem.js'
 

@@ -351,3 +351,8 @@ export function bindFileControl(btnEle, accept, opt) {
     }
     return fileEle
 }
+
+// 延迟
+export function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}

@@ -1,9 +1,10 @@
 import './css/main.scss'
-import {queryString, browserDetect} from './common/utils.js'
+import {queryString, browserDetect, isWechat, isAndroid} from './common/utils.js'
 import {lazyload} from './common/lazyload.js'
 import {remInit} from './common/rem.js'
 import http from './common/http.js'
 import share from './common/share.js'
+import audio from './js/audio.js'
 
 import P from'./js/page.js'
 import A, {qs} from './js/activity.js'
@@ -21,6 +22,9 @@ const config = {
         desc: '分享副标题',
         imgUrl: 'https://www.seth5.com/2024/**/static/image/share.jpg', // document.location.hostname 不带端口
         link: 'https://www.*.com/*/**/',
+    },
+    media: {
+        'bj': null
     }
 }
 
@@ -72,6 +76,45 @@ remInit({
 // 组装A对象
 Object.assign(A, {
     data: config,
+    async addBgMp3(){
+        let src = OSSURL + 'static/media/bj.mp3'
+        const audioConfig = {
+            src,
+            audioContext: null,
+            asPossibleAutoplay: true,
+            autoplay: true,// 音乐是否自动播放
+            loop: true,// 是否循环播放
+        }
+    
+        if(isAndroid()){ // 安卓谷歌浏览器也无法自动播放 只能解决安卓微信 和默认浏览器的自动播放
+            const res = await http.get(src, { responseType: 'arraybuffer' }).catch((e) => { console.log(e) })
+            audioConfig.audioContext = await audio.createContext(res.data)
+        }
+    
+        const m = audio.create(audioConfig)
+    
+        audio.setButton({
+            button: document.getElementById('micBtn'),
+            audio: m,
+        })
+    
+        // 以下方式都能解决ios微信下音频自动播放的问题
+        if(isWechat()) {
+            if(typeof window.WeixinJSBridge == 'object' && typeof window.WeixinJSBridge.invoke == 'function') {  
+                window.WeixinJSBridge.invoke('getNetworkType', {}, () => {
+                    console.log('getNetworkType')
+                    m.play() 
+                })
+            } else {
+                document.addEventListener('WeixinJSBridgeReady', function() {  
+                    console.log('WeixinJSBridgeReady')
+                    m.play()
+                }, false)  
+            }  
+        }
+
+        this.data.media['bj'] = m
+    },
     addListItem() {
         let list = document.getElementById('list')
         const fragment = document.createDocumentFragment()
@@ -140,7 +183,7 @@ Object.assign(A, {
 
         let page = Number(queryString('page'))||1
         P.goto(page)
-        this.addBgMp3(OSSURL + 'static/media/bj.mp3')  
+        this.addBgMp3()  
         this.event()
 
         // weui.toast('兑换成功', {
