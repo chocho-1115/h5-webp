@@ -215,9 +215,9 @@ lazyload('.lazy_load',{
                     $loadNum.innerHTML = 100+'%'
                     setTimeout(function(){
                         A.entry()
-                    }, DEBUG ? 0 : 800)
+                    }, DEBUG || ISLOCAL ? 0 : 800)
                 },
-                minTime: DEBUG ? 0 : 1000
+                minTime: DEBUG || ISLOCAL ? 0 : 1000
             })
         }})
     },
