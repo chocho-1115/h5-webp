@@ -26,7 +26,8 @@ export default function App() {
     return (
         <>
             <BrowserRouter>
-                <header onClick={handleClick}>
+                <header>
+                    点<button onClick={handleClick}>这里</button>会触发所有子组件的render，这是与vue在数据响应上的重要区别，react的性能优化也是围绕这一特性进行的。
                     <nav>
                         <NavLink to="/">Index</NavLink>
                         <NavLink to="/about">About</NavLink>

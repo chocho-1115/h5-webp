@@ -6,6 +6,8 @@ import Wrap from '../../components/Wrap'
 
 export default ({ setGlobalNum }) => {
 
+    console.log('About render')
+
     const numClick_data = useContext(numClick)
     const [num, setNum] = useState(0)
 
