@@ -3,7 +3,8 @@ import {remInit} from './common/rem.js'
 import { browserDetect } from './common/utils'
 import { numClick } from './js/context'
 import { useState } from 'react'
-import { NavLink, Link, BrowserRouter, Routes, Route } from 'react-router'
+import { BrowserRouter, Routes, Route } from 'react-router'
+import Header from './containers/Header'
 import Index from './pages/Home'
 import About from './pages/About'
 
@@ -21,26 +22,19 @@ export default function App() {
 
     const [num, setNum] = useState(0)
     function handleClick() {
+        console.log('会触发所有子组件的render，这是与vue在数据响应上的重要区别，react的性能优化也是围绕这一特性进行的。')
         setNum(num + 1)
     }
+        
     return (
         <>
             <BrowserRouter>
-                <header>
-                    点<button onClick={handleClick}>这里</button>会触发所有子组件的render，这是与vue在数据响应上的重要区别，react的性能优化也是围绕这一特性进行的。
-                    <nav>
-                        <NavLink to="/">Index</NavLink>
-                        <NavLink to="/about">About</NavLink>
-                        <Link to="/about">About</Link>
-                    </nav>
-                </header>
-                <div className='content'>
+                <Header />
+                <div className='content' onClick={handleClick}>
                     <numClick.Provider value={globalNum}>
                         <Routes>
                             <Route index element={<Index />} />
-                            <Route path="/about" element={
-                                <About setGlobalNum={setGlobalNum} />
-                            } />
+                            <Route path="/about" element={<About setGlobalNum={setGlobalNum} />} />
                         </Routes>
                     </numClick.Provider>
                 </div>
