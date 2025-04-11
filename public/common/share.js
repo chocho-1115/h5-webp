@@ -1,4 +1,4 @@
-import {isWechat} from '../common/utils.js'
+import {isWechat} from './utils.js'
 
 const config = {
     title: '',

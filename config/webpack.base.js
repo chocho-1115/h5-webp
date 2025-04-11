@@ -15,7 +15,7 @@ export default {
     },
     output: {
         filename: 'js/[name]-[chunkhash].js',
-        path: path.resolve(__dirname, projectConfig.dist)
+        path: path.join(__dirname, projectConfig.dist)
     },
     cache: false,
     // {
@@ -25,7 +25,8 @@ export default {
     resolve: {
         // extensions: ['js', '.css', '...'], // 注意：1.高频文件后缀名放前面 2.手动配置后，默认配置会被覆盖，如果想保留默认配置，可以用 ... 扩展运算符代表默认配置
         alias: {
-            '@': path.resolve(projectConfig.src)
+            '~': path.join(__dirname, 'public/'),
+            '@': path.join(__dirname, projectConfig.src),
         },
         symlinks: false // 减少解析工作量
     },

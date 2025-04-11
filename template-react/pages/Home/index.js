@@ -1,7 +1,7 @@
 
 import * as style from './styles.m.scss' 
-import {formatTime} from '../../common/utils'
-import Wrap from '../../components/Wrap'
+import {formatTime} from '~/common/utils'
+import Wrap from '@/components/Wrap'
 
 export default () => {
     console.log('Home render')

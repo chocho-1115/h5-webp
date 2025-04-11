@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { numClick } from '../../js/context'
+import { numClick } from '@/js/context'
 import { useContext } from 'react'
 
-import Wrap from '../../components/Wrap'
+import Wrap from '@/components/Wrap'
 
 export default ({ setGlobalNum }) => {
 
