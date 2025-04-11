@@ -1,3 +1,3 @@
 import { createContext } from 'react'
 
-export const numClick = createContext(0)
+export const numClick = createContext()
