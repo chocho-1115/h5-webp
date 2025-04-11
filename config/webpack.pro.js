@@ -163,7 +163,7 @@ export default {
         new CopyPlugin({
             patterns: [
                 { 
-                    from: path.join(__dirname, projectConfig.src, 'static'),
+                    from: path.join(__dirname, projectConfig.src, '/static'),
                     to: 'static',
                     noErrorOnMissing: true
                 }

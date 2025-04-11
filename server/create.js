@@ -14,9 +14,9 @@ if(!projectName){
 }
 
 if(isUseReact){
-    srcDir = path.join(__dirname, 'template-react')
+    srcDir = path.join(__dirname, '/template-react')
 }else{
-    srcDir = path.join(__dirname, 'template')
+    srcDir = path.join(__dirname, '/template')
 }
 
 if(fs.existsSync(tarDir)){

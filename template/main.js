@@ -77,7 +77,7 @@ remInit({
 Object.assign(A, {
     data: config,
     async addBgMp3(){
-        let src = OSSURL + 'static/media/bj.mp3'
+        let src = OSSURL + '/static/media/bj.mp3'
         const audioConfig = {
             src,
             audioContext: null,
