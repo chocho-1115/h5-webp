@@ -11,6 +11,7 @@ import TerserPlugin from 'terser-webpack-plugin'
 import projectConfig from './project.js'
 
 let hasErrors = false
+const __dirname = path.resolve()
 
 export default {
     
@@ -162,7 +163,7 @@ export default {
         new CopyPlugin({
             patterns: [
                 { 
-                    from: path.resolve(projectConfig.src, 'static'),
+                    from: path.join(__dirname, projectConfig.src, '/static'),
                     to: 'static',
                     noErrorOnMissing: true
                 }

@@ -11,7 +11,7 @@ export default {
     performance: false, // 不显示大文件警告
     stats: 'errors-only', // 只输出错误信息
     entry: {
-        main: projectConfig.src + 'main.js',
+        main: projectConfig.src + '/main.js',
     },
     output: {
         filename: 'js/[name]-[chunkhash].js',
@@ -25,7 +25,7 @@ export default {
     resolve: {
         // extensions: ['js', '.css', '...'], // 注意：1.高频文件后缀名放前面 2.手动配置后，默认配置会被覆盖，如果想保留默认配置，可以用 ... 扩展运算符代表默认配置
         alias: {
-            '~': path.join(__dirname, 'public/'),
+            '~': path.join(__dirname, 'public'),
             '@': path.join(__dirname, projectConfig.src),
         },
         symlinks: false // 减少解析工作量
@@ -92,7 +92,7 @@ export default {
     plugins: [
         // https://webpack.js.org/plugins/html-webpack-plugin/
         new HtmlWebpackPlugin({
-            template: projectConfig.src + 'index.html',
+            template: projectConfig.src + '/index.html',
             filename: 'index.html',
             inject: 'body'
         }),

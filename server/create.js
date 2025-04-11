@@ -6,7 +6,7 @@ const __dirname = path.resolve()
 
 let projectName = process.argv[2]
 let srcDir = ''
-let tarDir = path.resolve(__dirname, './src/'+projectName)
+let tarDir = path.join(__dirname, './src/'+projectName)
 let isUseReact = !!process.env.npm_config_react
 
 if(!projectName){
@@ -14,9 +14,9 @@ if(!projectName){
 }
 
 if(isUseReact){
-    srcDir = path.resolve(__dirname, './template-react')
+    srcDir = path.join(__dirname, './template-react')
 }else{
-    srcDir = path.resolve(__dirname, './template')
+    srcDir = path.join(__dirname, './template')
 }
 
 if(fs.existsSync(tarDir)){
