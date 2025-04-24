@@ -4,3 +4,6 @@
 * 函数式编程思想 Immutable
 * 函数组件与类组件
 * 展示组件(Presentational component)和容器组件(Container component)
+
+### link
+* [sass](https://sass-lang.com/install/)
