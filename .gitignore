@@ -14,3 +14,4 @@ src/
 *.txt
 .vscode/settings.json
 yarn.lock
+package-lock.json
