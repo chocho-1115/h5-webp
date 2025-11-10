@@ -9,7 +9,7 @@ const __dirname = path.resolve()
 export default {
     mode: process.env.MODE,
     performance: false, // 不显示大文件警告
-    stats: 'errors-only', // 只输出错误信息
+    // stats: 'errors-only', // 只输出错误信息
     entry: {
         main: projectConfig.src + '/main.js',
     },

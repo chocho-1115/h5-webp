@@ -25,13 +25,17 @@ export default [
             }, // 全局变量
         },
         rules: {
+            // Expected severity of "off", 0, "warn", 1, "error", or 2.
             'no-var': 1, // 不能使用 var 定义变量
             'spaced-comment': 1, // 注释风格要不要有空格
             'indent': [1, 4], // 缩进
             'semi': [1, 'never'], // 分号结尾
             'quotes': [1, 'single'], // 字符串单引号
             'key-spacing': [1, { 'beforeColon': false, 'afterColon': true }], // 对象字面量中冒号的前后空格
-            // 'no-unused-vars': [1, { varsIgnorePattern: '.*', args: 'none' }],
+            'no-unused-vars': [1, { 
+                // varsIgnorePattern: '.*', 
+                args: 'none' // 不检查函数参数
+            }],
         },
     },
     
