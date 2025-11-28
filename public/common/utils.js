@@ -185,6 +185,27 @@ export function isAndroid () {
     return navigator.userAgent.match(/(Android)/i)
 }
 
+// 是否为微信环境
+export function isWechat(includePc) {
+    let isWechat = navigator.userAgent.match(/MicroMessenger/i)
+    if (!includePc && navigator.userAgent.match(/(WindowsWechat|MacWechat)/i)) isWechat = false
+    return !!isWechat
+}
+
+export function isMiniProgram() {
+    let userAgent = navigator.userAgent
+    return (
+        (/miniProgram/i.test(userAgent) && /micromessenger/i.test(userAgent)) ||
+        /toutiaomicroapp/i.test(userAgent)
+    )
+}
+
+// 且 `(?=.*CPU)(?=.*iPad)`
+export function matchUserAgent(str) {
+    const reg = new RegExp(str)
+    return reg.test(navigator.userAgent)
+}
+
 // 是否为手机号码
 export function isMobile(str) {
     if (str == null || str == '') return false
@@ -249,13 +270,6 @@ export function isIDCard(idcode) {
 
     // 返回验证结果，校验码和格式同时正确才算是合法的身份证号码
     return last === last_no && format ? true : false
-}
-
-// 是否为微信环境
-export function isWechat(includePc) {
-    let isWechat = navigator.userAgent.match(/MicroMessenger/i)
-    if (!includePc && navigator.userAgent.match(/(WindowsWechat|MacWechat)/i)) isWechat = false
-    return !!isWechat
 }
 
 // 获取地址参数
@@ -356,3 +370,14 @@ export function bindFileControl(btnEle, accept, opt) {
 export function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
+
+// 是否有上一页
+export function isPreviousPage() {
+    if (window.history.length == 1) return false
+    const state = window.history.state
+    if (state && state.back === null && state.position === 0) {
+        return false
+    }
+    return true
+}
+
