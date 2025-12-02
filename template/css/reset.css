@@ -25,7 +25,10 @@ select, input{
    -moz-appearance:none;
    		appearance:none;
 }
-html{-webkit-font-smoothing: antialiased;/*字体抗锯齿*/}
+html{
+	-webkit-font-smoothing: antialiased;/*字体抗锯齿*/
+	overscroll-behavior: none;
+}
 
 body{	
 	-webkit-user-select:none;/*文本不可选择*/
