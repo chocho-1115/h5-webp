@@ -80,7 +80,7 @@ export function copyText(text, success) {
  * @param {number} endTime 结束时的时间戳
  * @param {object} opt 
  */
-export function countDown(endTime, opt) {
+export function countdown(endTime, opt) {
     opt.framerate = opt.framerate || 1
     opt.nowTime = opt.nowTime || new Date().getTime()
     let res = {

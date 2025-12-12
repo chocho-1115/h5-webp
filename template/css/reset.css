@@ -31,14 +31,17 @@ html{
 }
 
 body{	
+
 	-webkit-user-select:none;/*文本不可选择*/
 	    -ms-user-select:none;
 		    user-select:none;
 	-webkit-user-drag: none;/*禁止拖拽*/
 	    -ms-user-drag: none;
-		    user-drag: none;font-family:'Microsoft Yahei',Arial;
+		    user-drag: none;
 	-webkit-touch-callout: none;
 	-webkit-tap-highlight-color: transparent;
+
+	font-family:'Microsoft Yahei',Arial;
 /* -webkit-filter: grayscale(100%);
     -moz-filter: grayscale(100%);
     -ms-filter: grayscale(100%);
